@@ -10,10 +10,10 @@ package evosim;
  * and are not rooted in place.
  *
  * @author bryanmcguffin
- * @version 5-10-17
+ * @version 5-11-17
  */
 public interface Mobile
 {
-    void move(int x, int y, Object[][] grid);
-    void jump(int x, int y, Object[][] grid);
+    boolean move(int x, int y, Object[][] grid);
+    boolean jump(int x, int y, Object[][] grid);
 }
