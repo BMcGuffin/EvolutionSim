@@ -16,21 +16,49 @@ package evosim;
 public class Carnivore extends Creature implements Carnivorous
 {
 
+    /**Generates a new Carnivore from scratch.
+     * 
+     */
+    public Carnivore()
+    {
+        super();
+    }
+    
+    /**Generates a new Carnivore from existing parameters.
+     * 
+     * @param health
+     * @param attack
+     * @param defense
+     * @param speed
+     * @param size
+     * @param belly the amount of food the carnivore can consume.
+     * @param lifespan the amount of turns the creature can exist.
+     */
     public Carnivore(int health, int attack, int defense, int speed, int size, int belly, int lifespan)
     {
         super(health, attack, defense, speed, size, belly, lifespan);
     }
     
-    
-    public Carnivore reproduce(Herbivore other)
+    /**Creates a new carnivore offspring from two parents, this and the other.
+     * 
+     * @param other the carnivore to be "mated" with this one
+     * @return a new carnivore with a mix of its parents' traits
+     */
+    public Carnivore reproduce(Carnivore other)
     {
         return (Carnivore) super.reproduce(other);
     }
 
+    /**Feeds the carnivore based on the body size of the other creature.
+     * 
+     * @param creature the prey to be consumed.
+     */
     @Override
     public void eat(Creature creature)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.fullness += creature.getSize();
+        if(!this.isHungry())
+            this.fullness = this.getBelly();
     }
     
 }
