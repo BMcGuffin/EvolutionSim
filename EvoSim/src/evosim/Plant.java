@@ -69,6 +69,21 @@ public class Plant implements Organism
         if (age > 3 && size >= 2);
         grown = true;
     }
+    
+    /**
+     * Decreases the size of the plant by a given amount.
+     *
+     * @param amount the amount to shrink the plant.
+     */
+    @Override
+    public void damage(int amount)
+    {
+        size -= amount;
+        if (size < 0)
+        {
+            size = 0;
+        }
+    }
 
     /**
      * Checks to see if the plant meets the requirements to stay alive.
@@ -119,20 +134,4 @@ public class Plant implements Organism
     private int size;
     private int lifetime;
     private double growthRate;
-
-    /**
-     * Decreases the size of the plant by a given amount.
-     *
-     * @param amount the amount to shrink the plant.
-     */
-    @Override
-    public void damage(int amount)
-    {
-        size -= amount;
-        if (size < 0)
-        {
-            size = 0;
-        }
-    }
-
 }
