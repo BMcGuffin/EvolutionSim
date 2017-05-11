@@ -26,13 +26,7 @@ public class EvosimSuite extends TestCase
     {
         TestSuite suite = new TestSuite("EvosimSuite");
         suite.addTest(PlantTest.suite());
-        suite.addTest(HerbivorousTest.suite());
-        suite.addTest(MainTest.suite());
-        suite.addTest(OrganismTest.suite());
         suite.addTest(CreatureTest.suite());
-        suite.addTest(CarnivorousTest.suite());
-        suite.addTest(EvoConstantsTest.suite());
-        suite.addTest(MobileTest.suite());
         suite.addTest(SimpleBattleDeciderTest.suite());
         suite.addTest(CarnivoreTest.suite());
         suite.addTest(CarnivorousPlantTest.suite());

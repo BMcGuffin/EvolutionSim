@@ -34,14 +34,27 @@ public class SimpleBattleDeciderTest extends TestCase
     public void testCompare()
     {
         System.out.println("compare");
-        Object o1 = null;
-        Object o2 = null;
+        Object o1 = new Object();
+        Object o2 = new Object();
         SimpleBattleDecider instance = new SimpleBattleDecider();
-        int expResult = 0;
         int result = instance.compare(o1, o2);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(0, result);
+        
+        o1 = new Creature();
+        o2 = new Creature();
+        result = instance.compare(o1, o2);
+        assertEquals(0, result);
+        
+        o1 = new Creature(10, 10, 10, 10, .5, 10, 10);
+        o2 = new Creature(1, 1, 1, 1, .5, 1, 1);
+        result = instance.compare(o1, o2);
+        assertEquals(1, result);
+        
+        result = instance.compare(o2, o1);
+        assertEquals(-1, result);
+        
+        result = instance.compare(o1, o1);
+        assertEquals(0,result);
     }
     
 }

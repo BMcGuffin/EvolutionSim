@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package evosim;
 
 import junit.framework.Test;
@@ -16,7 +15,7 @@ import junit.framework.TestSuite;
  */
 public class CreatureTest extends TestCase
 {
-    
+
     public CreatureTest(String testName)
     {
         super(testName);
@@ -38,8 +37,15 @@ public class CreatureTest extends TestCase
         boolean expResult = false;
         boolean result = instance.isMature();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(instance.age/instance.getLifetime() > 0.5);
+        instance.grow();
+        instance.grow();
+        instance.grow();
+        instance.grow();
+        expResult = true;
+        assertTrue(instance.age/(double)instance.getLifetime() > 0.5);
+        result = instance.isMature();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -49,11 +55,20 @@ public class CreatureTest extends TestCase
     {
         System.out.println("isAlive");
         Creature instance = new Creature();
-        boolean expResult = false;
         boolean result = instance.isAlive();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result);
+        assertEquals(5,instance.fullness);
+        instance.grow();
+        assertEquals(4,instance.fullness);
+        instance.grow();
+        assertEquals(3,instance.fullness);
+        instance.grow();
+        assertEquals(2,instance.fullness);
+        instance.grow();
+        assertEquals(1,instance.fullness);
+        instance.grow();
+        assertEquals(0,instance.fullness);
+        assertFalse(instance.isAlive());
     }
 
     /**
@@ -63,9 +78,20 @@ public class CreatureTest extends TestCase
     {
         System.out.println("grow");
         Creature instance = new Creature();
+        double expected = EvoConstants.INIT_SIZE;
+        assertEquals(expected, instance.getSize());
         instance.grow();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        expected += EvoConstants.INIT_SIZE * EvoConstants.INIT_GROWTH_RATE;
+        assertEquals(expected, instance.getSize());
+        //This just tests the growth curve
+        /*
+        for (int i = 0; instance.getSize() < EvoConstants.CAP_CREATURE_SIZE; i++)
+        {
+            instance.grow();
+            System.out.println("Age: " + instance.age + "\tSize: "
+                    + instance.size + "\tFullness: " + instance.fullness);
+
+        }*/
     }
 
     /**
@@ -74,13 +100,17 @@ public class CreatureTest extends TestCase
     public void testReproduce()
     {
         System.out.println("reproduce");
-        Organism other = null;
-        Creature instance = new Creature();
-        Organism expResult = null;
-        Organism result = instance.reproduce(other);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Creature other =     new Creature(10,  2, 4, 7, 6, 11, 20);
+        Creature instance =  new Creature(10, 20, 4, 9, 8, 11, 10);
+        Creature expResult = new Creature(10, 11, 4, 8, 7, 11, 15);
+        Creature result = instance.reproduce(other);
+        assertEquals(expResult.getHP(), result.getHP());
+        assertEquals(expResult.getAttack(), result.getAttack());
+        assertEquals(expResult.getDefense(), result.getDefense());
+        assertEquals(expResult.getSpeed(), result.getSpeed());
+        assertEquals(expResult.getGrowthRate(), result.getGrowthRate());
+        assertEquals(expResult.getBelly(), result.getBelly());
+        assertEquals(expResult.getLifetime(), result.getLifetime());  
     }
 
     /**
@@ -89,15 +119,83 @@ public class CreatureTest extends TestCase
     public void testMove()
     {
         System.out.println("move");
-        int x = 0;
-        int y = 0;
-        Object[][] grid = null;
+        Object[][] grid = new Object[10][10];
         Creature instance = new Creature();
-        instance.move(x, y, grid);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.jump(0, 0, grid);
+        assertEquals(instance,grid[0][0]);
+        assertEquals(null,grid[5][5]);
+        
+        instance.move(5, 5, grid);
+        assertEquals(null,grid[0][0]);
+        assertEquals(instance,grid[5][5]);
+        
+        Creature other = new Creature();
+        other.jump(0, 0, grid);
+        assertEquals(other,grid[0][0]);
+        assertEquals(instance,grid[5][5]);
+        
+        instance.move(-5, -5, grid);
+        assertEquals(other,grid[0][0]);
+        assertEquals(instance,grid[5][5]);
+        
+        instance.move(25, 25, grid);
+        assertEquals(other,grid[0][0]);
+        assertEquals(instance,grid[5][5]);
+        
+        other.move(1, 1, grid);
+        assertEquals(other,grid[1][1]);
+        assertEquals(instance,grid[5][5]);
+        
+        instance.move(-5, -5, grid);
+        assertEquals(other,grid[1][1]);
+        assertEquals(instance,grid[0][0]);
+        
     }
 
+    /**
+     * Test of jump method, of class Creature.
+     */
+    public void testJump()
+    {
+        Object[][] grid = new Object[10][10];
+        Creature instance = new Creature();
+        
+        assertEquals(null,grid[0][0]);
+        assertEquals(null,grid[5][5]);
+        instance.move(5, 5, grid);
+        assertEquals(null,grid[0][0]);
+        assertEquals(null,grid[5][5]);
+        
+        instance.jump(0, 0, grid);
+        assertEquals(instance,grid[0][0]);
+        assertEquals(null,grid[5][5]);
+
+        instance.jump(5, 5, grid);
+        assertEquals(null,grid[0][0]);
+        assertEquals(instance,grid[5][5]);
+        
+        Creature other = new Creature();
+        other.jump(0, 0, grid);
+        assertEquals(other,grid[0][0]);
+        assertEquals(instance,grid[5][5]);
+        
+        instance.jump(2, 2, grid);
+        assertEquals(other,grid[0][0]);
+        assertEquals(instance,grid[2][2]);
+        
+        instance.jump(25, 25, grid);
+        assertEquals(other,grid[0][0]);
+        assertEquals(instance,grid[2][2]);
+        
+        other.jump(1, 1, grid);
+        assertEquals(other,grid[1][1]);
+        assertEquals(instance,grid[2][2]);
+        
+        instance.jump(-5, -5, grid);
+        assertEquals(other,grid[1][1]);
+        assertEquals(instance,grid[2][2]);
+    }
+    
     /**
      * Test of getAttack method, of class Creature.
      */
@@ -105,11 +203,14 @@ public class CreatureTest extends TestCase
     {
         System.out.println("getAttack");
         Creature instance = new Creature();
-        int expResult = 0;
+        int expResult = EvoConstants.INIT_ATTACK;
         int result = instance.getAttack();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        expResult = 11;
+        result = instance.getAttack();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -119,11 +220,14 @@ public class CreatureTest extends TestCase
     {
         System.out.println("getDefense");
         Creature instance = new Creature();
-        int expResult = 0;
+        int expResult = EvoConstants.INIT_DEFENSE;
         int result = instance.getDefense();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        expResult = 12;
+        result = instance.getDefense();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -133,11 +237,14 @@ public class CreatureTest extends TestCase
     {
         System.out.println("getSpeed");
         Creature instance = new Creature();
-        int expResult = 0;
+        int expResult = EvoConstants.INIT_SPEED;
         int result = instance.getSpeed();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        expResult = 13;
+        result = instance.getSpeed();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -147,11 +254,14 @@ public class CreatureTest extends TestCase
     {
         System.out.println("getBelly");
         Creature instance = new Creature();
-        int expResult = 0;
+        int expResult = EvoConstants.INIT_BELLY;
         int result = instance.getBelly();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        expResult = 15;
+        result = instance.getBelly();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -161,11 +271,14 @@ public class CreatureTest extends TestCase
     {
         System.out.println("getLifetime");
         Creature instance = new Creature();
-        int expResult = 0;
+        int expResult = EvoConstants.INIT_LIFESPAN;
         int result = instance.getLifetime();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        expResult = 16;
+        result = instance.getLifetime();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -175,11 +288,14 @@ public class CreatureTest extends TestCase
     {
         System.out.println("getHP");
         Creature instance = new Creature();
-        int expResult = 0;
+        int expResult = EvoConstants.INIT_HEALTH;
         int result = instance.getHP();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        expResult = 10;
+        result = instance.getHP();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -189,11 +305,14 @@ public class CreatureTest extends TestCase
     {
         System.out.println("getGrowthRate");
         Creature instance = new Creature();
-        double expResult = 0.0;
+        double expResult = EvoConstants.INIT_GROWTH_RATE;
         double result = instance.getGrowthRate();
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result);
+
+        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        expResult = 14;
+        result = instance.getGrowthRate();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -203,11 +322,14 @@ public class CreatureTest extends TestCase
     {
         System.out.println("getSize");
         Creature instance = new Creature();
-        int expResult = 0;
-        int result = instance.getSize();
+        double expResult = EvoConstants.INIT_SIZE;
+        double result = instance.getSize();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        expResult = EvoConstants.INIT_SIZE;
+        result = instance.getSize();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -217,11 +339,11 @@ public class CreatureTest extends TestCase
     {
         System.out.println("isHungry");
         Creature instance = new Creature();
-        boolean expResult = false;
         boolean result = instance.isHungry();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(result);
+        instance.grow();
+        result = instance.isHungry();
+        assertTrue(result);
     }
 
     /**
@@ -232,9 +354,22 @@ public class CreatureTest extends TestCase
         System.out.println("damage");
         int amount = 0;
         Creature instance = new Creature();
+        int start = instance.getHP();
         instance.damage(amount);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int end = instance.getHP();
+        assertTrue(start - end == amount);
+        
+        start = instance.getHP();
+        amount = 5;
+        instance.damage(amount);
+        end = instance.getHP();
+        assertTrue(start - end == amount);
+        
+        start = instance.getHP();
+        amount = start + 5;
+        instance.damage(amount);
+        end = instance.getHP();
+        assertEquals(0,end);
     }
-    
+
 }

@@ -34,13 +34,17 @@ public class CarnivoreTest extends TestCase
     public void testReproduce()
     {
         System.out.println("reproduce");
-        Carnivore other = null;
-        Carnivore instance = new Carnivore();
-        Carnivore expResult = null;
+        Carnivore other =     new Carnivore(10,  2, 4, 7, 6, 11, 20);
+        Carnivore instance =  new Carnivore(10, 20, 4, 9, 8, 11, 10);
+        Carnivore expResult = new Carnivore(10, 11, 4, 8, 7, 11, 15);
         Carnivore result = instance.reproduce(other);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult.getHP(), result.getHP());
+        assertEquals(expResult.getAttack(), result.getAttack());
+        assertEquals(expResult.getDefense(), result.getDefense());
+        assertEquals(expResult.getSpeed(), result.getSpeed());
+        assertEquals(expResult.getGrowthRate(), result.getGrowthRate());
+        assertEquals(expResult.getBelly(), result.getBelly());
+        assertEquals(expResult.getLifetime(), result.getLifetime());   
     }
 
     /**
@@ -49,11 +53,15 @@ public class CarnivoreTest extends TestCase
     public void testEat()
     {
         System.out.println("eat");
-        Creature creature = null;
+        Creature creature = new Creature();
         Carnivore instance = new Carnivore();
+        assertEquals(EvoConstants.INIT_BELLY,instance.fullness);
+        instance.grow();
+        instance.grow();
+        instance.grow();
+        assertEquals(EvoConstants.INIT_BELLY-3,instance.fullness);
         instance.eat(creature);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(EvoConstants.INIT_BELLY-2,instance.fullness);
     }
     
 }

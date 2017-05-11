@@ -35,11 +35,14 @@ public class PlantTest extends TestCase
     {
         System.out.println("isMature");
         Plant instance = new Plant();
-        boolean expResult = false;
         boolean result = instance.isMature();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(result);
+        for(int i = 0;instance.size < 2; i++)
+        {
+            instance.grow();
+        }
+        result = instance.isMature();
+        assertTrue(result);
     }
 
     /**
@@ -49,9 +52,22 @@ public class PlantTest extends TestCase
     {
         System.out.println("grow");
         Plant instance = new Plant();
+        assertEquals(1.0,instance.getSize());
+        assertEquals(0,instance.age);
         instance.grow();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(1+1*EvoConstants.INIT_GROWTH_RATE,instance.getSize());
+        assertEquals(1,instance.age);
+        
+        //This just tests the growth curve
+        /*
+        for (int i = 0; instance.getSize() < EvoConstants.CAP_PLANT_SIZE; i++)
+        {
+            instance.grow();
+            System.out.println("Age: " + instance.age + "\tSize: "
+                    + instance.size);
+
+        }
+        */
     }
 
     /**
@@ -60,11 +76,18 @@ public class PlantTest extends TestCase
     public void testDamage()
     {
         System.out.println("damage");
-        int amount = 0;
+        double amount = 0;
         Plant instance = new Plant();
-        instance.damage(amount);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double start = instance.size;
+        instance.damage((int)amount);
+        double end = instance.size;
+        assertTrue(start - end == amount);
+        
+        start = instance.size;
+        amount = start + 5;
+        instance.damage((int)amount);
+        end = instance.size;
+        assertEquals(0.0,end);
     }
 
     /**
@@ -74,11 +97,18 @@ public class PlantTest extends TestCase
     {
         System.out.println("isAlive");
         Plant instance = new Plant();
-        boolean expResult = false;
         boolean result = instance.isAlive();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result);
+        
+        for(int i = 0;i<EvoConstants.INIT_LIFESPAN;i++)
+        {
+            instance.grow();
+            assertTrue(instance.isAlive());
+        }
+        assertTrue(instance.isAlive());
+        instance.grow();
+        assertFalse(instance.isAlive());
+
     }
 
     /**
@@ -87,13 +117,13 @@ public class PlantTest extends TestCase
     public void testReproduce()
     {
         System.out.println("reproduce");
-        Organism other = null;
-        Plant instance = new Plant();
-        Organism expResult = null;
-        Organism result = instance.reproduce(other);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Plant other =     new Plant(15, 0.5);
+        Plant instance =  new Plant(15, 0.7);
+        Plant expResult = new Plant(15, 0.6);
+        Plant result = instance.reproduce(other);
+        assertEquals(expResult.size, result.size);
+        assertEquals(expResult.lifetime, result.lifetime);
+        assertEquals(expResult.growthRate, result.growthRate);
     }
 
     /**
@@ -103,11 +133,14 @@ public class PlantTest extends TestCase
     {
         System.out.println("getGrowthRate");
         Plant instance = new Plant();
-        double expResult = 0.0;
+        double expResult = EvoConstants.INIT_GROWTH_RATE;
         double result = instance.getGrowthRate();
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result);
+        
+        Plant next = new Plant(10, 4.5);
+        expResult = 4.5;
+        result = next.getGrowthRate();
+        assertEquals(expResult,result);
     }
 
     /**
@@ -117,11 +150,30 @@ public class PlantTest extends TestCase
     {
         System.out.println("getLifetime");
         Plant instance = new Plant();
-        int expResult = 0;
+        int expResult = EvoConstants.INIT_LIFESPAN;
         int result = instance.getLifetime();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Plant next = new Plant(10, 4.5);
+        expResult = 10;
+        result = next.getLifetime();
+        assertEquals(expResult,result);
     }
     
+    /**
+     * Test of getLifetime method, of class Plant.
+     */
+    public void testGetSize()
+    {
+        System.out.println("getSize");
+        Plant instance = new Plant();
+        double expResult = EvoConstants.INIT_SIZE;
+        double result = instance.getSize();
+        assertEquals(expResult, result);
+        
+        Plant next = new Plant(10, 4.5);
+        expResult = EvoConstants.INIT_SIZE;
+        result = next.getSize();
+        assertEquals(expResult,result);
+    }
 }

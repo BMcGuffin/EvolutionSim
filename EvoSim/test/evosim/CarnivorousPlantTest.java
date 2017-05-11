@@ -35,9 +35,22 @@ public class CarnivorousPlantTest extends TestCase
     {
         System.out.println("grow");
         CarnivorousPlant instance = new CarnivorousPlant();
+        
+        double size = instance.size;
+        assertEquals(0,instance.age);
+        assertFalse(instance.isHungry());
         instance.grow();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double after = instance.size;
+        assertFalse(size == after);
+        assertEquals(1,instance.age);
+        
+        assertTrue(instance.isHungry());
+        size = instance.size;
+        instance.grow();
+        after = instance.size;
+        assertEquals(2,instance.age);
+        assertTrue(instance.isHungry());
+        assertTrue(size == after);
     }
 
     /**
@@ -46,11 +59,15 @@ public class CarnivorousPlantTest extends TestCase
     public void testEat()
     {
         System.out.println("eat");
-        Creature creature = null;
+        Creature creature = new Creature();
         CarnivorousPlant instance = new CarnivorousPlant();
+        assertFalse(instance.isHungry());
+        instance.grow();
+        assertTrue(instance.isHungry());
         instance.eat(creature);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(instance.isHungry());
+        instance.grow();
+        assertTrue(instance.isHungry());
     }
 
     /**
@@ -60,11 +77,11 @@ public class CarnivorousPlantTest extends TestCase
     {
         System.out.println("isHungry");
         CarnivorousPlant instance = new CarnivorousPlant();
-        boolean expResult = false;
         boolean result = instance.isHungry();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(result);
+        
+        instance.grow();
+        assertTrue(instance.isHungry());
     }
     
 }
