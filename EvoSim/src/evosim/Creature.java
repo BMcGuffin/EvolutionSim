@@ -138,18 +138,19 @@ public class Creature implements Organism, Mobile
      * @param grid 2D grid that makes up the world.
      */
     @Override
-    public boolean move(int x, int y, Object[][] grid)
+    public boolean move(int x, int y, Map map)
     {
         if (currentX >= 0 && currentY >= 0)
         {
-            if (currentX + x < grid.length && currentY + y < grid[currentX + x].length)
+            if (currentX + x < map.grid.length && currentY + y < map.grid[currentX + x].length)
             {
-                if (x <= sp && y <= sp && grid[currentX + x][currentY + y] == null)
+                if (x <= sp && y <= sp && map.grid[currentX + x][currentY + y] == null)
                 {
-                    grid[currentX + x][currentY + y] = this;
-                    grid[currentX][currentY] = null;
+                    map.grid[currentX + x][currentY + y] = this;
+                    map.grid[currentX][currentY] = null;
                     currentX = currentX + x;
                     currentY = currentY + y;
+                    map.updatePosition(this, currentX, currentY);
                     return true;
                 }
             }
@@ -250,8 +251,8 @@ public class Creature implements Organism, Mobile
     protected int age;
     protected double growthRate;
 
-    protected int currentX = -1;
-    protected int currentY = -1;
+    private int currentX = -1;
+    private int currentY = -1;
 
     /**
      * Decreases the creature's health by a given amount. Minimum is 0.
@@ -279,22 +280,53 @@ public class Creature implements Organism, Mobile
      * @param grid the grid of objects that represents the map
      */
     @Override
-    public boolean jump(int x, int y, Object[][] grid)
+    public boolean jump(int x, int y, Map map)
     {
-        if (x >= 0 && y >= 0 && x < grid.length && y < grid[x].length)
+        if (x >= 0 && y >= 0 && x < map.grid.length && y < map.grid[x].length)
         {
-            if (x <= sp && y <= sp && grid[x][y] == null)
+            if (x <= sp && y <= sp && map.grid[x][y] == null)
             {
-                grid[x][y] = this;
+                map.grid[x][y] = this;
                 if (currentX >= 0 && currentY >= 0)
                 {
-                    grid[currentX][currentY] = null;
+                    map.grid[currentX][currentY] = null;
                 }
                 currentX = x;
                 currentY = y;
+                map.updatePosition(this, currentX, currentY);
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Sets the position of the creature directly to the values presented. Does
+     * not clear the current grid position or work with it at all.
+     *
+     * @param x the new x-coordinate
+     * @param y the new y-coordinate
+     * @return true always
+     * @pre the coordinates provided are not out of bounds, and there is nothing
+     * in the grid at that position already.
+     */
+    @Override
+    public boolean setPosition(int x, int y)
+    {
+        currentX = x;
+        currentY = y;
+        return true;
+    }
+
+    @Override
+    public int getX()
+    {
+        return currentX;
+    }
+
+    @Override
+    public int getY()
+    {
+        return currentY;
     }
 }
