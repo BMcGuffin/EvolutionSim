@@ -38,30 +38,57 @@ public class SimpleBattleDecider implements Comparator
             {
                 c1 = (Creature) o1;
                 c2 = (Creature) o2;
+                if (c1.getAttack() > (c2.getDefense()))
+                {
+                    return 1;
+                }
+                else if (c1.getAttack() < (c2.getDefense()))
+                {
+                    return -1;
+                }
+                return 0;
             }
             else if (((Creature) o1).getSpeed() < ((Creature) o2).getSpeed())
             {
                 c1 = (Creature) o2;
                 c2 = (Creature) o1;
+                if (c1.getAttack() > (c2.getDefense()))
+                {
+                    return -1;
+                }
+                else if (c1.getAttack() < (c2.getDefense()))
+                {
+                    return 1;
+                }
+                return 0;
             }
             else if (r.nextInt() % 2 == 0)
             {
                 c1 = (Creature) o1;
                 c2 = (Creature) o2;
+                if (c1.getAttack() > (c2.getDefense()))
+                {
+                    return 1;
+                }
+                else if (c1.getAttack() < (c2.getDefense()))
+                {
+                    return -1;
+                }
+                return 0;
             }
             else
             {
                 c1 = (Creature) o2;
                 c2 = (Creature) o1;
-            }
-
-            if (c1.getAttack() > (c2.getDefense()))
-            {
-                return 1;
-            }
-            else if (c1.getAttack() < (c2.getDefense()))
-            {
-                return -1;
+                if (c1.getAttack() > (c2.getDefense()))
+                {
+                    return -1;
+                }
+                else if (c1.getAttack() < (c2.getDefense()))
+                {
+                    return 1;
+                }
+                return 0;
             }
         }
         return 0;
