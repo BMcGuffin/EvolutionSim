@@ -18,8 +18,8 @@ package evosim;
 public class Creature implements Organism, Mobile
 {
 
-    /**Creates a new creature from scratch.
-     * Initializers found in EvoConstants.
+    /**
+     * Creates a new creature from scratch. Initializers found in EvoConstants.
      */
     public Creature()
     {
@@ -27,14 +27,16 @@ public class Creature implements Organism, Mobile
         this.at = EvoConstants.INIT_ATTACK;
         this.de = EvoConstants.INIT_DEFENSE;
         this.sp = EvoConstants.INIT_SPEED;
-        this.size = EvoConstants.INIT_SIZE;
+        this.growthRate = EvoConstants.INIT_GROWTH_RATE;
+        this.size = 1;
         this.belly = EvoConstants.INIT_BELLY;
         this.fullness = EvoConstants.INIT_BELLY;
         this.age = 0;
         this.lifetime = EvoConstants.INIT_LIFESPAN;
     }
-    
-    /**Creates a new creature from existing parameters.
+
+    /**
+     * Creates a new creature from existing parameters.
      *
      * @param health
      * @param attack
@@ -44,14 +46,15 @@ public class Creature implements Organism, Mobile
      * @param belly the amount of food the creature can eat before it's full
      * @param lifespan the amount of turns the creature can live
      */
-    public Creature(int health, int attack, int defense, int speed, int size,
+    public Creature(int health, int attack, int defense, int speed, double gRate,
             int belly, int lifespan)
     {
         this.hp = health;
         this.at = attack;
         this.de = defense;
         this.sp = speed;
-        this.size = size;
+        this.size = 1;
+        this.growthRate = gRate;
         this.belly = belly;
         this.fullness = belly;
         this.age = 0;
@@ -88,6 +91,7 @@ public class Creature implements Organism, Mobile
     public void grow()
     {
         age++;
+        size += (int) (size * growthRate);
     }
 
     /**
@@ -107,18 +111,19 @@ public class Creature implements Organism, Mobile
             int newAtt = (this.at + co.getAttack()) / 2;
             int newDef = (this.at + co.getDefense()) / 2;
             int newSpd = (this.at + co.getSpeed()) / 2;
-            int newSz = (this.at + co.getSize()) / 2;
+            double newGr = (this.at + co.getGrowthRate()) / 2;
             int newBl = (this.at + co.getBelly()) / 2;
             int newLife = (this.at + co.getLifetime()) / 2;
-            return new Creature(newHP, newAtt, newDef, newSpd, newSz, newBl, newLife);
+            return new Creature(newHP, newAtt, newDef, newSpd, newGr, newBl, newLife);
         }
         return null;
     }
 
-    /**Move the creature some distance away from its present location.
-     * Checks to make sure that the intended destination exists, and is within
-     * the creature's range of motion, and is not blocked by some entity.
-     * 
+    /**
+     * Move the creature some distance away from its present location. Checks to
+     * make sure that the intended destination exists, and is within the
+     * creature's range of motion, and is not blocked by some entity.
+     *
      * @param x Number of spaces away in the x direction to move.
      * @param y Number of spaces away in the y direction to move.
      * @param grid 2D grid that makes up the world.
@@ -139,7 +144,7 @@ public class Creature implements Organism, Mobile
     }
 
     /**
-     * 
+     *
      * @return the creature's attack stat.
      */
     public int getAttack()
@@ -148,7 +153,7 @@ public class Creature implements Organism, Mobile
     }
 
     /**
-     * 
+     *
      * @return the creature's defense stat.
      */
     public int getDefense()
@@ -157,7 +162,7 @@ public class Creature implements Organism, Mobile
     }
 
     /**
-     * 
+     *
      * @return the creature's speed stat.
      */
     public int getSpeed()
@@ -166,7 +171,7 @@ public class Creature implements Organism, Mobile
     }
 
     /**
-     * 
+     *
      * @return the creature's stomach capacity.
      */
     public int getBelly()
@@ -175,7 +180,7 @@ public class Creature implements Organism, Mobile
     }
 
     /**
-     * 
+     *
      * @return the creature's lifespan.
      */
     public int getLifetime()
@@ -184,7 +189,7 @@ public class Creature implements Organism, Mobile
     }
 
     /**
-     * 
+     *
      * @return the creature's health.
      */
     public int getHP()
@@ -193,7 +198,16 @@ public class Creature implements Organism, Mobile
     }
 
     /**
-     * 
+     *
+     * @return the creature's rate of growth.
+     */
+    public double getGrowthRate()
+    {
+        return growthRate;
+    }
+
+    /**
+     *
      * @return the creature's size.
      */
     public int getSize()
@@ -210,20 +224,24 @@ public class Creature implements Organism, Mobile
     private int fullness;
     private final int lifetime;
     private int age;
+    private double growthRate;
 
     private int currentX;
     private int currentY;
 
-    /**Decreases the creature's health by a given amount. Minimum is 0.
-     * 
+    /**
+     * Decreases the creature's health by a given amount. Minimum is 0.
+     *
      * @param amount the amount of health to take from the creature.
      */
     @Override
     public void damage(int amount)
     {
         this.hp -= amount;
-        if(this.hp < 0)
+        if (this.hp < 0)
+        {
             this.hp = 0;
+        }
     }
 
 }
