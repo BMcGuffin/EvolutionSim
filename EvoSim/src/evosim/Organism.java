@@ -15,8 +15,10 @@ public interface Organism
 {
     boolean isMature();
     boolean isAlive();
+    boolean setPosition(int x, int y);
+    int getX();
+    int getY();
     Organism reproduce(Organism other);
     void grow();
-    void damage(int amount);
-    
+    void damage(int amount);   
 }
