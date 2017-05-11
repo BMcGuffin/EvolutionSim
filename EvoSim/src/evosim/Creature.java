@@ -138,7 +138,7 @@ public class Creature implements Organism, Mobile
      * @param grid 2D grid that makes up the world.
      */
     @Override
-    public void move(int x, int y, Object[][] grid)
+    public boolean move(int x, int y, Object[][] grid)
     {
         if (currentX >= 0 && currentY >= 0)
         {
@@ -150,9 +150,11 @@ public class Creature implements Organism, Mobile
                     grid[currentX][currentY] = null;
                     currentX = currentX + x;
                     currentY = currentY + y;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     /**
@@ -277,7 +279,7 @@ public class Creature implements Organism, Mobile
      * @param grid the grid of objects that represents the map
      */
     @Override
-    public void jump(int x, int y, Object[][] grid)
+    public boolean jump(int x, int y, Object[][] grid)
     {
         if (x >= 0 && y >= 0 && x < grid.length && y < grid[x].length)
         {
@@ -290,7 +292,9 @@ public class Creature implements Organism, Mobile
                 }
                 currentX = x;
                 currentY = y;
+                return true;
             }
         }
+        return false;
     }
 }
