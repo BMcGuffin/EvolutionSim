@@ -20,13 +20,16 @@ public final class EvoConstants
     public static final int INIT_SIZE = 5;
     public static final int INIT_BELLY = 5;
     public static final int INIT_LIFESPAN = 5;
+    public static final double INIT_GROWTH_RATE = 0.05;
     
     //Level caps
     public static final int CAP_HEALTH = 1000;
     public static final int CAP_ATTACK = 100;
     public static final int CAP_DEFENSE = 100;
     public static final int CAP_SPEED = 100;
-    public static final int CAP_SIZE = 100;
+    public static final int CAP_CREATURE_SIZE = 100;
     public static final int CAP_BELLY = 500;
     public static final int CAP_LIFESPAN = 500;
+    public static final int CAP_PLANT_SIZE = 2000;
+    public static final double CAP_GROWTH_RATE = 0.5;
 }
