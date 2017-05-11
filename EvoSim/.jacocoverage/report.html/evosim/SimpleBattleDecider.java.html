@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SimpleBattleDecider.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;EvoSim&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">evosim</a> &gt; <span class="el_source">SimpleBattleDecider.java</span></div><h1>SimpleBattleDecider.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package evosim;
+
+import java.util.Comparator;
+import java.util.Random;
+
+/**
+ * Represents a simple comparator that decides the outcome of a battle between
+ * two creatures.
+ *
+ * @author bryanmcguffin
+ * @version 5-10-17
+ * @see Comparator
+ */
+<span class="fc" id="L19">public class SimpleBattleDecider implements Comparator</span>
+{
+
+    /**
+     * Barebones simulation of a fight to the death between two creatures.
+     *
+     * @param o1 The first creature
+     * @param o2 The second creature
+     * @return 1 if the first creature wins, -1 if the second creature wins, 0
+     * if there is a tie OR both passed objects are not creatures
+     */
+    @Override
+    public int compare(Object o1, Object o2)
+    {
+<span class="fc" id="L33">        Random r = new Random();</span>
+<span class="pc bpc" id="L34" title="1 of 4 branches missed.">        if (o1 instanceof Creature &amp;&amp; o2 instanceof Creature)</span>
+        {
+            Creature c1, c2;
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            if (((Creature) o1).getSpeed() &gt; ((Creature) o2).getSpeed())</span>
+            {
+<span class="fc" id="L39">                c1 = (Creature) o1;</span>
+<span class="fc" id="L40">                c2 = (Creature) o2;</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">                if (c1.getAttack() &gt; (c2.getDefense()))</span>
+                {
+<span class="fc" id="L43">                    return 1;</span>
+                }
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                else if (c1.getAttack() &lt; (c2.getDefense()))</span>
+                {
+<span class="nc" id="L47">                    return -1;</span>
+                }
+<span class="nc" id="L49">                return 0;</span>
+            }
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            else if (((Creature) o1).getSpeed() &lt; ((Creature) o2).getSpeed())</span>
+            {
+<span class="fc" id="L53">                c1 = (Creature) o2;</span>
+<span class="fc" id="L54">                c2 = (Creature) o1;</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">                if (c1.getAttack() &gt; (c2.getDefense()))</span>
+                {
+<span class="fc" id="L57">                    return -1;</span>
+                }
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                else if (c1.getAttack() &lt; (c2.getDefense()))</span>
+                {
+<span class="nc" id="L61">                    return 1;</span>
+                }
+<span class="nc" id="L63">                return 0;</span>
+            }
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            else if (r.nextInt() % 2 == 0)</span>
+            {
+<span class="fc" id="L67">                c1 = (Creature) o1;</span>
+<span class="fc" id="L68">                c2 = (Creature) o2;</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">                if (c1.getAttack() &gt; (c2.getDefense()))</span>
+                {
+<span class="nc" id="L71">                    return 1;</span>
+                }
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">                else if (c1.getAttack() &lt; (c2.getDefense()))</span>
+                {
+<span class="nc" id="L75">                    return -1;</span>
+                }
+<span class="fc" id="L77">                return 0;</span>
+            }
+            else
+            {
+<span class="fc" id="L81">                c1 = (Creature) o2;</span>
+<span class="fc" id="L82">                c2 = (Creature) o1;</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">                if (c1.getAttack() &gt; (c2.getDefense()))</span>
+                {
+<span class="nc" id="L85">                    return -1;</span>
+                }
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">                else if (c1.getAttack() &lt; (c2.getDefense()))</span>
+                {
+<span class="nc" id="L89">                    return 1;</span>
+                }
+<span class="fc" id="L91">                return 0;</span>
+            }
+        }
+<span class="fc" id="L94">        return 0;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

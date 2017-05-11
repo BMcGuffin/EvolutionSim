@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Plant.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;EvoSim&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">evosim</a> &gt; <span class="el_source">Plant.java</span></div><h1>Plant.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package evosim;
+
+/**
+ * Represents a plant. Plants do not eat other organisms, and do not move. They
+ * can bloom and spread.
+ *
+ * @author bryanmcguffin
+ * @version 5-10-17
+ * @see Organism
+ */
+public class Plant implements Organism
+{
+
+    /**
+     * Creates a new plant from scratch. Initializers found in EvoConstants.
+     */
+    public Plant()
+<span class="fc" id="L23">    {</span>
+<span class="fc" id="L24">        blooming = false;</span>
+<span class="fc" id="L25">        grown = false;</span>
+<span class="fc" id="L26">        age = 0;</span>
+<span class="fc" id="L27">        size = EvoConstants.INIT_SIZE;</span>
+<span class="fc" id="L28">        this.lifetime = EvoConstants.INIT_LIFESPAN;</span>
+<span class="fc" id="L29">        this.growthRate = EvoConstants.INIT_GROWTH_RATE;</span>
+<span class="fc" id="L30">    }</span>
+
+    /**
+     * Creates a new plant from the given parameters.
+     *
+     * @param lifespan the amount of turns the plant can live.
+     * @param gRate the percentage that the plant can increase in size per turn.
+     */
+    public Plant(int lifespan, double gRate)
+<span class="fc" id="L39">    {</span>
+<span class="fc" id="L40">        blooming = false;</span>
+<span class="fc" id="L41">        grown = false;</span>
+<span class="fc" id="L42">        age = 0;</span>
+<span class="fc" id="L43">        size = EvoConstants.INIT_SIZE;</span>
+<span class="fc" id="L44">        this.lifetime = lifespan;</span>
+<span class="fc" id="L45">        this.growthRate = gRate;</span>
+<span class="fc" id="L46">    }</span>
+
+    /**
+     * Checks if the plant is mature enough to reproduce.
+     *
+     * @return true if the plant is grown.
+     */
+    @Override
+    public boolean isMature()
+    {
+<span class="fc" id="L56">        return grown;</span>
+    }
+
+    /**
+     * Increments the age and size of the plant. If age and size are high
+     * enough, plant should be capable of reproduction.
+     *
+     */
+    @Override
+    public void grow()
+    {
+<span class="fc" id="L67">        age++;</span>
+<span class="fc" id="L68">        size += size * growthRate;</span>
+<span class="fc bfc" id="L69" title="All 4 branches covered.">        if (age &gt; 3 &amp;&amp; size &gt;= 2)</span>
+<span class="fc" id="L70">            grown = true;</span>
+<span class="fc" id="L71">    }</span>
+    
+    /**
+     * Decreases the size of the plant by a given amount.
+     *
+     * @param amount the amount to shrink the plant.
+     */
+    @Override
+    public void damage(int amount)
+    {
+<span class="fc" id="L81">        size -= amount;</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (size &lt; 0)</span>
+        {
+<span class="fc" id="L84">            size = 0;</span>
+        }
+<span class="fc" id="L86">    }</span>
+
+    /**
+     * Checks to see if the plant meets the requirements to stay alive.
+     *
+     * @return true if the plant has nit exceeded its lifetime and it has a size
+     * greater than 0.
+     */
+    @Override
+    public boolean isAlive()
+    {
+<span class="fc bfc" id="L97" title="All 4 branches covered.">        return age &lt;= lifetime &amp;&amp; size &gt; 0;</span>
+    }
+
+    @Override
+    public Plant reproduce(Organism other)
+    {
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">        if (other instanceof Plant)</span>
+        {
+<span class="fc" id="L105">            Plant po = (Plant) other;</span>
+<span class="fc" id="L106">            double newGr = (this.growthRate + po.getGrowthRate()) / 2;</span>
+<span class="fc" id="L107">            int newLife = (this.lifetime + po.getLifetime()) / 2;</span>
+<span class="fc" id="L108">            return new Plant(newLife, newGr);</span>
+        }
+<span class="nc" id="L110">        return null;</span>
+    }
+
+    /**
+     *
+     * @return the plant's rate of growth
+     */
+    public double getGrowthRate()
+    {
+<span class="fc" id="L119">        return growthRate;</span>
+    }
+
+    /**
+     *
+     * @return the plant's lifespan
+     */
+    public int getLifetime()
+    {
+<span class="fc" id="L128">        return lifetime;</span>
+    }
+    
+    public double getSize()
+    {
+<span class="fc" id="L133">        return size;</span>
+    }
+
+    protected boolean blooming;
+    protected boolean grown;
+    protected int age;
+    protected double size;
+    protected int lifetime;
+    protected double growthRate;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Creature.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;EvoSim&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">evosim</a> &gt; <span class="el_source">Creature.java</span></div><h1>Creature.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package evosim;
+
+/**
+ * Represents an animal. Creatures are living things that move and eat other
+ * things. This is a superclass for different types of creatures, which are
+ * separated based on what they eat.
+ *
+ * @author bryanmcguffin
+ * @version 5-10-17
+ * @see Organism
+ * @see Mobile
+ */
+public class Creature implements Organism, Mobile
+{
+
+    /**
+     * Creates a new creature from scratch. Initializers found in EvoConstants.
+     */
+    public Creature()
+<span class="fc" id="L25">    {</span>
+<span class="fc" id="L26">        this.hp = EvoConstants.INIT_HEALTH;</span>
+<span class="fc" id="L27">        this.at = EvoConstants.INIT_ATTACK;</span>
+<span class="fc" id="L28">        this.de = EvoConstants.INIT_DEFENSE;</span>
+<span class="fc" id="L29">        this.sp = EvoConstants.INIT_SPEED;</span>
+<span class="fc" id="L30">        this.growthRate = EvoConstants.INIT_GROWTH_RATE;</span>
+<span class="fc" id="L31">        this.size = EvoConstants.INIT_SIZE;</span>
+<span class="fc" id="L32">        this.belly = EvoConstants.INIT_BELLY;</span>
+<span class="fc" id="L33">        this.fullness = EvoConstants.INIT_BELLY;</span>
+<span class="fc" id="L34">        this.age = 0;</span>
+<span class="fc" id="L35">        this.lifetime = EvoConstants.INIT_LIFESPAN;</span>
+<span class="fc" id="L36">    }</span>
+
+    /**
+     * Creates a new creature from existing parameters.
+     *
+     * @param health
+     * @param attack
+     * @param defense
+     * @param speed
+     * @param size
+     * @param belly the amount of food the creature can eat before it's full
+     * @param lifespan the amount of turns the creature can live
+     */
+    public Creature(int health, int attack, int defense, int speed, double gRate,
+            int belly, int lifespan)
+<span class="fc" id="L51">    {</span>
+<span class="fc" id="L52">        this.hp = health;</span>
+<span class="fc" id="L53">        this.at = attack;</span>
+<span class="fc" id="L54">        this.de = defense;</span>
+<span class="fc" id="L55">        this.sp = speed;</span>
+<span class="fc" id="L56">        this.size = 1;</span>
+<span class="fc" id="L57">        this.growthRate = gRate;</span>
+<span class="fc" id="L58">        this.belly = belly;</span>
+<span class="fc" id="L59">        this.fullness = belly;</span>
+<span class="fc" id="L60">        this.age = 0;</span>
+<span class="fc" id="L61">        this.lifetime = lifespan;</span>
+<span class="fc" id="L62">    }</span>
+
+    /**
+     * Checks if the creature is an &quot;adult&quot; or just a child.
+     *
+     * @return true if the creature's age is more than 50% of its lifespan.
+     */
+    @Override
+    public boolean isMature()
+    {
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        return (double) age / (double) lifetime &gt; 0.5;</span>
+    }
+
+    /**
+     * Checks if the creature meets the requirements to stay alive.
+     *
+     * @return true if the creature is not too old, hungry, or weak.
+     */
+    @Override
+    public boolean isAlive()
+    {
+<span class="pc bpc" id="L83" title="2 of 6 branches missed.">        return age &lt;= lifetime &amp;&amp; fullness &gt; 0 &amp;&amp; hp &gt; 0;</span>
+    }
+
+    /**
+     * Grows the creature by incrementing its age. Increases its size according
+     * to its growth rate. Decreases its fullness.
+     *
+     */
+    @Override
+    public void grow()
+    {
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (isAlive())</span>
+        {
+<span class="fc" id="L96">            age++;</span>
+<span class="fc" id="L97">            size += size * growthRate;</span>
+<span class="fc" id="L98">            fullness--;</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">            if (fullness &lt; 0)</span>
+            {
+<span class="nc" id="L101">                fullness = 0;</span>
+            }
+        }
+<span class="fc" id="L104">    }</span>
+
+    /**
+     * Generates a new creature from two parents.
+     *
+     * @param other the other creature to mate with this one.
+     * @return a new creature with traits that are the average of its parents,
+     * OR null if both parents are not creatures.
+     */
+    @Override
+    public Creature reproduce(Organism other)
+    {
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if (other instanceof Creature)</span>
+        {
+<span class="fc" id="L118">            Creature co = (Creature) other;</span>
+<span class="fc" id="L119">            int newHP = (this.hp + co.getHP()) / 2;</span>
+<span class="fc" id="L120">            int newAtt = (this.at + co.getAttack()) / 2;</span>
+<span class="fc" id="L121">            int newDef = (this.de + co.getDefense()) / 2;</span>
+<span class="fc" id="L122">            int newSpd = (this.sp + co.getSpeed()) / 2;</span>
+<span class="fc" id="L123">            double newGr = (this.growthRate + co.getGrowthRate()) / 2;</span>
+<span class="fc" id="L124">            int newBl = (this.belly + co.getBelly()) / 2;</span>
+<span class="fc" id="L125">            int newLife = (this.lifetime + co.getLifetime()) / 2;</span>
+<span class="fc" id="L126">            return new Creature(newHP, newAtt, newDef, newSpd, newGr, newBl, newLife);</span>
+        }
+<span class="nc" id="L128">        return null;</span>
+    }
+
+    /**
+     * Move the creature some distance away from its present location. Checks to
+     * make sure that the intended destination exists, and is within the
+     * creature's range of motion, and is not blocked by some entity.
+     *
+     * @param x Number of spaces away in the x direction to move.
+     * @param y Number of spaces away in the y direction to move.
+     * @param grid 2D grid that makes up the world.
+     */
+    @Override
+    public void move(int x, int y, Object[][] grid)
+    {
+<span class="pc bpc" id="L143" title="1 of 4 branches missed.">        if (currentX &gt;= 0 &amp;&amp; currentY &gt;= 0)</span>
+        {
+<span class="pc bpc" id="L145" title="1 of 4 branches missed.">            if (currentX + x &lt; grid.length &amp;&amp; currentY + y &lt; grid[currentX + x].length)</span>
+            {
+<span class="pc bpc" id="L147" title="2 of 6 branches missed.">                if (x &lt;= sp &amp;&amp; y &lt;= sp &amp;&amp; grid[currentX + x][currentY + y] == null)</span>
+                {
+<span class="fc" id="L149">                    grid[currentX + x][currentY + y] = this;</span>
+<span class="fc" id="L150">                    grid[currentX][currentY] = null;</span>
+<span class="fc" id="L151">                    currentX = currentX + x;</span>
+<span class="fc" id="L152">                    currentY = currentY + y;</span>
+                }
+            }
+        }
+<span class="fc" id="L156">    }</span>
+
+    /**
+     *
+     * @return the creature's attack stat.
+     */
+    public int getAttack()
+    {
+<span class="fc" id="L164">        return at;</span>
+    }
+
+    /**
+     *
+     * @return the creature's defense stat.
+     */
+    public int getDefense()
+    {
+<span class="fc" id="L173">        return de;</span>
+    }
+
+    /**
+     *
+     * @return the creature's speed stat.
+     */
+    public int getSpeed()
+    {
+<span class="fc" id="L182">        return sp;</span>
+    }
+
+    /**
+     *
+     * @return the creature's stomach capacity.
+     */
+    public int getBelly()
+    {
+<span class="fc" id="L191">        return belly;</span>
+    }
+
+    /**
+     *
+     * @return the creature's lifespan.
+     */
+    public int getLifetime()
+    {
+<span class="fc" id="L200">        return lifetime;</span>
+    }
+
+    /**
+     *
+     * @return the creature's health.
+     */
+    public int getHP()
+    {
+<span class="fc" id="L209">        return hp;</span>
+    }
+
+    /**
+     *
+     * @return the creature's rate of growth.
+     */
+    public double getGrowthRate()
+    {
+<span class="fc" id="L218">        return growthRate;</span>
+    }
+
+    /**
+     *
+     * @return the creature's size.
+     */
+    public double getSize()
+    {
+<span class="fc" id="L227">        return size;</span>
+    }
+
+    /**
+     * Check to see if the creature is still hungry.
+     *
+     * @return true if the creature has room left in its belly.
+     */
+    public boolean isHungry()
+    {
+<span class="fc bfc" id="L237" title="All 2 branches covered.">        return fullness &lt; belly;</span>
+    }
+
+    protected int hp;
+    protected int at;
+    protected int de;
+    protected int sp;
+    protected double size;
+    protected final int belly;
+    protected int fullness;
+    protected final int lifetime;
+    protected int age;
+    protected double growthRate;
+
+<span class="fc" id="L251">    protected int currentX = -1;</span>
+<span class="fc" id="L252">    protected int currentY = -1;</span>
+
+    /**
+     * Decreases the creature's health by a given amount. Minimum is 0.
+     *
+     * @param amount the amount of health to take from the creature.
+     */
+    @Override
+    public void damage(int amount)
+    {
+<span class="fc" id="L262">        this.hp -= amount;</span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">        if (this.hp &lt; 0)</span>
+        {
+<span class="fc" id="L265">            this.hp = 0;</span>
+        }
+<span class="fc" id="L267">    }</span>
+
+    /**
+     * Moves the creature to some absolute location on the grid. Different from
+     * move() in that move() adds the x/y params to the creature's present
+     * location while jump() just sets them right out. Useful for setting a
+     * creature to a position on a board if it wasn't already there.
+     *
+     * @param x the x position to set the creature to
+     * @param y the y position to set the creature to
+     * @param grid the grid of objects that represents the map
+     */
+    @Override
+    public void jump(int x, int y, Object[][] grid)
+    {
+<span class="pc bpc" id="L282" title="2 of 8 branches missed.">        if (x &gt;= 0 &amp;&amp; y &gt;= 0 &amp;&amp; x &lt; grid.length &amp;&amp; y &lt; grid[x].length)</span>
+        {
+<span class="pc bpc" id="L284" title="3 of 6 branches missed.">            if (x &lt;= sp &amp;&amp; y &lt;= sp &amp;&amp; grid[x][y] == null)</span>
+            {
+<span class="fc" id="L286">                grid[x][y] = this;</span>
+<span class="pc bpc" id="L287" title="1 of 4 branches missed.">                if (currentX &gt;= 0 &amp;&amp; currentY &gt;= 0)</span>
+                {
+<span class="fc" id="L289">                    grid[currentX][currentY] = null;</span>
+                }
+<span class="fc" id="L291">                currentX = x;</span>
+<span class="fc" id="L292">                currentY = y;</span>
+            }
+        }
+<span class="fc" id="L295">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

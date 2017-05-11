@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Herbivore.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;EvoSim&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">evosim</a> &gt; <span class="el_source">Herbivore.java</span></div><h1>Herbivore.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package evosim;
+
+/**Represents a creature that eats plants, but not other creatures.
+ *
+ * @author bryanmcguffin
+ * @version 5-10-17
+ * @see Creature
+ * @see Herbivorous
+ */
+public class Herbivore extends Creature implements Herbivorous
+{
+
+    /**Generates a new herbivore from scratch.
+     * 
+     */
+    public Herbivore()
+    {
+<span class="fc" id="L24">        super();</span>
+<span class="fc" id="L25">    }</span>
+    
+    /**Generates a new herbivore from existing parameters.
+     * 
+     * @param health
+     * @param attack
+     * @param defense
+     * @param speed
+     * @param size
+     * @param belly the amount of food the herbivore can store.
+     * @param lifespan the amount of turns the creature can exist.
+     */
+    public Herbivore(int health, int attack, int defense, int speed, double gRate, int belly, int lifespan)
+    {
+<span class="fc" id="L39">        super(health, attack, defense, speed, gRate, belly, lifespan);</span>
+<span class="fc" id="L40">    }</span>
+    
+    /**Creates a new Herbivore offspring from two parents, this and the other.
+     * 
+     * @param other the herbivore to be &quot;mated&quot; with this one
+     * @return a new herbivore with a mix of its parents' traits
+     */
+    public Herbivore reproduce(Herbivore other)
+    {
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">         if (other instanceof Herbivore)</span>
+        {
+<span class="fc" id="L51">            Herbivore ho = (Herbivore) other;</span>
+<span class="fc" id="L52">            int newHP = (this.hp + ho.getHP()) / 2;</span>
+<span class="fc" id="L53">            int newAtt = (this.at + ho.getAttack()) / 2;</span>
+<span class="fc" id="L54">            int newDef = (this.de + ho.getDefense()) / 2;</span>
+<span class="fc" id="L55">            int newSpd = (this.sp + ho.getSpeed()) / 2;</span>
+<span class="fc" id="L56">            double newGr = (this.growthRate + ho.getGrowthRate()) / 2;</span>
+<span class="fc" id="L57">            int newBl = (this.belly + ho.getBelly()) / 2;</span>
+<span class="fc" id="L58">            int newLife = (this.lifetime + ho.getLifetime()) / 2;</span>
+<span class="fc" id="L59">            return new Herbivore(newHP, newAtt, newDef, newSpd, newGr, newBl, newLife);</span>
+        }
+<span class="nc" id="L61">        return null;</span>
+    }
+
+    /**While the creature is still hungry and the plant can still be eaten,
+     * take another bite.
+     * 
+     * @param plant 
+     * @pre plant.isAlive() &amp;&amp; this.isHungry()
+     */
+    @Override
+    public void eat(Plant plant)
+    {
+<span class="fc" id="L73">        plant.damage(1);</span>
+<span class="fc" id="L74">        this.fullness++;</span>
+<span class="fc bfc" id="L75" title="All 4 branches covered.">        if(plant.isAlive() &amp;&amp; this.isHungry())</span>
+<span class="fc" id="L76">            eat(plant);</span>
+<span class="fc" id="L77">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>
