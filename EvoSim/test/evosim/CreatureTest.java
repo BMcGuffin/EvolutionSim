@@ -121,32 +121,32 @@ public class CreatureTest extends TestCase
         System.out.println("move");
         Object[][] grid = new Object[10][10];
         Creature instance = new Creature();
-        instance.jump(0, 0, grid);
+        assertTrue(instance.jump(0, 0, grid));
         assertEquals(instance,grid[0][0]);
         assertEquals(null,grid[5][5]);
         
-        instance.move(5, 5, grid);
+        assertTrue(instance.move(5, 5, grid));
         assertEquals(null,grid[0][0]);
         assertEquals(instance,grid[5][5]);
         
         Creature other = new Creature();
-        other.jump(0, 0, grid);
+        assertTrue(other.jump(0, 0, grid));
         assertEquals(other,grid[0][0]);
         assertEquals(instance,grid[5][5]);
         
-        instance.move(-5, -5, grid);
+        assertFalse(instance.move(-5, -5, grid));
         assertEquals(other,grid[0][0]);
         assertEquals(instance,grid[5][5]);
         
-        instance.move(25, 25, grid);
+        assertFalse(instance.move(25, 25, grid));
         assertEquals(other,grid[0][0]);
         assertEquals(instance,grid[5][5]);
         
-        other.move(1, 1, grid);
+        assertTrue(other.move(1, 1, grid));
         assertEquals(other,grid[1][1]);
         assertEquals(instance,grid[5][5]);
         
-        instance.move(-5, -5, grid);
+        assertTrue(instance.move(-5, -5, grid));
         assertEquals(other,grid[1][1]);
         assertEquals(instance,grid[0][0]);
         
@@ -162,36 +162,36 @@ public class CreatureTest extends TestCase
         
         assertEquals(null,grid[0][0]);
         assertEquals(null,grid[5][5]);
-        instance.move(5, 5, grid);
+        assertFalse(instance.move(5, 5, grid));
         assertEquals(null,grid[0][0]);
         assertEquals(null,grid[5][5]);
         
-        instance.jump(0, 0, grid);
+        assertTrue(instance.jump(0, 0, grid));
         assertEquals(instance,grid[0][0]);
         assertEquals(null,grid[5][5]);
 
-        instance.jump(5, 5, grid);
+        assertTrue(instance.jump(5, 5, grid));
         assertEquals(null,grid[0][0]);
         assertEquals(instance,grid[5][5]);
         
         Creature other = new Creature();
-        other.jump(0, 0, grid);
+        assertTrue(other.jump(0, 0, grid));
         assertEquals(other,grid[0][0]);
         assertEquals(instance,grid[5][5]);
         
-        instance.jump(2, 2, grid);
+        assertTrue(instance.jump(2, 2, grid));
         assertEquals(other,grid[0][0]);
         assertEquals(instance,grid[2][2]);
         
-        instance.jump(25, 25, grid);
+        assertFalse(instance.jump(25, 25, grid));
         assertEquals(other,grid[0][0]);
         assertEquals(instance,grid[2][2]);
         
-        other.jump(1, 1, grid);
+        assertTrue(other.jump(1, 1, grid));
         assertEquals(other,grid[1][1]);
         assertEquals(instance,grid[2][2]);
         
-        instance.jump(-5, -5, grid);
+        assertFalse(instance.jump(-5, -5, grid));
         assertEquals(other,grid[1][1]);
         assertEquals(instance,grid[2][2]);
     }
