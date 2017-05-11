@@ -84,7 +84,8 @@ public class Creature implements Organism, Mobile
     }
 
     /**
-     * Grows the creature by incrementing its age.
+     * Grows the creature by incrementing its age. Increases its size according
+     * to its growth rate. Decreases its fullness.
      *
      */
     @Override
@@ -92,6 +93,7 @@ public class Creature implements Organism, Mobile
     {
         age++;
         size += (int) (size * growthRate);
+        fullness--;
     }
 
     /**
@@ -214,6 +216,11 @@ public class Creature implements Organism, Mobile
     {
         return size;
     }
+    
+    public boolean isHungry()
+    {
+        return fullness < belly;
+    }
 
     private int hp;
     private int at;
@@ -221,7 +228,7 @@ public class Creature implements Organism, Mobile
     private int sp;
     private int size;
     private final int belly;
-    private int fullness;
+    protected int fullness;
     private final int lifetime;
     private int age;
     private double growthRate;
