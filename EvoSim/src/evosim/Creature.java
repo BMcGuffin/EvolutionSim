@@ -217,6 +217,10 @@ public class Creature implements Organism, Mobile
         return size;
     }
     
+    /**Check to see if the creature is still hungry.
+     * 
+     * @return true if the creature has room left in its belly.
+     */
     public boolean isHungry()
     {
         return fullness < belly;
