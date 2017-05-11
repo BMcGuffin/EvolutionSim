@@ -32,4 +32,7 @@ public final class EvoConstants
     public static final int CAP_LIFESPAN = 200;
     public static final double CAP_PLANT_SIZE = 5000;
     public static final double CAP_GROWTH_RATE = 0.5;
+    
+    //Map stuff
+    public static final int MAP_SIZE = 25;
 }
