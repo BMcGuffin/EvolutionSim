@@ -23,7 +23,7 @@ public class CarnivorousPlant extends Plant implements Carnivorous
     public CarnivorousPlant()
     {
         super();
-        fullness = 0;
+        fullness = EvoConstants.INIT_BELLY;
         belly = EvoConstants.INIT_BELLY;
     }
 
