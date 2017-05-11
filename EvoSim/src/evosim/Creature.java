@@ -11,7 +11,7 @@ package evosim;
  * separated based on what they eat.
  *
  * @author bryanmcguffin
- * @version 5-10-17
+ * @version 5-11-17
  * @see Organism
  * @see Mobile
  */
