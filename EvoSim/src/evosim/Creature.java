@@ -28,7 +28,7 @@ public class Creature implements Organism, Mobile
         this.de = EvoConstants.INIT_DEFENSE;
         this.sp = EvoConstants.INIT_SPEED;
         this.growthRate = EvoConstants.INIT_GROWTH_RATE;
-        this.size = 1;
+        this.size = EvoConstants.INIT_SIZE;
         this.belly = EvoConstants.INIT_BELLY;
         this.fullness = EvoConstants.INIT_BELLY;
         this.age = 0;
@@ -69,7 +69,7 @@ public class Creature implements Organism, Mobile
     @Override
     public boolean isMature()
     {
-        return (double) age / lifetime > 0.5;
+        return (double) age / (double) lifetime > 0.5;
     }
 
     /**
@@ -91,9 +91,16 @@ public class Creature implements Organism, Mobile
     @Override
     public void grow()
     {
-        age++;
-        size += (int) (size * growthRate);
-        fullness--;
+        if (isAlive())
+        {
+            age++;
+            size += size * growthRate;
+            fullness--;
+            if (fullness < 0)
+            {
+                fullness = 0;
+            }
+        }
     }
 
     /**
@@ -104,18 +111,18 @@ public class Creature implements Organism, Mobile
      * OR null if both parents are not creatures.
      */
     @Override
-    public Organism reproduce(Organism other)
+    public Creature reproduce(Organism other)
     {
         if (other instanceof Creature)
         {
             Creature co = (Creature) other;
             int newHP = (this.hp + co.getHP()) / 2;
             int newAtt = (this.at + co.getAttack()) / 2;
-            int newDef = (this.at + co.getDefense()) / 2;
-            int newSpd = (this.at + co.getSpeed()) / 2;
-            double newGr = (this.at + co.getGrowthRate()) / 2;
-            int newBl = (this.at + co.getBelly()) / 2;
-            int newLife = (this.at + co.getLifetime()) / 2;
+            int newDef = (this.de + co.getDefense()) / 2;
+            int newSpd = (this.sp + co.getSpeed()) / 2;
+            double newGr = (this.growthRate + co.getGrowthRate()) / 2;
+            int newBl = (this.belly + co.getBelly()) / 2;
+            int newLife = (this.lifetime + co.getLifetime()) / 2;
             return new Creature(newHP, newAtt, newDef, newSpd, newGr, newBl, newLife);
         }
         return null;
@@ -133,14 +140,17 @@ public class Creature implements Organism, Mobile
     @Override
     public void move(int x, int y, Object[][] grid)
     {
-        if (currentX + x < grid.length && currentY + y < grid[currentX + x].length)
+        if (currentX >= 0 && currentY >= 0)
         {
-            if (x <= sp && y <= sp && grid[currentX + x][currentY + y] == null)
+            if (currentX + x < grid.length && currentY + y < grid[currentX + x].length)
             {
-                grid[currentX + x][currentY + y] = this;
-                grid[currentX][currentY] = null;
-                currentX = currentX + x;
-                currentY = currentY + y;
+                if (x <= sp && y <= sp && grid[currentX + x][currentY + y] == null)
+                {
+                    grid[currentX + x][currentY + y] = this;
+                    grid[currentX][currentY] = null;
+                    currentX = currentX + x;
+                    currentY = currentY + y;
+                }
             }
         }
     }
@@ -212,13 +222,14 @@ public class Creature implements Organism, Mobile
      *
      * @return the creature's size.
      */
-    public int getSize()
+    public double getSize()
     {
         return size;
     }
-    
-    /**Check to see if the creature is still hungry.
-     * 
+
+    /**
+     * Check to see if the creature is still hungry.
+     *
      * @return true if the creature has room left in its belly.
      */
     public boolean isHungry()
@@ -226,19 +237,19 @@ public class Creature implements Organism, Mobile
         return fullness < belly;
     }
 
-    private int hp;
-    private int at;
-    private int de;
-    private int sp;
-    private int size;
-    private final int belly;
+    protected int hp;
+    protected int at;
+    protected int de;
+    protected int sp;
+    protected double size;
+    protected final int belly;
     protected int fullness;
-    private final int lifetime;
-    private int age;
-    private double growthRate;
+    protected final int lifetime;
+    protected int age;
+    protected double growthRate;
 
-    private int currentX;
-    private int currentY;
+    protected int currentX = -1;
+    protected int currentY = -1;
 
     /**
      * Decreases the creature's health by a given amount. Minimum is 0.
@@ -255,4 +266,31 @@ public class Creature implements Organism, Mobile
         }
     }
 
+    /**
+     * Moves the creature to some absolute location on the grid. Different from
+     * move() in that move() adds the x/y params to the creature's present
+     * location while jump() just sets them right out. Useful for setting a
+     * creature to a position on a board if it wasn't already there.
+     *
+     * @param x the x position to set the creature to
+     * @param y the y position to set the creature to
+     * @param grid the grid of objects that represents the map
+     */
+    @Override
+    public void jump(int x, int y, Object[][] grid)
+    {
+        if (x >= 0 && y >= 0 && x < grid.length && y < grid[x].length)
+        {
+            if (x <= sp && y <= sp && grid[x][y] == null)
+            {
+                grid[x][y] = this;
+                if (currentX >= 0 && currentY >= 0)
+                {
+                    grid[currentX][currentY] = null;
+                }
+                currentX = x;
+                currentY = y;
+            }
+        }
+    }
 }
