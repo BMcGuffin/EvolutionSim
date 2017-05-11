@@ -128,10 +128,10 @@ public class Plant implements Organism
         return lifetime;
     }
 
-    private boolean blooming;
-    private boolean grown;
-    private int age;
-    private int size;
-    private int lifetime;
-    private double growthRate;
+    protected boolean blooming;
+    protected boolean grown;
+    protected int age;
+    protected int size;
+    protected int lifetime;
+    protected double growthRate;
 }
