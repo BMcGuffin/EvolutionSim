@@ -18,8 +18,23 @@ package evosim;
 public class Creature implements Organism, Mobile
 {
 
-    /**
-     * Creates a new creature from existing parameters.
+    /**Creates a new creature from scratch.
+     * Initializers found in EvoConstants.
+     */
+    public Creature()
+    {
+        this.hp = EvoConstants.INIT_HEALTH;
+        this.at = EvoConstants.INIT_ATTACK;
+        this.de = EvoConstants.INIT_DEFENSE;
+        this.sp = EvoConstants.INIT_SPEED;
+        this.size = EvoConstants.INIT_SIZE;
+        this.belly = EvoConstants.INIT_BELLY;
+        this.fullness = EvoConstants.INIT_BELLY;
+        this.age = 0;
+        this.lifetime = EvoConstants.INIT_LIFESPAN;
+    }
+    
+    /**Creates a new creature from existing parameters.
      *
      * @param health
      * @param attack
@@ -41,7 +56,6 @@ public class Creature implements Organism, Mobile
         this.fullness = belly;
         this.age = 0;
         this.lifetime = lifespan;
-
     }
 
     /**
@@ -200,10 +214,16 @@ public class Creature implements Organism, Mobile
     private int currentX;
     private int currentY;
 
+    /**Decreases the creature's health by a given amount. Minimum is 0.
+     * 
+     * @param amount the amount of health to take from the creature.
+     */
     @Override
     public void damage(int amount)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.hp -= amount;
+        if(this.hp < 0)
+            this.hp = 0;
     }
 
 }
