@@ -37,13 +37,13 @@ public class CreatureTest extends TestCase
         boolean expResult = false;
         boolean result = instance.isMature();
         assertEquals(expResult, result);
-        assertFalse(instance.age/instance.getLifetime() > 0.5);
+        assertFalse(instance.age / instance.getLifetime() > 0.5);
         instance.grow();
         instance.grow();
         instance.grow();
         instance.grow();
         expResult = true;
-        assertTrue(instance.age/(double)instance.getLifetime() > 0.5);
+        assertTrue(instance.age / (double) instance.getLifetime() > 0.5);
         result = instance.isMature();
         assertEquals(expResult, result);
     }
@@ -57,17 +57,17 @@ public class CreatureTest extends TestCase
         Creature instance = new Creature();
         boolean result = instance.isAlive();
         assertTrue(result);
-        assertEquals(5,instance.fullness);
+        assertEquals(5, instance.fullness);
         instance.grow();
-        assertEquals(4,instance.fullness);
+        assertEquals(4, instance.fullness);
         instance.grow();
-        assertEquals(3,instance.fullness);
+        assertEquals(3, instance.fullness);
         instance.grow();
-        assertEquals(2,instance.fullness);
+        assertEquals(2, instance.fullness);
         instance.grow();
-        assertEquals(1,instance.fullness);
+        assertEquals(1, instance.fullness);
         instance.grow();
-        assertEquals(0,instance.fullness);
+        assertEquals(0, instance.fullness);
         assertFalse(instance.isAlive());
     }
 
@@ -85,13 +85,13 @@ public class CreatureTest extends TestCase
         assertEquals(expected, instance.getSize());
         //This just tests the growth curve
         /*
-        for (int i = 0; instance.getSize() < EvoConstants.CAP_CREATURE_SIZE; i++)
-        {
-            instance.grow();
-            System.out.println("Age: " + instance.age + "\tSize: "
-                    + instance.size + "\tFullness: " + instance.fullness);
+         for (int i = 0; instance.getSize() < EvoConstants.CAP_CREATURE_SIZE; i++)
+         {
+         instance.grow();
+         System.out.println("Age: " + instance.age + "\tSize: "
+         + instance.size + "\tFullness: " + instance.fullness);
 
-        }*/
+         }*/
     }
 
     /**
@@ -100,8 +100,8 @@ public class CreatureTest extends TestCase
     public void testReproduce()
     {
         System.out.println("reproduce");
-        Creature other =     new Creature(10,  2, 4, 7, 6, 11, 20);
-        Creature instance =  new Creature(10, 20, 4, 9, 8, 11, 10);
+        Creature other = new Creature(10, 2, 4, 7, 6, 11, 20);
+        Creature instance = new Creature(10, 20, 4, 9, 8, 11, 10);
         Creature expResult = new Creature(10, 11, 4, 8, 7, 11, 15);
         Creature result = instance.reproduce(other);
         assertEquals(expResult.getHP(), result.getHP());
@@ -110,7 +110,7 @@ public class CreatureTest extends TestCase
         assertEquals(expResult.getSpeed(), result.getSpeed());
         assertEquals(expResult.getGrowthRate(), result.getGrowthRate());
         assertEquals(expResult.getBelly(), result.getBelly());
-        assertEquals(expResult.getLifetime(), result.getLifetime());  
+        assertEquals(expResult.getLifetime(), result.getLifetime());
     }
 
     /**
@@ -119,37 +119,37 @@ public class CreatureTest extends TestCase
     public void testMove()
     {
         System.out.println("move");
-        Object[][] grid = new Object[10][10];
+        Map map = new Map();
         Creature instance = new Creature();
-        assertTrue(instance.jump(0, 0, grid));
-        assertEquals(instance,grid[0][0]);
-        assertEquals(null,grid[5][5]);
-        
-        assertTrue(instance.move(5, 5, grid));
-        assertEquals(null,grid[0][0]);
-        assertEquals(instance,grid[5][5]);
-        
+        assertTrue(map.addOrganismToTable(instance, 0, 0));
+        assertEquals(instance, map.grid[0][0]);
+        assertEquals(null, map.grid[5][5]);
+
+        assertTrue(instance.move(5, 5, map));
+        assertEquals(null, map.grid[0][0]);
+        assertEquals(instance, map.grid[5][5]);
+
         Creature other = new Creature();
-        assertTrue(other.jump(0, 0, grid));
-        assertEquals(other,grid[0][0]);
-        assertEquals(instance,grid[5][5]);
-        
-        assertFalse(instance.move(-5, -5, grid));
-        assertEquals(other,grid[0][0]);
-        assertEquals(instance,grid[5][5]);
-        
-        assertFalse(instance.move(25, 25, grid));
-        assertEquals(other,grid[0][0]);
-        assertEquals(instance,grid[5][5]);
-        
-        assertTrue(other.move(1, 1, grid));
-        assertEquals(other,grid[1][1]);
-        assertEquals(instance,grid[5][5]);
-        
-        assertTrue(instance.move(-5, -5, grid));
-        assertEquals(other,grid[1][1]);
-        assertEquals(instance,grid[0][0]);
-        
+        assertTrue(map.addOrganismToTable(other, 0, 0));
+        assertEquals(other, map.grid[0][0]);
+        assertEquals(instance, map.grid[5][5]);
+
+        assertFalse(instance.move(-5, -5, map));
+        assertEquals(other, map.grid[0][0]);
+        assertEquals(instance, map.grid[5][5]);
+
+        assertFalse(instance.move(25, 25, map));
+        assertEquals(other, map.grid[0][0]);
+        assertEquals(instance, map.grid[5][5]);
+
+        assertTrue(other.move(1, 1, map));
+        assertEquals(other, map.grid[1][1]);
+        assertEquals(instance, map.grid[5][5]);
+
+        assertTrue(instance.move(-5, -5, map));
+        assertEquals(other, map.grid[1][1]);
+        assertEquals(instance, map.grid[0][0]);
+
     }
 
     /**
@@ -157,45 +157,45 @@ public class CreatureTest extends TestCase
      */
     public void testJump()
     {
-        Object[][] grid = new Object[10][10];
+        Map map = new Map();
         Creature instance = new Creature();
-        
-        assertEquals(null,grid[0][0]);
-        assertEquals(null,grid[5][5]);
-        assertFalse(instance.move(5, 5, grid));
-        assertEquals(null,grid[0][0]);
-        assertEquals(null,grid[5][5]);
-        
-        assertTrue(instance.jump(0, 0, grid));
-        assertEquals(instance,grid[0][0]);
-        assertEquals(null,grid[5][5]);
 
-        assertTrue(instance.jump(5, 5, grid));
-        assertEquals(null,grid[0][0]);
-        assertEquals(instance,grid[5][5]);
-        
+        assertEquals(null, map.grid[0][0]);
+        assertEquals(null, map.grid[5][5]);
+        assertFalse(instance.move(5, 5, map));
+        assertEquals(null, map.grid[0][0]);
+        assertEquals(null, map.grid[5][5]);
+
+        assertTrue(map.addOrganismToTable(instance, 0, 0));
+        assertEquals(instance, map.grid[0][0]);
+        assertEquals(null, map.grid[5][5]);
+
+        assertTrue(instance.jump(5, 5, map));
+        assertEquals(null, map.grid[0][0]);
+        assertEquals(instance, map.grid[5][5]);
+
         Creature other = new Creature();
-        assertTrue(other.jump(0, 0, grid));
-        assertEquals(other,grid[0][0]);
-        assertEquals(instance,grid[5][5]);
-        
-        assertTrue(instance.jump(2, 2, grid));
-        assertEquals(other,grid[0][0]);
-        assertEquals(instance,grid[2][2]);
-        
-        assertFalse(instance.jump(25, 25, grid));
-        assertEquals(other,grid[0][0]);
-        assertEquals(instance,grid[2][2]);
-        
-        assertTrue(other.jump(1, 1, grid));
-        assertEquals(other,grid[1][1]);
-        assertEquals(instance,grid[2][2]);
-        
-        assertFalse(instance.jump(-5, -5, grid));
-        assertEquals(other,grid[1][1]);
-        assertEquals(instance,grid[2][2]);
+        assertTrue(map.addOrganismToTable(other, 0, 0));
+        assertEquals(other, map.grid[0][0]);
+        assertEquals(instance, map.grid[5][5]);
+
+        assertTrue(instance.jump(2, 2, map));
+        assertEquals(other, map.grid[0][0]);
+        assertEquals(instance, map.grid[2][2]);
+
+        assertFalse(instance.jump(25, 25, map));
+        assertEquals(other, map.grid[0][0]);
+        assertEquals(instance, map.grid[2][2]);
+
+        assertTrue(other.jump(1, 1, map));
+        assertEquals(other, map.grid[1][1]);
+        assertEquals(instance, map.grid[2][2]);
+
+        assertFalse(instance.jump(-5, -5, map));
+        assertEquals(other, map.grid[1][1]);
+        assertEquals(instance, map.grid[2][2]);
     }
-    
+
     /**
      * Test of getAttack method, of class Creature.
      */
@@ -358,18 +358,18 @@ public class CreatureTest extends TestCase
         instance.damage(amount);
         int end = instance.getHP();
         assertTrue(start - end == amount);
-        
+
         start = instance.getHP();
         amount = 5;
         instance.damage(amount);
         end = instance.getHP();
         assertTrue(start - end == amount);
-        
+
         start = instance.getHP();
         amount = start + 5;
         instance.damage(amount);
         end = instance.getHP();
-        assertEquals(0,end);
+        assertEquals(0, end);
     }
 
 }
