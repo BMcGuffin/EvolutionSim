@@ -66,8 +66,8 @@ public class Plant implements Organism
     {
         age++;
         size += (int) (size * growthRate);
-        if (age > 3 && size >= 2);
-        grown = true;
+        if (age > 3 && size >= 2)
+            grown = true;
     }
     
     /**
