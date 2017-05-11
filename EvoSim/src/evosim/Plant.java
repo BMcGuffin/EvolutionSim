@@ -24,7 +24,7 @@ public class Plant implements Organism
         blooming = false;
         grown = false;
         age = 0;
-        size = 1;
+        size = EvoConstants.INIT_SIZE;
         this.lifetime = EvoConstants.INIT_LIFESPAN;
         this.growthRate = EvoConstants.INIT_GROWTH_RATE;
     }
@@ -40,7 +40,7 @@ public class Plant implements Organism
         blooming = false;
         grown = false;
         age = 0;
-        size = 1;
+        size = EvoConstants.INIT_SIZE;
         this.lifetime = lifespan;
         this.growthRate = gRate;
     }
@@ -65,7 +65,7 @@ public class Plant implements Organism
     public void grow()
     {
         age++;
-        size += (int) (size * growthRate);
+        size += size * growthRate;
         if (age > 3 && size >= 2)
             grown = true;
     }
@@ -94,11 +94,11 @@ public class Plant implements Organism
     @Override
     public boolean isAlive()
     {
-        return age < lifetime && size > 0;
+        return age <= lifetime && size > 0;
     }
 
     @Override
-    public Organism reproduce(Organism other)
+    public Plant reproduce(Organism other)
     {
         if (other instanceof Plant)
         {
@@ -127,11 +127,16 @@ public class Plant implements Organism
     {
         return lifetime;
     }
+    
+    public double getSize()
+    {
+        return size;
+    }
 
     protected boolean blooming;
     protected boolean grown;
     protected int age;
-    protected int size;
+    protected double size;
     protected int lifetime;
     protected double growthRate;
 }
