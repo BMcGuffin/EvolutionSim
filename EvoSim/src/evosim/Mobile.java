@@ -15,4 +15,5 @@ package evosim;
 public interface Mobile
 {
     void move(int x, int y, Object[][] grid);
+    void jump(int x, int y, Object[][] grid);
 }
