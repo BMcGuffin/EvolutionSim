@@ -27,6 +27,7 @@ public class Plant implements Organism
         size = EvoConstants.INIT_SIZE;
         this.lifetime = EvoConstants.INIT_LIFESPAN;
         this.growthRate = EvoConstants.INIT_GROWTH_RATE;
+        alreadySet = false;
     }
 
     /**
@@ -43,6 +44,7 @@ public class Plant implements Organism
         size = EvoConstants.INIT_SIZE;
         this.lifetime = lifespan;
         this.growthRate = gRate;
+        alreadySet = false;
     }
 
     /**
@@ -139,4 +141,42 @@ public class Plant implements Organism
     protected double size;
     protected int lifetime;
     protected double growthRate;
+    
+    private boolean alreadySet;
+    private int currentX = -1;
+    private int currentY = -1;
+
+    /**Sets the coordinate position of the plant once. Subsequent attempts to
+     * change the position will fail.
+     * 
+     * @param x the new x-coordinate
+     * @param y the new y-coordinate
+     * @return true if the position was set. False if this is not the first time
+     * this function has been called.
+     * @pre nothing is already in the position indicated, and the position is
+     * within bounds of the grid.
+     */
+    @Override
+    public boolean setPosition(int x, int y)
+    {
+        if(!alreadySet)
+        {
+            currentX = x;
+            currentY = y;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int getX()
+    {
+        return currentX;
+    }
+
+    @Override
+    public int getY()
+    {
+        return currentY;
+    }
 }
