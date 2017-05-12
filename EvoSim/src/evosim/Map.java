@@ -7,20 +7,21 @@ package evosim;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.Vector;
 
 /**
  *
  * @author bryanmcguffin
  */
-public class Map
+public class Map extends Observable
 {
 
     public Object[][] grid;
 
-    Vector<Organism> life;
-    Vector<Integer> xValue;
-    Vector<Integer> yValue;
+    private Vector<Organism> life;
+    private Vector<Integer> xValue;
+    private Vector<Integer> yValue;
 
     public Map()
     {
@@ -41,13 +42,25 @@ public class Map
     {
         return life.indexOf(o);
     }
+    
+    public Organism getOrganism(int index)
+    {
+        return life.elementAt(index);
+    }
+    
+    public int numberOfOrganisms()
+    {
+        return life.size();
+    }
 
     public void updatePosition(Organism o, int x, int y)
     {
-        
+
         int index = getIndex(o);
         xValue.setElementAt(x, index);
         yValue.setElementAt(y, index);
+        setChanged();
+        notifyObservers();
     }
 
     public int getXPosition(Organism o)
@@ -70,6 +83,8 @@ public class Map
             xValue.add(x);
             yValue.add(y);
             grid[x][y] = o;
+            setChanged();
+            notifyObservers();
             return o.setPosition(x, y);
         }
         return false;
@@ -84,6 +99,41 @@ public class Map
         xValue.removeElementAt(index);
         yValue.removeElementAt(index);
         grid[x][y] = null;
+        setChanged();
+        notifyObservers();
+    }
+
+    public String toString(int x, int y)
+    {
+        String str = "";
+        Object o = grid[x][y];
+        if (null == o)
+        {
+            str = " ";
+        }
+        else if (o instanceof Organism)
+        {
+            if (o instanceof Creature)
+            {
+                if(o instanceof Carnivore)
+                {
+                    str = "C";
+                }
+                else if(o instanceof Herbivore)
+                {
+                    str = "H";
+                }
+            }
+            else if (o instanceof Plant)
+            {
+                str = "P";
+            }
+        }
+        else
+        {
+            str = "X";
+        }
+        return str;
     }
 
 }
