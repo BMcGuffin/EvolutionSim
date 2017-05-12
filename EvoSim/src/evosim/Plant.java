@@ -179,4 +179,10 @@ public class Plant implements Organism
     {
         return currentY;
     }
+
+    @Override
+    public int getAge()
+    {
+        return this.age;
+    }
 }
