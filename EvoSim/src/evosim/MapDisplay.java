@@ -109,7 +109,7 @@ public class MapDisplay extends javax.swing.JFrame implements Observer
             mapBox += "-\n ";
             for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
             {
-                mapBox += "| " + m.toString(i,j) + " ";
+                mapBox += "| " + toString(i,j) + " ";
             }
             mapBox += "|\n ";
         }
@@ -119,5 +119,40 @@ public class MapDisplay extends javax.swing.JFrame implements Observer
         }
         mapBox += "-";
         mapField.setText(mapBox);
+    }
+    
+    public String toString(int x, int y)
+    {
+        String str = "";
+        Object o = m.grid[x][y];
+        if (null == o)
+        {
+            str = " ";
+        }
+        else if (o instanceof Organism)
+        {
+            
+            if (o instanceof Creature)
+            {
+                if(o instanceof Carnivore)
+                {
+                    str = "C";
+                }
+                else if(o instanceof Herbivore)
+                {
+                    str = "H";
+                }
+            }
+            else if (o instanceof Plant)
+            {
+                str = "P";
+            }
+                    
+        }
+        else
+        {
+            str = "X";
+        }
+        return str;
     }
 }
