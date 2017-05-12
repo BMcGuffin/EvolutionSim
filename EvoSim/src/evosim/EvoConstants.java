@@ -34,5 +34,5 @@ public final class EvoConstants
     public static final double CAP_GROWTH_RATE = 0.5;
     
     //Map stuff
-    public static final int MAP_SIZE = 25;
+    public static final int MAP_SIZE = 20;
 }
