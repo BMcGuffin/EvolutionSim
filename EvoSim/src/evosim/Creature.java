@@ -330,4 +330,10 @@ public class Creature implements Organism, Mobile
     {
         return currentY;
     }
+
+    @Override
+    public int getAge()
+    {
+        return this.age;
+    }
 }
