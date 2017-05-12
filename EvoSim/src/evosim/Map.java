@@ -18,7 +18,7 @@ public class Map extends Observable
 {
 
     public Object[][] grid;
-
+    
     private Vector<Organism> life;
     private Vector<Integer> xValue;
     private Vector<Integer> yValue;
@@ -77,7 +77,8 @@ public class Map extends Observable
 
     public boolean addOrganismToTable(Organism o, int x, int y)
     {
-        if (life.size() < (EvoConstants.MAP_SIZE * EvoConstants.MAP_SIZE))
+        if (life.size() < (EvoConstants.MAP_SIZE * EvoConstants.MAP_SIZE) && 
+                x >= 0 && y >= 0 && null != o && null == grid[x][y])
         {
             life.add(o);
             xValue.add(x);
@@ -101,39 +102,6 @@ public class Map extends Observable
         grid[x][y] = null;
         setChanged();
         notifyObservers();
-    }
-
-    public String toString(int x, int y)
-    {
-        String str = "";
-        Object o = grid[x][y];
-        if (null == o)
-        {
-            str = " ";
-        }
-        else if (o instanceof Organism)
-        {
-            if (o instanceof Creature)
-            {
-                if(o instanceof Carnivore)
-                {
-                    str = "C";
-                }
-                else if(o instanceof Herbivore)
-                {
-                    str = "H";
-                }
-            }
-            else if (o instanceof Plant)
-            {
-                str = "P";
-            }
-        }
-        else
-        {
-            str = "X";
-        }
-        return str;
     }
 
 }
