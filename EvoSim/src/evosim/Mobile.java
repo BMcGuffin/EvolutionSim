@@ -16,4 +16,5 @@ public interface Mobile
 {
     boolean move(int x, int y, Map map);
     boolean jump(int x, int y, Map map);
+    int getSpeed();
 }
