@@ -142,7 +142,8 @@ public class Creature implements Organism, Mobile
     {
         if (currentX >= 0 && currentY >= 0)
         {
-            if (currentX + x < map.grid.length && currentY + y < map.grid[currentX + x].length)
+            if (currentX + x < map.grid.length && currentX + x >= 0 && 
+                    currentY + y < map.grid[currentX + x].length && currentY + y >= 0)
             {
                 if (x <= sp && y <= sp && map.grid[currentX + x][currentY + y] == null)
                 {
