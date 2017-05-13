@@ -3,10 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package evosim;
 
-/**Represents a creature that eats other creatures. It cannot eat plants.
+import java.awt.Point;
+import java.util.List;
+import java.util.Vector;
+
+/**
+ * Represents a creature that eats other creatures. It cannot eat plants.
  *
  * @author bryanmcguffin
  * @version 5-10-17
@@ -16,16 +20,18 @@ package evosim;
 public class Carnivore extends Creature implements Carnivorous
 {
 
-    /**Generates a new Carnivore from scratch.
-     * 
+    /**
+     * Generates a new Carnivore from scratch.
+     *
      */
     public Carnivore()
     {
         super();
     }
-    
-    /**Generates a new Carnivore from existing parameters.
-     * 
+
+    /**
+     * Generates a new Carnivore from existing parameters.
+     *
      * @param health
      * @param attack
      * @param defense
@@ -38,9 +44,10 @@ public class Carnivore extends Creature implements Carnivorous
     {
         super(health, attack, defense, speed, gRate, belly, lifespan);
     }
-    
-    /**Creates a new carnivore offspring from two parents, this and the other.
-     * 
+
+    /**
+     * Creates a new carnivore offspring from two parents, this and the other.
+     *
      * @param other the carnivore to be "mated" with this one
      * @return a new carnivore with a mix of its parents' traits
      */
@@ -61,16 +68,67 @@ public class Carnivore extends Creature implements Carnivorous
         return null;
     }
 
-    /**Feeds the carnivore based on the body size of the other creature.
-     * 
+    /**
+     * Feeds the carnivore based on the body size of the other creature.
+     *
      * @param creature the prey to be consumed.
      */
     @Override
     public void eat(Creature creature)
     {
-        this.fullness += (int)creature.getSize();
-        if(!this.isHungry())
+        this.fullness += (int) creature.getSize();
+        if (!this.isHungry())
+        {
             this.fullness = this.getBelly();
+        }
+    }
+
+    /**
+     * Finds the locations of all herbivores within 3x the carnivore's speed
+     * range.
+     *
+     * @param map
+     * @return a list of point locations of all possible food locations
+     */
+    @Override
+    public List<Point> findPrey()
+    {
+        List<Point> prey = new Vector<Point>();
+        for (int i = 0; i < EvoConstants.MAP_SIZE; i++)
+        {
+            for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
+            {
+                if (null != EvoConstants.MAP.grid[i][j] && point.distance(i, j) <= (3 * sp))
+                {
+                    if (EvoConstants.MAP.grid[i][j] instanceof Herbivore)
+                    {
+                        prey.add(new Point(i, j));
+                    }
+                }
+            }
+        }
+        return prey;
     }
     
+    private void hunt(List<Point> prey)
+    {
+        Point foodPosition = prey.get(0);     
+        towards(foodPosition);
+        
+    }
+
+    @Override
+    public void makeNextMove()
+    {
+        List<Point> prey = findPrey();
+        if (prey.size() > 0)
+        {
+            hunt(prey);
+        }
+        else
+        {
+            super.makeRandomMovement();
+        }
+    }
+
 }
