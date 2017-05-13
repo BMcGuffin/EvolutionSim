@@ -59,8 +59,6 @@ public class Map extends Observable
         int index = getIndex(o);
         xValue.setElementAt(x, index);
         yValue.setElementAt(y, index);
-        setChanged();
-        notifyObservers();
     }
 
     public int getXPosition(Organism o)
@@ -84,8 +82,6 @@ public class Map extends Observable
             xValue.add(x);
             yValue.add(y);
             grid[x][y] = o;
-            setChanged();
-            notifyObservers();
             return o.setPosition(x, y);
         }
         return false;
@@ -100,8 +96,11 @@ public class Map extends Observable
         xValue.removeElementAt(index);
         yValue.removeElementAt(index);
         grid[x][y] = null;
+    }
+    
+    public void sparkUpdate()
+    {
         setChanged();
         notifyObservers();
     }
-
 }
