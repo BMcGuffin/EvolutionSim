@@ -6,6 +6,8 @@
 
 package evosim;
 
+import java.awt.Point;
+
 /**Represents the traits common to organisms that can move around the world
  * and are not rooted in place.
  *
@@ -14,7 +16,10 @@ package evosim;
  */
 public interface Mobile
 {
-    boolean move(int x, int y, Map map);
-    boolean jump(int x, int y, Map map);
+    void makeNextMove();
+    void towards(Point p);
+    void awayFrom(Point p);
+    boolean move(int x, int y);
+    boolean jump(int x, int y);
     int getSpeed();
 }
