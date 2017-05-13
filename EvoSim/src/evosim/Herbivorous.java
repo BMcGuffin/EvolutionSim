@@ -6,6 +6,9 @@
 
 package evosim;
 
+import java.awt.Point;
+import java.util.List;
+
 /**Represents the traits common to herbivores, which eat plants but do not eat
  * other creatures.
  *
@@ -15,4 +18,6 @@ package evosim;
 public interface Herbivorous
 {
     void eat(Plant plant);
+    List<Point> findThreats();
+    List<Point> findFood();
 }
