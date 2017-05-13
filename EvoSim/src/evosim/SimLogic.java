@@ -66,6 +66,7 @@ public class SimLogic
      */
     private static void takeTurn(Map map)
     {
+        map.rearrange(new SortByFastest());
         for (int i = 0; i < map.numberOfOrganisms(); i++)
         {
             Random r = new Random();
