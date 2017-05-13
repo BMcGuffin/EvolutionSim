@@ -51,12 +51,6 @@ public class Map extends Observable
         return life.size();
     }
 
-    public void updatePosition(Organism o, int x, int y)
-    {
-
-        int index = getIndex(o);
-    }
-
     public boolean addOrganismToTable(Organism o, int x, int y)
     {
         if (life.size() < (EvoConstants.MAP_SIZE * EvoConstants.MAP_SIZE) && 
