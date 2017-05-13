@@ -25,7 +25,7 @@ public class SimLogic
      *
      * @param map the map structure that holds the organisms.
      */
-    private static void addRandomOrganisms(Map map)
+    private static void addRandomOrganisms()
     {
         final int typesOfOrganisms = 3;
         Random rand = new Random();
@@ -51,11 +51,11 @@ public class SimLogic
             {
                 int newX = rand.nextInt(EvoConstants.MAP_SIZE);
                 int newY = rand.nextInt(EvoConstants.MAP_SIZE);
-                placed = map.addOrganismToTable(o, newX, newY);
+                placed = EvoConstants.MAP.addOrganismToTable(o, newX, newY);
             }
             placed = false;
         }
-        map.sparkUpdate();
+        EvoConstants.MAP.sparkUpdate();
     }
 
     /**
@@ -65,54 +65,41 @@ public class SimLogic
      *
      * @param map The map structure that holds the organisms
      */
-    private static void takeTurn(Map map)
+    private static void takeTurn(boolean forever)
     {
-        map.rearrange(new SortByFastest());
-        for (int i = 0; i < map.numberOfOrganisms(); i++)
+        EvoConstants.MAP.rearrange(new SortByFastest());
+        for (int i = 0; i < EvoConstants.MAP.numberOfOrganisms(); i++)
         {
             Random r = new Random();
-            ((Organism) (map.getOrganism(i))).grow();
-            if (!((Organism) (map.getOrganism(i))).isAlive())
+            ((Organism) (EvoConstants.MAP.getOrganism(i))).grow();
+            if (!forever && !((Organism) (EvoConstants.MAP.getOrganism(i))).isAlive())
             {
-                map.removeOrganismFromTable(map.getOrganism(i));
+                EvoConstants.MAP.removeOrganismFromTable(EvoConstants.MAP.getOrganism(i));
                 i--;
             }
             else
             {
-                if (map.getOrganism(i) instanceof Mobile)
+                if (EvoConstants.MAP.getOrganism(i) instanceof Mobile)
                 {
-                    makeRandomMovement((Mobile) (map.getOrganism(i)), map);
+                    ((Mobile) (EvoConstants.MAP.getOrganism(i))).makeNextMove();
                 }
-            }
+            }   
         }
-        map.sparkUpdate();
+        EvoConstants.MAP.sparkUpdate();
     }
 
     /**
-     * Displace the organism by some amount within its movement range.
+     * Runs the game. Sets up the board and performs turns.
      *
-     * @param o a mobile organism on the map
-     * @param map the 2D map structure that holds the organisms
-     */
-    private static void makeRandomMovement(Mobile o, Map map)
-    {
-        Random r = new Random();
-
-        int moveDist = o.getSpeed();
-        int newX = r.nextInt(moveDist) * (int) Math.pow(-1, r.nextInt(2));
-        int newY = r.nextInt(moveDist) * (int) Math.pow(-1, r.nextInt(2));
-        o.move(newX, newY, map);
-    }
-    
-    /**Runs the game. Sets up the board and performs turns.
-     * 
      * @param map the structure that will hold the organisms
      */
-    public static void run(Map map)
+    public static void run(boolean forever)
     {
+        //Reset global ID
+        EvoConstants.ID = 1;
         //Set up board, add organisms
-        addRandomOrganisms(map);
-        
+        addRandomOrganisms();
+
         try
         {
             sleep(2000);
@@ -125,7 +112,7 @@ public class SimLogic
         //Main loop
         while (true)
         {
-            takeTurn(map);
+            takeTurn(forever);
             try
             {
                 sleep(1000);
