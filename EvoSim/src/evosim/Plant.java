@@ -28,6 +28,7 @@ public class Plant implements Organism
         this.lifetime = EvoConstants.INIT_LIFESPAN;
         this.growthRate = EvoConstants.INIT_GROWTH_RATE;
         alreadySet = false;
+        this.ID = EvoConstants.ID++;
     }
 
     /**
@@ -45,6 +46,7 @@ public class Plant implements Organism
         this.lifetime = lifespan;
         this.growthRate = gRate;
         alreadySet = false;
+        this.ID = EvoConstants.ID++;
     }
 
     /**
@@ -141,6 +143,7 @@ public class Plant implements Organism
     protected double size;
     protected int lifetime;
     protected double growthRate;
+    private final long ID;
     
     private boolean alreadySet;
     private int currentX = -1;
@@ -184,5 +187,11 @@ public class Plant implements Organism
     public int getAge()
     {
         return this.age;
+    }
+
+    @Override
+    public long getID()
+    {
+        return ID;
     }
 }
