@@ -19,6 +19,8 @@ public interface Organism
     int getX();
     int getY();
     int getAge();
+    double getSize();
+    long getID();
     Organism reproduce(Organism other);
     void grow();
     void damage(int amount);   
