@@ -5,6 +5,8 @@
  */
 package evosim;
 
+import java.awt.Point;
+
 /**
  * Represents a plant. Plants do not eat other organisms, and do not move. They
  * can bloom and spread.
@@ -29,6 +31,7 @@ public class Plant implements Organism
         this.growthRate = EvoConstants.INIT_GROWTH_RATE;
         alreadySet = false;
         this.ID = EvoConstants.ID++;
+        point = new Point(0, 0);
     }
 
     /**
@@ -47,7 +50,8 @@ public class Plant implements Organism
         this.growthRate = gRate;
         alreadySet = false;
         this.ID = EvoConstants.ID++;
-    }
+        point = new Point(0, 0);
+}
 
     /**
      * Checks if the plant is mature enough to reproduce.
@@ -146,8 +150,7 @@ public class Plant implements Organism
     private final long ID;
     
     private boolean alreadySet;
-    private int currentX = -1;
-    private int currentY = -1;
+    protected Point point;
 
     /**Sets the coordinate position of the plant once. Subsequent attempts to
      * change the position will fail.
@@ -164,8 +167,7 @@ public class Plant implements Organism
     {
         if(!alreadySet)
         {
-            currentX = x;
-            currentY = y;
+            point.move(x, y);
             return true;
         }
         return false;
@@ -174,13 +176,13 @@ public class Plant implements Organism
     @Override
     public int getX()
     {
-        return currentX;
+        return point.x;
     }
 
     @Override
     public int getY()
     {
-        return currentY;
+        return point.y;
     }
 
     @Override
