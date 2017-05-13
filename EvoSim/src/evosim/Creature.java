@@ -33,6 +33,7 @@ public class Creature implements Organism, Mobile
         this.fullness = EvoConstants.INIT_BELLY;
         this.age = 0;
         this.lifetime = EvoConstants.INIT_LIFESPAN;
+        this.ID = EvoConstants.ID++;
     }
 
     /**
@@ -59,6 +60,7 @@ public class Creature implements Organism, Mobile
         this.fullness = belly;
         this.age = 0;
         this.lifetime = lifespan;
+        this.ID = EvoConstants.ID++;
     }
 
     /**
@@ -251,6 +253,7 @@ public class Creature implements Organism, Mobile
     protected final int lifetime;
     protected int age;
     protected double growthRate;
+    private final long ID;
 
     private int currentX = -1;
     private int currentY = -1;
@@ -335,5 +338,11 @@ public class Creature implements Organism, Mobile
     public int getAge()
     {
         return this.age;
+    }
+
+    @Override
+    public long getID()
+    {
+        return ID;
     }
 }
