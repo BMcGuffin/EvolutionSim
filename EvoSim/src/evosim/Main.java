@@ -24,8 +24,9 @@ public class Main
      */
     public static void main(String[] args)
     {
-        Map map = new Map();
-        final MapDisplay mpd = new MapDisplay(map);
+        EvoConstants.MAP= new Map();
+        final MapDisplay mpd = new MapDisplay(EvoConstants.MAP);
+        boolean forever = args.length > 0 && args[0].equals("-forever");
 
         /* Make the JFrame visible */
         java.awt.EventQueue.invokeLater(new Runnable()
@@ -36,6 +37,6 @@ public class Main
                 mpd.setVisible(true);
             }
         });
-        SimLogic.run(map);
+        SimLogic.run(forever);
     }
 }
