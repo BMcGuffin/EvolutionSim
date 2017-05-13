@@ -3,10 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package evosim;
 
-/**Represents a creature that eats plants, but not other creatures.
+import java.awt.Point;
+import java.util.List;
+import java.util.Vector;
+
+/**
+ * Represents a creature that eats plants, but not other creatures.
  *
  * @author bryanmcguffin
  * @version 5-10-17
@@ -16,16 +20,18 @@ package evosim;
 public class Herbivore extends Creature implements Herbivorous
 {
 
-    /**Generates a new herbivore from scratch.
-     * 
+    /**
+     * Generates a new herbivore from scratch.
+     *
      */
     public Herbivore()
     {
         super();
     }
-    
-    /**Generates a new herbivore from existing parameters.
-     * 
+
+    /**
+     * Generates a new herbivore from existing parameters.
+     *
      * @param health
      * @param attack
      * @param defense
@@ -38,15 +44,16 @@ public class Herbivore extends Creature implements Herbivorous
     {
         super(health, attack, defense, speed, gRate, belly, lifespan);
     }
-    
-    /**Creates a new Herbivore offspring from two parents, this and the other.
-     * 
+
+    /**
+     * Creates a new Herbivore offspring from two parents, this and the other.
+     *
      * @param other the herbivore to be "mated" with this one
      * @return a new herbivore with a mix of its parents' traits
      */
     public Herbivore reproduce(Herbivore other)
     {
-         if (other instanceof Herbivore)
+        if (other instanceof Herbivore)
         {
             Herbivore ho = (Herbivore) other;
             int newHP = (this.hp + ho.getHP()) / 2;
@@ -61,10 +68,11 @@ public class Herbivore extends Creature implements Herbivorous
         return null;
     }
 
-    /**While the creature is still hungry and the plant can still be eaten,
-     * take another bite.
-     * 
-     * @param plant 
+    /**
+     * While the creature is still hungry and the plant can still be eaten, take
+     * another bite.
+     *
+     * @param plant
      * @pre plant.isAlive() && this.isHungry()
      */
     @Override
@@ -72,8 +80,102 @@ public class Herbivore extends Creature implements Herbivorous
     {
         plant.damage(1);
         this.fullness++;
-        if(plant.isAlive() && this.isHungry())
+        if (plant.isAlive() && this.isHungry())
+        {
             eat(plant);
+        }
+    }
+
+    /**
+     * Finds the locations of all carnivores within 3x the herbivore's speed
+     * range.
+     *
+     * @param map
+     * @return
+     */
+    @Override
+    public List<Point> findThreats()
+    {
+        List<Point> threats = new Vector<Point>();
+        for (int i = 0; i < EvoConstants.MAP_SIZE; i++)
+        {
+            for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
+            {
+                if (null != EvoConstants.MAP.grid[i][j] && point.distance(i, j) <= (3 * sp))
+                {
+                    if (EvoConstants.MAP.grid[i][j] instanceof Carnivore)
+                    {
+                        threats.add(new Point(i, j));
+                    }
+                }
+            }
+        }
+        return threats;
+    }
+
+    /**
+     * Finds the locations of all plants within 3x the herbivore's speed range.
+     *
+     * @param map
+     * @return
+     */
+    @Override
+    public List<Point> findFood()
+    {
+        List<Point> food = new Vector<Point>();
+        for (int i = 0; i < EvoConstants.MAP_SIZE; i++)
+        {
+            for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
+            {
+                if (null != EvoConstants.MAP.grid[i][j] && point.distance(i, j) <= (3 * sp))
+                {
+                    if (EvoConstants.MAP.grid[i][j] instanceof Plant)
+                    {
+                        food.add(new Point(i, j));
+                    }
+                }
+            }
+        }
+        return food;
     }
     
+    private void avoidPredators(List<Point> threats)
+    {
+        Point avgPredatorPosition = new Point(0,0);
+        int numPredators = threats.size();
+        for(int i = 0;i<numPredators;i++)
+        {
+            avgPredatorPosition.x += threats.get(i).x;
+            avgPredatorPosition.y += threats.get(i).y;
+        }
+        avgPredatorPosition.x = avgPredatorPosition.x / numPredators;
+        avgPredatorPosition.y = avgPredatorPosition.y / numPredators;
+        
+        awayFrom(avgPredatorPosition);
+    }
+    
+    private void forage(List<Point> food)
+    {
+        Point foodPosition = food.get(0);     
+        towards(foodPosition);
+    }
+    
+    @Override 
+    public void makeNextMove()
+    {
+        List<Point> threats = findThreats();
+        List<Point> food = findFood();
+        if(threats.size() > 0 && !isHungry())
+        {
+            avoidPredators(threats);
+        }
+        else if(food.size() > 0)
+        {
+            forage(food);
+        }
+        else
+        {
+            super.makeRandomMovement();
+        }
+    }
 }
