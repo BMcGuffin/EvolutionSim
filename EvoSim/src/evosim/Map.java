@@ -6,6 +6,8 @@
 package evosim;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
@@ -20,14 +22,10 @@ public class Map extends Observable
     public Object[][] grid;
     
     private Vector<Organism> life;
-    private Vector<Integer> xValue;
-    private Vector<Integer> yValue;
 
     public Map()
     {
         life = new Vector<Organism>();
-        xValue = new Vector<Integer>();
-        yValue = new Vector<Integer>();
         grid = new Object[EvoConstants.MAP_SIZE][EvoConstants.MAP_SIZE];
         for (int i = 0; i < EvoConstants.MAP_SIZE; i++)
         {
@@ -57,20 +55,6 @@ public class Map extends Observable
     {
 
         int index = getIndex(o);
-        xValue.setElementAt(x, index);
-        yValue.setElementAt(y, index);
-    }
-
-    public int getXPosition(Organism o)
-    {
-        int index = getIndex(o);
-        return xValue.elementAt(index);
-    }
-
-    public int getYPosition(Organism o)
-    {
-        int index = getIndex(o);
-        return yValue.elementAt(index);
     }
 
     public boolean addOrganismToTable(Organism o, int x, int y)
@@ -79,8 +63,6 @@ public class Map extends Observable
                 x >= 0 && y >= 0 && null != o && null == grid[x][y])
         {
             life.add(o);
-            xValue.add(x);
-            yValue.add(y);
             grid[x][y] = o;
             return o.setPosition(x, y);
         }
@@ -90,11 +72,10 @@ public class Map extends Observable
     public void removeOrganismFromTable(Organism o)
     {
         int index = life.indexOf(o);
-        int x = xValue.elementAt(index);
-        int y = yValue.elementAt(index);
+        int x = o.getX();
+        int y = o.getY();
         life.removeElementAt(index);
-        xValue.removeElementAt(index);
-        yValue.removeElementAt(index);
+        
         grid[x][y] = null;
     }
     
@@ -102,5 +83,10 @@ public class Map extends Observable
     {
         setChanged();
         notifyObservers();
+    }
+    
+    public void rearrange(Comparator c)
+    {
+        Collections.sort(life, c);
     }
 }
