@@ -5,6 +5,10 @@
  */
 package evosim;
 
+import java.awt.Point;
+import java.util.List;
+import java.util.Vector;
+
 /**
  * Represents a subtype of plant that is carnivorous. Carnivorous plants still
  * cannot move, but they can eat other organisms.
@@ -67,5 +71,16 @@ public class CarnivorousPlant extends Plant implements Carnivorous
 
     private int fullness;
     private int belly;
+
+    /**This organism can't seek out prey so this is useless
+     * 
+     * @param map
+     * @return 
+     */
+    @Override
+    public List<Point> findPrey()
+    {
+        return new Vector<Point>();
+    }
 
 }
