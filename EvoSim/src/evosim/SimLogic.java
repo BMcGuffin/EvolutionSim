@@ -5,7 +5,7 @@
  */
 package evosim;
 
-import evosim_comparators.*;
+import evosimComparators.SortByFastest;
 import static java.lang.Thread.sleep;
 import java.util.Random;
 import java.util.logging.Level;
