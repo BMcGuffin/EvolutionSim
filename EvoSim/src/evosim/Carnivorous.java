@@ -6,6 +6,9 @@
 
 package evosim;
 
+import java.awt.Point;
+import java.util.List;
+
 /**Represents traits common to carnivores. Carnivores eat other creatures.
  *
  * @author bryanmcguffin
@@ -14,4 +17,5 @@ package evosim;
 public interface Carnivorous
 {
     void eat(Creature creature);
+    List<Point> findPrey();
 }
