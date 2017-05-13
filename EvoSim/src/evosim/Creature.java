@@ -5,6 +5,9 @@
  */
 package evosim;
 
+import java.awt.Point;
+import java.util.Random;
+
 /**
  * Represents an animal. Creatures are living things that move and eat other
  * things. This is a superclass for different types of creatures, which are
@@ -34,6 +37,7 @@ public class Creature implements Organism, Mobile
         this.age = 0;
         this.lifetime = EvoConstants.INIT_LIFESPAN;
         this.ID = EvoConstants.ID++;
+        point = new Point(0, 0);
     }
 
     /**
@@ -61,6 +65,7 @@ public class Creature implements Organism, Mobile
         this.age = 0;
         this.lifetime = lifespan;
         this.ID = EvoConstants.ID++;
+        point = new Point(0, 0);
     }
 
     /**
@@ -140,24 +145,54 @@ public class Creature implements Organism, Mobile
      * @param grid 2D grid that makes up the world.
      */
     @Override
-    public boolean move(int x, int y, Map map)
+    public boolean move(int x, int y)
     {
-        if (currentX >= 0 && currentY >= 0)
+        System.out.println("Creature" + ID + " tried to move its position!");
+        System.out.println("Its current position is " + point.x + ", " + point.y);
+        System.out.println("It wants to move to position " + (point.x + x) + ", " + (point.y + y));
+        System.out.println("Wanted displacement: " + x + " X,  " + y + " Y");
+        int finalX, finalY;
+        if (point.x >= 0 && point.y >= 0 && Math.abs(x) <= sp && Math.abs(y) <= sp)
         {
-            if (currentX + x < map.grid.length && currentX + x >= 0 && 
-                    currentY + y < map.grid[currentX + x].length && currentY + y >= 0)
+            System.out.println("Move is within range.");
+            if (point.x + x >= EvoConstants.MAP.grid.length)
             {
-                if (x <= sp && y <= sp && map.grid[currentX + x][currentY + y] == null)
-                {
-                    map.grid[currentX + x][currentY + y] = this;
-                    map.grid[currentX][currentY] = null;
-                    currentX = currentX + x;
-                    currentY = currentY + y;
-                    map.updatePosition(this, currentX, currentY);
-                    return true;
-                }
+                finalX = EvoConstants.MAP.grid.length - 1;
             }
+            else if (point.x + x < 0)
+            {
+                finalX = 0;
+            }
+            else
+            {
+                finalX = point.x + x;
+            }
+            if (point.y + y >= EvoConstants.MAP.grid[finalX].length)
+            {
+                finalY = EvoConstants.MAP.grid[finalX].length - 1;
+            }
+            else if (point.y + y < 0)
+            {
+                finalY = 0;
+            }
+            else
+            {
+                finalY = point.y + y;
+            }
+
+            System.out.println("Final space is " + finalX + ", " + finalY);
+            if (null == EvoConstants.MAP.grid[finalX][finalY])
+            {
+                System.out.println("Final space is empty");
+                EvoConstants.MAP.grid[finalX][finalY] = this;
+                EvoConstants.MAP.grid[point.x][point.y] = null;
+                point.move(finalX, finalY);
+                System.out.println("Its position is now " + finalX + ", " + finalY);
+                return true;
+            }
+            System.out.println("Final space was full");
         }
+        System.out.println("MOVEMENT FAILURE...");
         return false;
     }
 
@@ -255,8 +290,7 @@ public class Creature implements Organism, Mobile
     protected double growthRate;
     private final long ID;
 
-    private int currentX = -1;
-    private int currentY = -1;
+    protected Point point;
 
     /**
      * Decreases the creature's health by a given amount. Minimum is 0.
@@ -284,20 +318,19 @@ public class Creature implements Organism, Mobile
      * @param grid the grid of objects that represents the map
      */
     @Override
-    public boolean jump(int x, int y, Map map)
+    public boolean jump(int x, int y)
     {
-        if (x >= 0 && y >= 0 && x < map.grid.length && y < map.grid[x].length)
+        System.out.println("Creature" + ID + " tried to jump!");
+        if (x >= 0 && y >= 0 && x < EvoConstants.MAP.grid.length && y < EvoConstants.MAP.grid[x].length)
         {
-            if (x <= sp && y <= sp && map.grid[x][y] == null)
+            if (x <= sp && y <= sp && EvoConstants.MAP.grid[x][y] == null)
             {
-                map.grid[x][y] = this;
-                if (currentX >= 0 && currentY >= 0)
+                EvoConstants.MAP.grid[x][y] = this;
+                if (point.x >= 0 && point.y >= 0)
                 {
-                    map.grid[currentX][currentY] = null;
+                    EvoConstants.MAP.grid[point.x][point.y] = null;
                 }
-                currentX = x;
-                currentY = y;
-                map.updatePosition(this, currentX, currentY);
+                point.move(x, y);
                 return true;
             }
         }
@@ -317,21 +350,20 @@ public class Creature implements Organism, Mobile
     @Override
     public boolean setPosition(int x, int y)
     {
-        currentX = x;
-        currentY = y;
+        point.move(x, y);
         return true;
     }
 
     @Override
     public int getX()
     {
-        return currentX;
+        return point.x;
     }
 
     @Override
     public int getY()
     {
-        return currentY;
+        return point.y;
     }
 
     @Override
@@ -344,5 +376,90 @@ public class Creature implements Organism, Mobile
     public long getID()
     {
         return ID;
+    }
+
+    /**
+     * Displace the organism by some random amount within its movement range.
+     *
+     * @param o a mobile organism on the map
+     * @param map the 2D map structure that holds the organisms
+     */
+    protected void makeRandomMovement()
+    {
+        Random r = new Random();
+
+        int moveDist = getSpeed();
+        int newX = r.nextInt(moveDist) * (int) Math.pow(-1, r.nextInt(2));
+        int newY = r.nextInt(moveDist) * (int) Math.pow(-1, r.nextInt(2));
+        move(newX, newY);
+        System.out.println("Creature" + ID + " made a random movement!");
+    }
+
+    @Override
+    public void makeNextMove()
+    {
+        makeRandomMovement();
+    }
+
+    @Override
+    public void towards(Point p)
+    {
+        System.out.println("Creature" + ID + " is moving towards something!");
+        int deltaX = p.x - point.x;
+        int deltaY = p.y - point.y;
+        if (Math.abs(deltaX) > sp)
+        {
+            if (deltaX < 0)
+            {
+                deltaX = sp * -1;
+            }
+            else
+            {
+                deltaX = sp;
+            }
+        }
+        if (Math.abs(deltaY) > sp)
+        {
+            if (deltaY < 0)
+            {
+                deltaY = sp * -1;
+            }
+            else
+            {
+                deltaY = sp;
+            }
+        }
+        move(deltaX, deltaY);
+    }
+
+    @Override
+    public void awayFrom(Point p)
+    {
+        System.out.println("Creature" + ID + " is moving away from something!");
+        int deltaX = point.x - p.x;
+        int deltaY = point.y - p.y;
+        if (Math.abs(deltaX) > sp)
+        {
+            if (deltaX < 0)
+            {
+                deltaX = sp * -1;
+            }
+            else
+            {
+                deltaX = sp;
+            }
+        }
+        if (Math.abs(deltaY) > sp)
+        {
+            if (deltaY < 0)
+            {
+                deltaY = sp * -1;
+            }
+            else
+            {
+                deltaY = sp;
+            }
+        }
+        move(deltaX, deltaY);
     }
 }
