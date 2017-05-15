@@ -21,7 +21,7 @@ public class SortByLargest implements Comparator
      *
      * @param o1 the first organism
      * @param o2 the second organism
-     * @return 1 if o1 is bigger, -1 if o2 is bigger, 0 if a tie or both are not
+     * @return -1 if o1 is bigger, 1 if o2 is bigger, 0 if a tie or both are not
      * organisms
      */
     @Override
@@ -32,13 +32,13 @@ public class SortByLargest implements Comparator
             //o1 is bigger: o1 wins
             if (((Organism) o1).getSize() > ((Organism) o2).getSize())
             {
-                return 1;
+                return -1;
             }
 
             //o2 is bigger: o2 wins
             else if (((Organism) o1).getSize() < ((Organism) o2).getSize())
             {
-                return -1;
+                return 1;
             }
 
             //o1 and o2 have the same size: tie

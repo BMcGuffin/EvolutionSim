@@ -22,7 +22,7 @@ public class SortByPosition implements Comparator
      *
      * @param o1 the first organism
      * @param o2 the second organism
-     * @return 1 if the first organism has the earlier position, -1 if the
+     * @return -1 if the first organism has the earlier position, 1 if the
      * second does, 0 if they have the same position or they aren't both
      * organisms
      */
@@ -34,13 +34,13 @@ public class SortByPosition implements Comparator
             //o1 has an earlier column: o1 wins
             if (((Organism) o1).getX() > ((Organism) o2).getX())
             {
-                return 1;
+                return -1;
             }
 
             //o2 has an earlier column: o2 wins
             else if (((Organism) o1).getX() < ((Organism) o2).getX())
             {
-                return -1;
+                return 1;
             }
 
             //o1 and o2 have the same column
@@ -49,13 +49,13 @@ public class SortByPosition implements Comparator
                 //o1 has an earlier row: o1 wins
                 if (((Organism) o1).getY() > ((Organism) o2).getY())
                 {
-                    return 1;
+                    return -1;
                 }
 
                 //o2 has an earlier row: o2 wins
                 else if (((Organism) o1).getY() < ((Organism) o2).getY())
                 {
-                    return -1;
+                    return 1;
                 }
 
                 //o1 and o2 have the same row: tie

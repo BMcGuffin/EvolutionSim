@@ -25,7 +25,7 @@ public class SimpleBattleDecider implements Comparator
      *
      * @param o1 The first creature
      * @param o2 The second creature
-     * @return 1 if the first creature wins, -1 if the second creature wins, 0
+     * @return -1 if the first creature wins, 1 if the second creature wins, 0
      * if there is a tie OR both passed objects are not creatures
      */
     @Override
@@ -41,11 +41,11 @@ public class SimpleBattleDecider implements Comparator
                 c2 = (Creature) o2;
                 if (c1.getAttack() > (c2.getDefense()))
                 {
-                    return 1;
+                    return -1;
                 }
                 else if (c1.getAttack() < (c2.getDefense()))
                 {
-                    return -1;
+                    return 1;
                 }
                 return 0;
             }
@@ -55,11 +55,11 @@ public class SimpleBattleDecider implements Comparator
                 c2 = (Creature) o1;
                 if (c1.getAttack() > (c2.getDefense()))
                 {
-                    return -1;
+                    return 1;
                 }
                 else if (c1.getAttack() < (c2.getDefense()))
                 {
-                    return 1;
+                    return -1;
                 }
                 return 0;
             }
@@ -69,11 +69,11 @@ public class SimpleBattleDecider implements Comparator
                 c2 = (Creature) o2;
                 if (c1.getAttack() > (c2.getDefense()))
                 {
-                    return 1;
+                    return -1;
                 }
                 else if (c1.getAttack() < (c2.getDefense()))
                 {
-                    return -1;
+                    return 1;
                 }
                 return 0;
             }
@@ -83,11 +83,11 @@ public class SimpleBattleDecider implements Comparator
                 c2 = (Creature) o1;
                 if (c1.getAttack() > (c2.getDefense()))
                 {
-                    return -1;
+                    return 1;
                 }
                 else if (c1.getAttack() < (c2.getDefense()))
                 {
-                    return 1;
+                    return -1;
                 }
                 return 0;
             }

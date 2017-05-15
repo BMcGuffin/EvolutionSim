@@ -22,7 +22,7 @@ public class SortByCreationDate implements Comparator
      *
      * @param o1 the first organism
      * @param o2 the second organism
-     * @return 1 if o1 has smaller ID, -1 if o2 has smaller ID, 0 if a tie or
+     * @return -1 if o1 has smaller ID, 1 if o2 has smaller ID, 0 if a tie or
      * both are not organisms
      */
     @Override
@@ -33,13 +33,13 @@ public class SortByCreationDate implements Comparator
             //o1 has earlier ID: o1 wins
             if (((Organism) o1).getID() < ((Organism) o2).getID())
             {
-                return 1;
+                return -1;
             }
 
             //o2 has earlier ID: o2 wins
             else if (((Organism) o1).getID() > ((Organism) o2).getID())
             {
-                return -1;
+                return 1;
             }
 
             //o1 and o2 have the same ID: tie

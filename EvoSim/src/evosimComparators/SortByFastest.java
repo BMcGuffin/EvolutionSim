@@ -21,7 +21,7 @@ public class SortByFastest implements Comparator
      * 
      * @param o1 the first organism
      * @param o2 the second organism
-     * @return 1 if o1 is faster, -1 if o2 is faster, 0 if a tie or both are not 
+     * @return -1 if o1 is faster, 1 if o2 is faster, 0 if a tie or both are not 
      * organisms
      */
     @Override
@@ -32,13 +32,13 @@ public class SortByFastest implements Comparator
             //o1 is mobile and o2 is not: o1 wins
             if(o1 instanceof Mobile && !(o2 instanceof Mobile))
             {
-                return 1;
+                return -1;
             }
             
             //o2 is mobile and o1 is not: o2 wins
             else if(o2 instanceof Mobile && !(o1 instanceof Mobile))
             {
-                return -1;
+                return 1;
             }
             
             //neither are mobile: tie
@@ -53,13 +53,13 @@ public class SortByFastest implements Comparator
                 //o1 is faster: o1 wins
                 if(((Mobile)o1).getSpeed() > ((Mobile)o2).getSpeed())
                 {
-                    return 1;
+                    return -1;
                 }
                 
                 //o2 is faster: o2 wins
                 else if(((Mobile)o1).getSpeed() < ((Mobile)o2).getSpeed())
                 {
-                    return -1;
+                    return 1;
                 }
                 
                 //o1 and o2 have the same speed: tie
