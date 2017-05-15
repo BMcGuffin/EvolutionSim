@@ -6,6 +6,9 @@
 package evosim;
 
 import static java.lang.Thread.sleep;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,8 +29,10 @@ public class Main
     {
         EvoConstants.MAP= new Map();
         final MapDisplay mpd = new MapDisplay(EvoConstants.MAP);
-        boolean forever = args.length > 0 && args[0].equals("-forever");
-
+        List<String> flags = Arrays.asList(args);
+        boolean forever = args.length > 0 && flags.contains("-forever");
+        EvoConstants.debug = args.length > 0 && flags.contains("-debug");
+        
         /* Make the JFrame visible */
         java.awt.EventQueue.invokeLater(new Runnable()
         {
