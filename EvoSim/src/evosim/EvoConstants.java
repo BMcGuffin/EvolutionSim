@@ -37,13 +37,13 @@ public final class EvoConstants
     //Map stuff
     public static Map MAP;
     
-    public static final int MAP_SIZE = 20;
+    public static final int MAP_SIZE = 30;
     public static final int MAP_MAXIMUM_ENTITIES = (int)(MAP_SIZE * MAP_SIZE * 0.1);
 
     public static int ID = 1;
     
     //Debug
-    private static final boolean debug = true;
+    public static boolean debug;
     
     public static void debug(String str)
     {
