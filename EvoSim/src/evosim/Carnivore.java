@@ -5,7 +5,9 @@
  */
 package evosim;
 
+import evosimComparators.*;
 import java.awt.Point;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -94,14 +96,19 @@ public class Carnivore extends Creature implements Carnivorous
     public List<Point> findPrey()
     {
         List<Point> prey = new Vector<Point>();
+        EvoConstants.debug("\nCarnivore " + getID() + " is finding prey");
+        EvoConstants.debug("Centered at position " + getX() + ", " + getY());
         for (int i = 0; i < EvoConstants.MAP_SIZE; i++)
         {
             for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
             {
-                if (null != EvoConstants.MAP.grid[i][j] && point.distance(i, j) <= (3 * sp))
+                if (null != EvoConstants.MAP.grid[i][j] && point.distance(i, j) <= (3 * sp)
+                        && !(point.x == i && point.y == j))
                 {
-                    if (EvoConstants.MAP.grid[i][j] instanceof Herbivore)
+                    EvoConstants.debug("Square " + i + ", " + j + " has an organism.");
+                    if (EvoConstants.MAP.grid[i][j] instanceof Herbivorous)
                     {
+                        EvoConstants.debug("It's prey! added it to the list.");
                         prey.add(new Point(i, j));
                     }
                 }
@@ -109,18 +116,51 @@ public class Carnivore extends Creature implements Carnivorous
         }
         return prey;
     }
-    
+
     private void hunt(List<Point> prey)
     {
-        Point foodPosition = prey.get(0);     
-        towards(foodPosition);
-        
+        //Debug info
+        EvoConstants.debug("\nCarnivore " + getID() + " (" + point.x + ", " + point.y + ") is on the hunt!");
+        EvoConstants.debug("Potential targets at:");
+        for (int i = 0; i < prey.size(); i++)
+        {
+            EvoConstants.debug("" + prey.get(i).x + ", " + prey.get(i).y + "(dist = " + this.point.distance(prey.get(i)) + ")");
+        }
+
+        //Rearrange by distance to target, closest first
+        Collections.sort(prey, new SortByClosest(this.point));
+
+        //More Debug
+        EvoConstants.debug("\nOrdered by distance, they are at:");
+        for (int i = 0; i < prey.size(); i++)
+        {
+            EvoConstants.debug("" + prey.get(i).x + ", " + prey.get(i).y + "(dist = " + this.point.distance(prey.get(i)) + ")");
+        }
+
+        //Target is the closest thing
+        Point foodPosition = prey.get(0);
+
+        EvoConstants.debug("Closest prey is at " + foodPosition.x + ", " + foodPosition.y + "\n");
+
+        //if we're not next to it, chase it
+        if (!isAdjacent(foodPosition))
+        {
+            towards(foodPosition);
+        }
+        //Otherwise KILL TIME BABY
+        else
+        {
+            //TODO: Write fighting/killing/eating methods
+        }
+
     }
 
     @Override
     public void makeNextMove()
     {
+
         List<Point> prey = findPrey();
+
         if (prey.size() > 0)
         {
             hunt(prey);
