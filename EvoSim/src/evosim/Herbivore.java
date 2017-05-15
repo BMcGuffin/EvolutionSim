@@ -5,7 +5,9 @@
  */
 package evosim;
 
+import evosimComparators.SortByClosest;
 import java.awt.Point;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -101,9 +103,10 @@ public class Herbivore extends Creature implements Herbivorous
         {
             for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
             {
-                if (null != EvoConstants.MAP.grid[i][j] && point.distance(i, j) <= (3 * sp))
+                if (null != EvoConstants.MAP.grid[i][j] && point.distance(i, j) <= (3 * sp)
+                        && !(point.x == i && point.y == j))
                 {
-                    if (EvoConstants.MAP.grid[i][j] instanceof Carnivore)
+                    if (EvoConstants.MAP.grid[i][j] instanceof Carnivorous)
                     {
                         threats.add(new Point(i, j));
                     }
@@ -127,7 +130,8 @@ public class Herbivore extends Creature implements Herbivorous
         {
             for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
             {
-                if (null != EvoConstants.MAP.grid[i][j] && point.distance(i, j) <= (3 * sp))
+                if (null != EvoConstants.MAP.grid[i][j] && point.distance(i, j) <= (3 * sp)
+                        && !(point.x == i && point.y == j))
                 {
                     if (EvoConstants.MAP.grid[i][j] instanceof Plant)
                     {
@@ -141,6 +145,7 @@ public class Herbivore extends Creature implements Herbivorous
     
     private void avoidPredators(List<Point> threats)
     {
+        Collections.sort(threats,new SortByClosest(this.point));
         Point avgPredatorPosition = new Point(0,0);
         int numPredators = threats.size();
         for(int i = 0;i<numPredators;i++)
@@ -156,6 +161,7 @@ public class Herbivore extends Creature implements Herbivorous
     
     private void forage(List<Point> food)
     {
+        Collections.sort(food,new SortByClosest(this.point));
         Point foodPosition = food.get(0);     
         towards(foodPosition);
     }
