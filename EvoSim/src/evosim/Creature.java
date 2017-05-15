@@ -147,14 +147,10 @@ public class Creature implements Organism, Mobile
     @Override
     public boolean move(int x, int y)
     {
-        System.out.println("Creature" + ID + " tried to move its position!");
-        System.out.println("Its current position is " + point.x + ", " + point.y);
-        System.out.println("It wants to move to position " + (point.x + x) + ", " + (point.y + y));
-        System.out.println("Wanted displacement: " + x + " X,  " + y + " Y");
         int finalX, finalY;
         if (point.x >= 0 && point.y >= 0 && Math.abs(x) <= sp && Math.abs(y) <= sp)
         {
-            System.out.println("Move is within range.");
+            EvoConstants.debug("Valid move...");
             if (point.x + x >= EvoConstants.MAP.grid.length)
             {
                 finalX = EvoConstants.MAP.grid.length - 1;
@@ -180,19 +176,20 @@ public class Creature implements Organism, Mobile
                 finalY = point.y + y;
             }
 
-            System.out.println("Final space is " + finalX + ", " + finalY);
+            EvoConstants.debug("Trying to move to (" + finalX + ", " + finalY + ")");
             if (null == EvoConstants.MAP.grid[finalX][finalY])
             {
-                System.out.println("Final space is empty");
                 EvoConstants.MAP.grid[finalX][finalY] = this;
                 EvoConstants.MAP.grid[point.x][point.y] = null;
                 point.move(finalX, finalY);
-                System.out.println("Its position is now " + finalX + ", " + finalY);
+                EvoConstants.debug("MOVEMENT SUCCESS!");
+                EvoConstants.debug("Creature " + ID + " is now at (" + point.x + ", " + point.y + ")");
                 return true;
             }
-            System.out.println("Final space was full");
+            EvoConstants.debug("That spot is full!");
         }
-        System.out.println("MOVEMENT FAILURE...");
+        EvoConstants.debug("MOVEMENT FAILURE");
+        EvoConstants.debug("Creature " + ID + " is still at (" + point.x + ", " + point.y + ")");
         return false;
     }
 
@@ -320,7 +317,7 @@ public class Creature implements Organism, Mobile
     @Override
     public boolean jump(int x, int y)
     {
-        System.out.println("Creature" + ID + " tried to jump!");
+        EvoConstants.debug("Creature" + ID + " tried to jump!");
         if (x >= 0 && y >= 0 && x < EvoConstants.MAP.grid.length && y < EvoConstants.MAP.grid[x].length)
         {
             if (x <= sp && y <= sp && EvoConstants.MAP.grid[x][y] == null)
@@ -392,7 +389,7 @@ public class Creature implements Organism, Mobile
         int newX = r.nextInt(moveDist) * (int) Math.pow(-1, r.nextInt(2));
         int newY = r.nextInt(moveDist) * (int) Math.pow(-1, r.nextInt(2));
         move(newX, newY);
-        System.out.println("Creature" + ID + " made a random movement!");
+        EvoConstants.debug("Creature" + ID + " made a random movement!");
     }
 
     @Override
@@ -404,38 +401,67 @@ public class Creature implements Organism, Mobile
     @Override
     public void towards(Point p)
     {
-        System.out.println("Creature" + ID + " is moving towards something!");
-        int deltaX = p.x - point.x;
-        int deltaY = p.y - point.y;
-        if (Math.abs(deltaX) > sp)
+        if (!isAdjacent(p))
         {
-            if (deltaX < 0)
+            EvoConstants.debug("Creature " + ID + " is moving towards something!");
+            EvoConstants.debug("Creature is at (" + point.x + ", " + point.y + ")");
+            EvoConstants.debug("The destination is at (" + p.x + ", " + p.y + ")");
+            int deltaX = p.x - point.x;
+            int deltaY = p.y - point.y;
+            EvoConstants.debug("Distance in X direction is " + deltaX);
+            EvoConstants.debug("Distance in Y direction is " + deltaY);
+            EvoConstants.debug("Max movement range is " + sp);
+            if (Math.abs(deltaX) > sp)
             {
-                deltaX = sp * -1;
+                if (deltaX < 0)
+                {
+                    deltaX = sp * -1;
+                }
+                else
+                {
+                    deltaX = sp;
+                }
             }
-            else
+            if (Math.abs(deltaY) > sp)
             {
-                deltaX = sp;
+                if (deltaY < 0)
+                {
+                    deltaY = sp * -1;
+                }
+                else
+                {
+                    deltaY = sp;
+                }
             }
+            EvoConstants.debug("Adjusted Delta X is " + deltaX);
+            EvoConstants.debug("Adjusted Delta Y is " + deltaY);
+            int intendedX = point.x+deltaX;
+            int intendedY = point.y+deltaY;
+            if (intendedX < EvoConstants.MAP_SIZE && intendedY < EvoConstants.MAP_SIZE 
+                    && EvoConstants.MAP.grid[intendedX][intendedY]!= null)
+            {
+                EvoConstants.debug("But this would land us on an object!");
+                Random r = new Random();
+                if (r.nextBoolean())
+                {
+                    deltaX -= 1;
+                }
+                else
+                {
+                    deltaY -= 1;
+                }
+                EvoConstants.debug("Final Delta X is " + deltaX);
+                EvoConstants.debug("Final Delta Y is " + deltaY);
+            }
+
+            move(deltaX, deltaY);
         }
-        if (Math.abs(deltaY) > sp)
-        {
-            if (deltaY < 0)
-            {
-                deltaY = sp * -1;
-            }
-            else
-            {
-                deltaY = sp;
-            }
-        }
-        move(deltaX, deltaY);
     }
 
     @Override
     public void awayFrom(Point p)
     {
-        System.out.println("Creature" + ID + " is moving away from something!");
+        EvoConstants.debug("Creature " + ID + " is moving away from something!");
         int deltaX = point.x - p.x;
         int deltaY = point.y - p.y;
         if (Math.abs(deltaX) > sp)
@@ -461,5 +487,27 @@ public class Creature implements Organism, Mobile
             }
         }
         move(deltaX, deltaY);
+    }
+
+    @Override
+    public boolean isAdjacent(Point p)
+    {
+        if (this.point.x == p.x && this.point.y == (p.y + 1))
+        {
+            return true;
+        }
+        if (this.point.x == p.x && this.point.y == (p.y - 1))
+        {
+            return true;
+        }
+        if (this.point.x == (p.x + 1) && this.point.y == p.y)
+        {
+            return true;
+        }
+        if (this.point.x == (p.x - 1) && this.point.y == p.y)
+        {
+            return true;
+        }
+        return false;
     }
 }
