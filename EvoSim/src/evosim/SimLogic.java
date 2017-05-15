@@ -83,7 +83,7 @@ public class SimLogic
                 {
                     ((Mobile) (EvoConstants.MAP.getOrganism(i))).makeNextMove();
                 }
-            }   
+            }
         }
         EvoConstants.MAP.sparkUpdate();
     }
