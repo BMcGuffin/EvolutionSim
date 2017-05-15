@@ -21,5 +21,6 @@ public interface Mobile
     void awayFrom(Point p);
     boolean move(int x, int y);
     boolean jump(int x, int y);
+    boolean isAdjacent(Point p);
     int getSpeed();
 }
