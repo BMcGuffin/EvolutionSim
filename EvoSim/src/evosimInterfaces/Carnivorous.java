@@ -4,20 +4,19 @@
  * and open the template in the editor.
  */
 
-package evosim;
+package evosimInterfaces;
 
+import evosimSources.Creature;
 import java.awt.Point;
 import java.util.List;
 
-/**Represents the traits common to herbivores, which eat plants but do not eat
- * other creatures.
+/**Represents traits common to carnivores. Carnivores eat other creatures.
  *
  * @author bryanmcguffin
  * @version 5-10-17
  */
-public interface Herbivorous
+public interface Carnivorous
 {
-    void eat(Plant plant);
-    List<Point> findThreats();
-    List<Point> findFood();
+    void eat(Creature creature);
+    List<Point> findPrey();
 }

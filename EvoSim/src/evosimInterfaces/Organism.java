@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package evosim;
+package evosimInterfaces;
 
 /**Represents a living organism. Organisms can grow and reproduce.
  *

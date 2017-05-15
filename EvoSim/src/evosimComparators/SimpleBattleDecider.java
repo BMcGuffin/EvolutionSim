@@ -5,7 +5,7 @@
  */
 package evosimComparators;
 
-import evosim.Creature;
+import evosimSources.Creature;
 import java.util.Comparator;
 import java.util.Random;
 

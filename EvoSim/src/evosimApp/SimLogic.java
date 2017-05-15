@@ -3,8 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package evosim;
+package evosimApp;
 
+import evosimSources.Carnivore;
+import evosimSources.Herbivore;
+import evosimSources.Plant;
+import evosimInterfaces.Organism;
+import evosimInterfaces.Mobile;
 import evosimComparators.SortByFastest;
 import static java.lang.Thread.sleep;
 import java.util.Random;

@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package evosim;
+package evosimSources;
 
+import evosimSources.Creature;
+import evosimApp.EvoConstants;
+import evosimSources.Map;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

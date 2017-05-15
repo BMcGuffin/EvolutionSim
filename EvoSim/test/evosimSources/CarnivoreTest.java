@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 
-package evosim;
+package evosimSources;
 
+import evosimSources.Creature;
+import evosimApp.EvoConstants;
+import evosimSources.Carnivore;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package evosim;
+package evosimSources;
 
+import evosimApp.EvoConstants;
+import evosimInterfaces.Organism;
 import java.awt.Point;
 
 /**

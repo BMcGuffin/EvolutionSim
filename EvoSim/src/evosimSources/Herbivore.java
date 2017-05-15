@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package evosim;
+package evosimSources;
 
+import evosimApp.EvoConstants;
+import evosimInterfaces.Carnivorous;
+import evosimInterfaces.Herbivorous;
 import evosimComparators.SortByClosest;
 import java.awt.Point;
 import java.util.Collections;

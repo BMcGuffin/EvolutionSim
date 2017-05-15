@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
-package evosim;
+package evosimComparators;
 
+import evosimSources.Creature;
 import evosimComparators.SimpleBattleDecider;
+import evosimSources.Creature;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

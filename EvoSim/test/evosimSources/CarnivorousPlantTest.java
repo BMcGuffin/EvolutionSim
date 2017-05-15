@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 
-package evosim;
+package evosimSources;
 
+import evosimSources.CarnivorousPlant;
+import evosimSources.Creature;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

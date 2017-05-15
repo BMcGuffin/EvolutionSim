@@ -6,8 +6,8 @@
 
 package evosimComparators;
 
-import evosim.Mobile;
-import evosim.Organism;
+import evosimInterfaces.Mobile;
+import evosimInterfaces.Organism;
 import java.util.Comparator;
 
 /**Sorting mechanism that sorts organisms depending on their speed.

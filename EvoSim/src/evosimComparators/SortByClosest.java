@@ -5,7 +5,7 @@
  */
 package evosimComparators;
 
-import evosim.Organism;
+import evosimInterfaces.Organism;
 import java.awt.Point;
 import java.util.Comparator;
 
