@@ -15,8 +15,16 @@ import java.util.Observable;
 import java.util.Vector;
 
 /**
+ * Represents the 2D map of the world, upon which organisms reside and move around.
+ * Compatible with any organism or object. Keeps a list of all current organisms
+ * on the board. Observable; when the position of organisms is updated, this can
+ * notify observers which draw the board or reveal statistics. The notify call is
+ * abstracted to its own public method so that it can be called at regular intervals
+ * by other functions.
  *
  * @author bryanmcguffin
+ * @version 5-15-17
+ * @see EvoConstants
  */
 public class Map extends Observable
 {
@@ -25,6 +33,10 @@ public class Map extends Observable
     
     private Vector<Organism> life;
 
+    /**Creates a new blank N x N map. The size of the map depends on the constant
+     * defined in EvoConstants. All values of the grid are initialized to null.
+     * 
+     */
     public Map()
     {
         life = new Vector<Organism>();
@@ -38,21 +50,45 @@ public class Map extends Observable
         }
     }
 
+    /**Returns the index of a particular organism in the list of organisms.
+     * 
+     * @param o the organism to search for
+     * @return the index of the organism
+     * @deprecated after 5-15-17. This was never properly implemented, I think.
+     */
     private int getIndex(Organism o)
     {
         return life.indexOf(o);
     }
     
+    /**Finds the organism at the given index in the list of organisms.
+     * 
+     * @param index the index of the organism to get
+     * @return the organism at position (index)
+     */
     public Organism getOrganism(int index)
     {
         return life.elementAt(index);
     }
     
+    /**Gets the number of organisms that currently exist on the board.
+     * 
+     * @return the size of the list of organisms
+     */
     public int numberOfOrganisms()
     {
         return life.size();
     }
 
+    /**Add an organism to the table at the given position. Fails if the given
+     * position was not null.
+     * 
+     * @param o the organism to add to the board
+     * @param x the x-coordinate at which to add the organism
+     * @param y the y-coordinate at which to add the organism
+     * @return true if the creature was added to the table successfully; false
+     * if the intended position was invalid or occupied
+     */
     public boolean addOrganismToTable(Organism o, int x, int y)
     {
         if (life.size() < (EvoConstants.MAP_SIZE * EvoConstants.MAP_SIZE) && 
@@ -65,6 +101,10 @@ public class Map extends Observable
         return false;
     }
 
+    /**Removes an organism from the board and from the list of organisms.
+     * 
+     * @param o the organism to remove
+     */
     public void removeOrganismFromTable(Organism o)
     {
         int index = life.indexOf(o);
@@ -75,12 +115,20 @@ public class Map extends Observable
         grid[x][y] = null;
     }
     
+    /**Cause the board to notify its observers and cause an update.
+     * 
+     */
     public void sparkUpdate()
     {
         setChanged();
         notifyObservers();
     }
     
+    /**Rearrange the list of organisms based on some comparator's compare()
+     * method. 
+     * 
+     * @param c the custom comparator to use for the sort
+     */
     public void rearrange(Comparator c)
     {
         Collections.sort(life, c);

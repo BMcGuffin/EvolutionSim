@@ -18,7 +18,7 @@ import java.util.Vector;
  * Represents a creature that eats other creatures. It cannot eat plants.
  *
  * @author bryanmcguffin
- * @version 5-10-17
+ * @version 5-15-17
  * @see Creature
  * @see Carnivorous
  */
@@ -88,16 +88,15 @@ public class Carnivore extends Creature implements Carnivorous
         }
     }
 
-    /**
-     * Finds the locations of all herbivores within 3x the carnivore's speed
+    /**Finds the locations of all herbivores within 3x the carnivore's speed
      * range.
      *
-     * @param map
      * @return a list of point locations of all possible food locations
      */
     @Override
     public List<Point> findPrey()
     {
+        int foodRangeFactor = 3;
         List<Point> prey = new Vector<Point>();
         EvoConstants.debug("\nCarnivore " + getID() + " is finding prey");
         EvoConstants.debug("Centered at position " + getX() + ", " + getY());
@@ -105,8 +104,8 @@ public class Carnivore extends Creature implements Carnivorous
         {
             for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
             {
-                if (null != EvoConstants.MAP.grid[i][j] && point.distance(i, j) <= (3 * sp)
-                        && !(point.x == i && point.y == j))
+                if (null != EvoConstants.MAP.grid[i][j] && point.distance(i, j)
+                        <= (foodRangeFactor * sp) && !(point.x == i && point.y == j))
                 {
                     EvoConstants.debug("Square " + i + ", " + j + " has an organism.");
                     if (EvoConstants.MAP.grid[i][j] instanceof Herbivorous)
@@ -120,6 +119,12 @@ public class Carnivore extends Creature implements Carnivorous
         return prey;
     }
 
+    /**Gets the closest point that has prey, and chases it or attacks it depending
+     * on how close the creature is to it.
+     * 
+     * @param prey a list of points representing all nearby grid squares that 
+     * have herbivores
+     */
     private void hunt(List<Point> prey)
     {
         //Debug info
@@ -127,7 +132,7 @@ public class Carnivore extends Creature implements Carnivorous
         EvoConstants.debug("Potential targets at:");
         for (int i = 0; i < prey.size(); i++)
         {
-            EvoConstants.debug("" + prey.get(i).x + ", " + prey.get(i).y + "(dist = " + this.point.distance(prey.get(i)) + ")");
+            EvoConstants.debug("" + prey.get(i).x + ", " + prey.get(i).y + " (dist = " + this.point.distance(prey.get(i)) + ")");
         }
 
         //Rearrange by distance to target, closest first
@@ -137,7 +142,7 @@ public class Carnivore extends Creature implements Carnivorous
         EvoConstants.debug("\nOrdered by distance, they are at:");
         for (int i = 0; i < prey.size(); i++)
         {
-            EvoConstants.debug("" + prey.get(i).x + ", " + prey.get(i).y + "(dist = " + this.point.distance(prey.get(i)) + ")");
+            EvoConstants.debug("" + prey.get(i).x + ", " + prey.get(i).y + " (dist = " + this.point.distance(prey.get(i)) + ")");
         }
 
         //Target is the closest thing
@@ -158,6 +163,10 @@ public class Carnivore extends Creature implements Carnivorous
 
     }
 
+    /**Calculates the carnivore's next move. If there is any nearby prey,
+     * chase it and kill it. If not, make a random movement.
+     * 
+     */
     @Override
     public void makeNextMove()
     {
@@ -170,7 +179,7 @@ public class Carnivore extends Creature implements Carnivorous
         }
         else
         {
-            super.makeRandomMovement();
+            super.makeNextMove();
         }
     }
 

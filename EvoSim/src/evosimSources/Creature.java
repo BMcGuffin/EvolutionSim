@@ -17,7 +17,7 @@ import java.util.Random;
  * separated based on what they eat.
  *
  * @author bryanmcguffin
- * @version 5-11-17
+ * @version 5-15-17
  * @see Organism
  * @see Mobile
  */
@@ -26,6 +26,7 @@ public class Creature implements Organism, Mobile
 
     /**
      * Creates a new creature from scratch. Initializers found in EvoConstants.
+     *
      */
     public Creature()
     {
@@ -145,7 +146,7 @@ public class Creature implements Organism, Mobile
      *
      * @param x Number of spaces away in the x direction to move.
      * @param y Number of spaces away in the y direction to move.
-     * @param grid 2D grid that makes up the world.
+     * @return true if the move was successful, false if the move failed.
      */
     @Override
     public boolean move(int x, int y)
@@ -315,7 +316,7 @@ public class Creature implements Organism, Mobile
      *
      * @param x the x position to set the creature to
      * @param y the y position to set the creature to
-     * @param grid the grid of objects that represents the map
+     * @return true if the move was made successfully, false otherwise
      */
     @Override
     public boolean jump(int x, int y)
@@ -354,24 +355,42 @@ public class Creature implements Organism, Mobile
         return true;
     }
 
+    /**
+     * Fetches the creature's X-coordinate.
+     *
+     * @return the x component of the creature's position
+     */
     @Override
     public int getX()
     {
         return point.x;
     }
 
+    /**
+     * Fetches the creature's Y-coordinate.
+     *
+     * @return the y component of the creature's position
+     */
     @Override
     public int getY()
     {
         return point.y;
     }
 
+    /**
+     *
+     * @return the creature's age
+     */
     @Override
     public int getAge()
     {
         return this.age;
     }
 
+    /**
+     *
+     * @return the creature's global unique ID
+     */
     @Override
     public long getID()
     {
@@ -381,26 +400,33 @@ public class Creature implements Organism, Mobile
     /**
      * Displace the organism by some random amount within its movement range.
      *
-     * @param o a mobile organism on the map
-     * @param map the 2D map structure that holds the organisms
      */
     protected void makeRandomMovement()
     {
         Random r = new Random();
 
-        int moveDist = getSpeed();
-        int newX = r.nextInt(moveDist) * (int) Math.pow(-1, r.nextInt(2));
-        int newY = r.nextInt(moveDist) * (int) Math.pow(-1, r.nextInt(2));
+        int moveRange = getSpeed();
+        int newX = r.nextInt(moveRange) * (int) Math.pow(-1, r.nextInt(2));
+        int newY = r.nextInt(moveRange) * (int) Math.pow(-1, r.nextInt(2));
         move(newX, newY);
         EvoConstants.debug("Creature" + ID + " made a random movement!");
     }
 
+    /**Calculates the creature's next move. This is overridden by any subclass
+     * which makes any sort of decision about its movement.
+     *
+     */
     @Override
     public void makeNextMove()
     {
         makeRandomMovement();
     }
 
+    /**Calculates a displacement vector in the direction of some target location
+     * and attempts to move there.
+     * 
+     * @param p the destination point on the grid
+     */
     @Override
     public void towards(Point p)
     {
@@ -438,10 +464,10 @@ public class Creature implements Organism, Mobile
             }
             EvoConstants.debug("Adjusted Delta X is " + deltaX);
             EvoConstants.debug("Adjusted Delta Y is " + deltaY);
-            int intendedX = point.x+deltaX;
-            int intendedY = point.y+deltaY;
-            if (intendedX < EvoConstants.MAP_SIZE && intendedY < EvoConstants.MAP_SIZE 
-                    && EvoConstants.MAP.grid[intendedX][intendedY]!= null)
+            int intendedX = point.x + deltaX;
+            int intendedY = point.y + deltaY;
+            if (intendedX < EvoConstants.MAP_SIZE && intendedY < EvoConstants.MAP_SIZE
+                    && EvoConstants.MAP.grid[intendedX][intendedY] != null)
             {
                 EvoConstants.debug("But this would land us on an object!");
                 Random r = new Random();
@@ -461,6 +487,13 @@ public class Creature implements Organism, Mobile
         }
     }
 
+    /**Calculates a displacement vector away from some position on the grid and
+     * attempts to move there.
+     * 
+     * TODO: Rewrite this completely
+     * 
+     * @param p the position to move away from
+     */
     @Override
     public void awayFrom(Point p)
     {
@@ -491,7 +524,13 @@ public class Creature implements Organism, Mobile
         }
         move(deltaX, deltaY);
     }
-
+    
+    /**Checks to see if the creature is immediately adjacent to some point on
+     * the grid. Diagonal doesn't count.
+     * 
+     * @param p the point in question
+     * @return true if the creature is directly next to the point, false otherwise
+     */
     @Override
     public boolean isAdjacent(Point p)
     {

@@ -18,15 +18,14 @@ import java.util.Vector;
  * Represents a creature that eats plants, but not other creatures.
  *
  * @author bryanmcguffin
- * @version 5-10-17
+ * @version 5-15-17
  * @see Creature
  * @see Herbivorous
  */
 public class Herbivore extends Creature implements Herbivorous
 {
 
-    /**
-     * Generates a new herbivore from scratch.
+    /** Generates a new herbivore from scratch.
      *
      */
     public Herbivore()
@@ -34,8 +33,7 @@ public class Herbivore extends Creature implements Herbivorous
         super();
     }
 
-    /**
-     * Generates a new herbivore from existing parameters.
+    /**Generates a new herbivore from existing parameters.
      *
      * @param health
      * @param attack
@@ -50,8 +48,7 @@ public class Herbivore extends Creature implements Herbivorous
         super(health, attack, defense, speed, gRate, belly, lifespan);
     }
 
-    /**
-     * Creates a new Herbivore offspring from two parents, this and the other.
+    /**Creates a new Herbivore offspring from two parents, this and the other.
      *
      * @param other the herbivore to be "mated" with this one
      * @return a new herbivore with a mix of its parents' traits
@@ -73,8 +70,7 @@ public class Herbivore extends Creature implements Herbivorous
         return null;
     }
 
-    /**
-     * While the creature is still hungry and the plant can still be eaten, take
+    /** While the creature is still hungry and the plant can still be eaten, take
      * another bite.
      *
      * @param plant
@@ -91,12 +87,12 @@ public class Herbivore extends Creature implements Herbivorous
         }
     }
 
-    /**
-     * Finds the locations of all carnivores within 3x the herbivore's speed
+    /** Finds the locations of all carnivores within 3x the herbivore's speed
      * range.
-     *
-     * @param map
-     * @return
+     * 
+     * TODO rewrite this to match Carnivore.findPrey()
+     
+     * @return a list of the locations of all nearby predators
      */
     @Override
     public List<Point> findThreats()
@@ -119,11 +115,11 @@ public class Herbivore extends Creature implements Herbivorous
         return threats;
     }
 
-    /**
-     * Finds the locations of all plants within 3x the herbivore's speed range.
+    /**Finds the locations of all plants within 3x the herbivore's speed range.
      *
-     * @param map
-     * @return
+     * TODO rewrite this to match Carnivore.findPrey()
+     * 
+     * @return a list of all nearby plants
      */
     @Override
     public List<Point> findFood()
@@ -146,6 +142,13 @@ public class Herbivore extends Creature implements Herbivorous
         return food;
     }
     
+    /**Find the average location of all nearby predators, and move away from
+     * that spot.
+     * 
+     * TODO change for(;;) loop into for-each loop
+     * 
+     * @param threats a list of the locations of nearby predators
+     */
     private void avoidPredators(List<Point> threats)
     {
         Collections.sort(threats,new SortByClosest(this.point));
@@ -162,6 +165,13 @@ public class Herbivore extends Creature implements Herbivorous
         awayFrom(avgPredatorPosition);
     }
     
+    /**Gets the location of the closest food item and navigates toward it.
+     * 
+     * TODO rewrite this to have adjacency support. Use Carnivore.hunt() as
+     * template
+     * 
+     * @param food a list of locations of nearby plants
+     */
     private void forage(List<Point> food)
     {
         Collections.sort(food,new SortByClosest(this.point));
@@ -169,6 +179,12 @@ public class Herbivore extends Creature implements Herbivorous
         towards(foodPosition);
     }
     
+    /**Evaluate next move to make based on relative positions of nearby
+     * predators and food sources. If there are predators, run away from them.
+     * Otherwise, if there is food nearby, move towards it. Otherwise, make a
+     * random movement.
+     * 
+     */
     @Override 
     public void makeNextMove()
     {
@@ -184,7 +200,7 @@ public class Herbivore extends Creature implements Herbivorous
         }
         else
         {
-            super.makeRandomMovement();
+            super.makeNextMove();
         }
     }
 }

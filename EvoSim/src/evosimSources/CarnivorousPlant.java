@@ -16,7 +16,7 @@ import java.util.Vector;
  * cannot move, but they can eat other organisms.
  *
  * @author bryanmcguffin
- * @version 5-10-17
+ * @version 5-14-17
  * @see Plant
  * @see Carnivorous
  */
