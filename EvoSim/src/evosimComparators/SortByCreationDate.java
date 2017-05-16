@@ -13,12 +13,12 @@ import java.util.Comparator;
  * order is implied by their ID number, assigned at creation time.
  *
  * @author bryanmcguffin
+ * @version 5-14-17
  */
 public class SortByCreationDate implements Comparator
 {
 
-    /**
-     * Decides which organism was created earlier: o1 or o2.
+    /**Decides which organism was created earlier: o1 or o2.
      *
      * @param o1 the first organism
      * @param o2 the second organism

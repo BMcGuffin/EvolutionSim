@@ -10,20 +10,27 @@ import java.awt.Point;
 import java.util.Comparator;
 
 /**
+ * Represents a comparator that sorts two objects by their relative distances
+ * from some point.
  *
  * @author bryanmcguffin
+ * @version 5-15-17
  */
 public class SortByClosest implements Comparator
 {
     private Point self;
-
+    
+    /**Constructs the comparator and gives it a point to check against.
+     * 
+     * @param p the point to run the comparisons against.
+     */
     public SortByClosest(Point p)
     {
         self = p;
     }
 
     /**
-     * Decides which organism is closer to self: o1 or o2.
+     * Decides which organism is closer to the given point: o1 or o2.
      *
      * @param o1 the first organism
      * @param o2 the second organism

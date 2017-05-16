@@ -10,9 +10,11 @@ import evosimInterfaces.Mobile;
 import evosimInterfaces.Organism;
 import java.util.Comparator;
 
-/**Sorting mechanism that sorts organisms depending on their speed.
+/**
+ * Sorting mechanism that sorts organisms depending on their speed.
  *
  * @author bryanmcguffin
+ * @version 5-14-17
  */
 public class SortByFastest implements Comparator
 {

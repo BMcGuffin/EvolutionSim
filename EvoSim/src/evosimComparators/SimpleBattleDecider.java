@@ -14,14 +14,13 @@ import java.util.Random;
  * two creatures.
  *
  * @author bryanmcguffin
- * @version 5-10-17
+ * @version 5-14-17
  * @see Comparator
  */
 public class SimpleBattleDecider implements Comparator
 {
 
-    /**
-     * Barebones simulation of a fight to the death between two creatures.
+    /**Barebones simulation of a fight to the death between two creatures.
      *
      * @param o1 The first creature
      * @param o2 The second creature

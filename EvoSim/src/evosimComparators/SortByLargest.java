@@ -12,12 +12,12 @@ import java.util.Comparator;
  * Sorting mechanism that sorts organisms based on their size.
  *
  * @author bryanmcguffin
+ * @version 5-14-17
  */
 public class SortByLargest implements Comparator
 {
 
-    /**
-     * Decides which organism is bigger: o1 or o2.
+    /**Decides which organism is bigger: o1 or o2.
      *
      * @param o1 the first organism
      * @param o2 the second organism

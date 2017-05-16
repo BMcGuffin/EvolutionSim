@@ -12,12 +12,12 @@ import java.util.Comparator;
  * Sorting mechanism that sorts organisms by their position on the map.
  *
  * @author bryanmcguffin
+ * @version 5-14-17
  */
 public class SortByPosition implements Comparator
 {
 
-    /**
-     * Decides which organism occurs earlier on the grid. Prioritizes column over
+    /**Decides which organism occurs earlier on the grid. Prioritizes column over
      * row.
      *
      * @param o1 the first organism
