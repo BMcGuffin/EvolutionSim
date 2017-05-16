@@ -17,35 +17,21 @@ import java.util.Observer;
 import javax.swing.JFrame;
 
 /**
+ * Represents a simple text GUI that displays the map visually. Organisms are
+ * represented with characters. The board is represented as an ASCII grid.
  *
  * @author bryanmcguffin
+ * @version 5-15-17
  */
 public class MapDisplay extends javax.swing.JFrame implements Observer
 {
 
-    Map m;
-    String blankMap = "-------------------------------------\n"
-            + "|   |   |   |   |   |   |   |   |   |\n"
-            + "-------------------------------------\n"
-            + "|   |   |   |   |   |   |   |   |   |\n"
-            + "-------------------------------------\n"
-            + "|   |   |   |   |   |   |   |   |   |\n"
-            + "-------------------------------------\n"
-            + "|   |   |   |   |   |   |   |   |   |\n"
-            + "-------------------------------------\n"
-            + "|   |   |   |   |   |   |   |   |   |\n"
-            + "-------------------------------------\n"
-            + "|   |   |   |   |   |   |   |   |   |\n"
-            + "-------------------------------------\n"
-            + "|   |   |   |   |   |   |   |   |   |\n"
-            + "-------------------------------------\n"
-            + "|   |   |   |   |   |   |   |   |   |\n"
-            + "-------------------------------------\n"
-            + "|   |   |   |   |   |   |   |   |   |\n"
-            + "-------------------------------------\n";
+    private Map m;
 
     /**
-     * Creates new form MapDisplay
+     * Creates a new GUI that observes the map object.
+     *
+     * @param map the map structure that holds the positions of organisms
      */
     public MapDisplay(Map map)
     {
@@ -54,7 +40,7 @@ public class MapDisplay extends javax.swing.JFrame implements Observer
         initComponents();
         mapField.setFont(new Font("monospaced", Font.PLAIN, 12));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        update(m,0);
+        update(m, 0);
     }
 
     /**
@@ -102,6 +88,13 @@ public class MapDisplay extends javax.swing.JFrame implements Observer
     private javax.swing.JTextArea mapField;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Redraw the map based on the map size. Put characters representing the
+     * organisms into the slots where those organisms would be located.
+     *
+     * @param o the observable object to watch
+     * @param arg some argument that here is unused
+     */
     @Override
     public void update(Observable o, Object arg)
     {
@@ -115,7 +108,7 @@ public class MapDisplay extends javax.swing.JFrame implements Observer
             mapBox += "-\n ";
             for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
             {
-                mapBox += "| " + toString(i,j) + " ";
+                mapBox += "| " + toString(i, j) + " ";
             }
             mapBox += "|\n ";
         }
@@ -126,7 +119,16 @@ public class MapDisplay extends javax.swing.JFrame implements Observer
         mapBox += "-";
         mapField.setText(mapBox);
     }
-    
+
+    /**
+     * Get the character which represents the organism contained at the given
+     * location on the grid.
+     *
+     * @param x the x-coordinate to check
+     * @param y the y-coordinate to check
+     * @return a character which represents the organism at the given grid
+     * position, or a blank space if that grid space is empty
+     */
     public String toString(int x, int y)
     {
         String str = "";
@@ -137,14 +139,14 @@ public class MapDisplay extends javax.swing.JFrame implements Observer
         }
         else if (o instanceof Organism)
         {
-            
+
             if (o instanceof Creature)
             {
-                if(o instanceof Carnivore)
+                if (o instanceof Carnivore)
                 {
                     str = "C";
                 }
-                else if(o instanceof Herbivore)
+                else if (o instanceof Herbivore)
                 {
                     str = "H";
                 }
@@ -153,7 +155,7 @@ public class MapDisplay extends javax.swing.JFrame implements Observer
             {
                 str = "P";
             }
-                    
+
         }
         else
         {

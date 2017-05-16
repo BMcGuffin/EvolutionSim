@@ -17,18 +17,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Holds the logic that runs the main simulation and each of its turns. Sets up
+ * the board and causes events to happen per turn.
  *
  * @author bryanmcguffin
+ * @version 5-15-17
  */
 public class SimLogic
 {
 
-    /**
-     * Generates a random number of random organisms and places them on the map.
+    /**Generates a random number of random organisms and places them on the map.
      * Number of organisms generated is between 1 and the maximum number of
      * allowed entities, inclusive.
      *
-     * @param map the map structure that holds the organisms.
      */
     private static void addRandomOrganisms()
     {
@@ -63,12 +64,11 @@ public class SimLogic
         EvoConstants.MAP.sparkUpdate();
     }
 
-    /**
-     * For each organism, update its position and status. Check if the creature
-     * is still alive. If no, remove it from the board. If yes, and the organism
-     * is mobile, make a random movement.
+    /**For each organism, update its position and status. If the organism is
+     * mobile, let it make its next move.
      *
-     * @param map The map structure that holds the organisms
+     * @param forever if false, organisms age and die like normal; otherwise,
+     * organisms do not age
      */
     private static void takeTurn(boolean forever)
     {
@@ -93,10 +93,10 @@ public class SimLogic
         EvoConstants.MAP.sparkUpdate();
     }
 
-    /**
-     * Runs the game. Sets up the board and performs turns.
+    /**Runs the game. Sets up the board and performs turns.
      *
-     * @param map the structure that will hold the organisms
+     * @param forever whether or not to run the game forever, with no regard to
+     * creature death events.
      */
     public static void run(boolean forever)
     {

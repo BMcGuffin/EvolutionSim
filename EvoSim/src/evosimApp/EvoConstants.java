@@ -8,9 +8,13 @@ package evosimApp;
 import evosimSources.Map;
 
 /**
- * This class holds constants for other classes.
+ * This class holds constants for other classes. These values should be
+ * considered universal, global variables and (except where noted) do not change
+ * during runtime. Altering these variables is likely to significantly alter
+ * performance and should be considered carefully.
  *
  * @author bryanmcguffin
+ * @version 5-15-17
  */
 public final class EvoConstants
 {
@@ -37,16 +41,26 @@ public final class EvoConstants
     public static final double CAP_GROWTH_RATE = 0.5;
 
     //Map stuff
+    //The map object itself, assigned in main() at runtime
     public static Map MAP;
     
     public static final int MAP_SIZE = 20;
     public static final int MAP_MAXIMUM_ENTITIES = (int)(MAP_SIZE * MAP_SIZE * 0.1);
 
+    //The global unique ID number. Each organism has one; upon assignment, this
+    //is incremented.
     public static int ID = 1;
     
     //Debug
+    //Whether or not to display debug statements, assigned true or false based on
+    //command line arguments
     public static boolean debug;
     
+    /**Displays debug statements in code only if user has opted to view them at
+     * runtime.
+     * 
+     * @param str the string message to print to standard out
+     */
     public static void debug(String str)
     {
         if(debug)

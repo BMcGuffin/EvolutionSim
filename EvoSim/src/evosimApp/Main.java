@@ -15,14 +15,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * The main application class for the simulation.
  *
  * @author bryanmcguffin
- * @version 5-10-17
+ * @version 5-15-17
  */
 public class Main
 {
 
-    /**Run the simulation.
+    /**Run the simulation. Get command line arguments and set global values
+     * based on them. Then call SimLogic to execute the main program loop.
      * 
      * @param args the command line arguments
      */
