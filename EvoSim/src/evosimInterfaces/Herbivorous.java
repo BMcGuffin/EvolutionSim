@@ -14,11 +14,26 @@ import java.util.List;
  * other creatures.
  *
  * @author bryanmcguffin
- * @version 5-10-17
+ * @version 5-15-17
  */
 public interface Herbivorous
 {
+    /**Eat the given plant, damaging it by some amount and restoring some 
+     * amount of fullness.
+     * 
+     * @param plant the plant to be eaten
+     */
     void eat(Plant plant);
+    
+    /**Find the locations of all nearby predators.
+     * 
+     * @return a list of the locations of all carnivores within a certain range
+     */
     List<Point> findThreats();
+    
+    /**Find the locations of all nearby food sources.
+     * 
+     * @return a list of the locations of all plants within a certain range
+     */
     List<Point> findFood();
 }

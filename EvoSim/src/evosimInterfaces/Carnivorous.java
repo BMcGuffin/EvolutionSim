@@ -13,10 +13,19 @@ import java.util.List;
 /**Represents traits common to carnivores. Carnivores eat other creatures.
  *
  * @author bryanmcguffin
- * @version 5-10-17
+ * @version 5-15-17
  */
 public interface Carnivorous
 {
+    /**Eat the creature in question, replenishing this organism's hunger.
+     * 
+     * @param creature the animal to be eaten
+     */
     void eat(Creature creature);
+    
+    /**Get a list of all nearby organisms that could be eaten if caught.
+     * 
+     * @return A list of point locations of nearby prey
+     */
     List<Point> findPrey();
 }
