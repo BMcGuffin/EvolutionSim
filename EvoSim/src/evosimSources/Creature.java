@@ -17,7 +17,7 @@ import java.util.Random;
  * separated based on what they eat.
  *
  * @author bryanmcguffin
- * @version 5-15-17
+ * @version 5-16-17
  * @see Organism
  * @see Mobile
  */
@@ -312,7 +312,8 @@ public class Creature implements Organism, Mobile
      * Moves the creature to some absolute location on the grid. Different from
      * move() in that move() adds the x/y params to the creature's present
      * location while jump() just sets them right out. Useful for setting a
-     * creature to a position on a board if it wasn't already there.
+     * creature to a position on a board if it wasn't already there. Disregards
+     * the creature's movement speed.
      *
      * @param x the x position to set the creature to
      * @param y the y position to set the creature to
@@ -324,7 +325,7 @@ public class Creature implements Organism, Mobile
         EvoConstants.debug("Creature" + ID + " tried to jump!");
         if (x >= 0 && y >= 0 && x < EvoConstants.MAP.grid.length && y < EvoConstants.MAP.grid[x].length)
         {
-            if (x <= sp && y <= sp && EvoConstants.MAP.grid[x][y] == null)
+            if (EvoConstants.MAP.grid[x][y] == null)
             {
                 EvoConstants.MAP.grid[x][y] = this;
                 if (point.x >= 0 && point.y >= 0)
