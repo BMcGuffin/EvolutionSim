@@ -23,7 +23,7 @@ import java.util.Vector;
  * by other functions.
  *
  * @author bryanmcguffin
- * @version 5-15-17
+ * @version 5-16-17
  * @see EvoConstants
  */
 public class Map extends Observable
@@ -104,15 +104,22 @@ public class Map extends Observable
     /**Removes an organism from the board and from the list of organisms.
      * 
      * @param o the organism to remove
+     * @return true if the orgnism was in the table, and now it is removed,
+     * false if the organism was not in the table
      */
-    public void removeOrganismFromTable(Organism o)
+    public boolean removeOrganismFromTable(Organism o)
     {
         int index = life.indexOf(o);
+        if(index != -1)
+        {
         int x = o.getX();
         int y = o.getY();
         life.removeElementAt(index);
         
         grid[x][y] = null;
+        return true;
+        }
+        return false;
     }
     
     /**Cause the board to notify its observers and cause an update.
