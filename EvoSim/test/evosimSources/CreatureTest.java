@@ -7,7 +7,9 @@ package evosimSources;
 
 import evosimSources.Creature;
 import evosimApp.EvoConstants;
+import evosimInterfaces.Organism;
 import evosimSources.Map;
+import java.awt.Point;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -22,12 +24,6 @@ public class CreatureTest extends TestCase
     public CreatureTest(String testName)
     {
         super(testName);
-    }
-
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite(CreatureTest.class);
-        return suite;
     }
 
     /**
@@ -114,89 +110,6 @@ public class CreatureTest extends TestCase
         assertEquals(expResult.getGrowthRate(), result.getGrowthRate());
         assertEquals(expResult.getBelly(), result.getBelly());
         assertEquals(expResult.getLifetime(), result.getLifetime());
-    }
-
-    /**
-     * Test of move method, of class Creature.
-     */
-    public void testMove()
-    {
-        System.out.println("move");
-        Map map = new Map();
-        Creature instance = new Creature();
-        assertTrue(map.addOrganismToTable(instance, 0, 0));
-        assertEquals(instance, map.grid[0][0]);
-        assertEquals(null, map.grid[5][5]);
-
-        assertTrue(instance.move(5, 5, map));
-        assertEquals(null, map.grid[0][0]);
-        assertEquals(instance, map.grid[5][5]);
-
-        Creature other = new Creature();
-        assertTrue(map.addOrganismToTable(other, 0, 0));
-        assertEquals(other, map.grid[0][0]);
-        assertEquals(instance, map.grid[5][5]);
-
-        assertFalse(instance.move(-5, -5, map));
-        assertEquals(other, map.grid[0][0]);
-        assertEquals(instance, map.grid[5][5]);
-
-        assertFalse(instance.move(25, 25, map));
-        assertEquals(other, map.grid[0][0]);
-        assertEquals(instance, map.grid[5][5]);
-
-        assertTrue(other.move(1, 1, map));
-        assertEquals(other, map.grid[1][1]);
-        assertEquals(instance, map.grid[5][5]);
-
-        assertTrue(instance.move(-5, -5, map));
-        assertEquals(other, map.grid[1][1]);
-        assertEquals(instance, map.grid[0][0]);
-
-    }
-
-    /**
-     * Test of jump method, of class Creature.
-     */
-    public void testJump()
-    {
-        Map map = new Map();
-        Creature instance = new Creature();
-
-        assertEquals(null, map.grid[0][0]);
-        assertEquals(null, map.grid[5][5]);
-        assertFalse(instance.move(5, 5, map));
-        assertEquals(null, map.grid[0][0]);
-        assertEquals(null, map.grid[5][5]);
-
-        assertTrue(map.addOrganismToTable(instance, 0, 0));
-        assertEquals(instance, map.grid[0][0]);
-        assertEquals(null, map.grid[5][5]);
-
-        assertTrue(instance.jump(5, 5, map));
-        assertEquals(null, map.grid[0][0]);
-        assertEquals(instance, map.grid[5][5]);
-
-        Creature other = new Creature();
-        assertTrue(map.addOrganismToTable(other, 0, 0));
-        assertEquals(other, map.grid[0][0]);
-        assertEquals(instance, map.grid[5][5]);
-
-        assertTrue(instance.jump(2, 2, map));
-        assertEquals(other, map.grid[0][0]);
-        assertEquals(instance, map.grid[2][2]);
-
-        assertFalse(instance.jump(25, 25, map));
-        assertEquals(other, map.grid[0][0]);
-        assertEquals(instance, map.grid[2][2]);
-
-        assertTrue(other.jump(1, 1, map));
-        assertEquals(other, map.grid[1][1]);
-        assertEquals(instance, map.grid[2][2]);
-
-        assertFalse(instance.jump(-5, -5, map));
-        assertEquals(other, map.grid[1][1]);
-        assertEquals(instance, map.grid[2][2]);
     }
 
     /**
@@ -373,6 +286,257 @@ public class CreatureTest extends TestCase
         instance.damage(amount);
         end = instance.getHP();
         assertEquals(0, end);
+    }
+
+    /**
+     * Test of setPosition method, of class Creature.
+     */
+    public void testSetPosition()
+    {
+        System.out.println("setPosition");
+        int x = 5;
+        int y = 7;
+        Creature instance = new Creature();
+        assertEquals(0, instance.getX());
+        assertEquals(0, instance.getY());
+        boolean result = instance.setPosition(x, y);
+        assertTrue(result);
+        assertEquals(5, instance.getX());
+        assertEquals(7, instance.getY());
+    }
+
+    /**
+     * Test of getX method, of class Creature.
+     */
+    public void testGetX()
+    {
+        System.out.println("getX");
+        Creature instance = new Creature();
+        int expResult = 0;
+        int result = instance.getX();
+        assertEquals(expResult, result);
+        instance.setPosition(1, 0);
+        expResult = 1;
+        result = instance.getX();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getY method, of class Creature.
+     */
+    public void testGetY()
+    {
+        System.out.println("getY");
+        Creature instance = new Creature();
+        int expResult = 0;
+        int result = instance.getY();
+        assertEquals(expResult, result);
+        instance.setPosition(1, 4);
+        expResult = 4;
+        result = instance.getY();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getAge method, of class Creature.
+     */
+    public void testGetAge()
+    {
+        System.out.println("getAge");
+        Creature instance = new Creature();
+        int expResult = 0;
+        int result = instance.getAge();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getID method, of class Creature.
+     */
+    public void testGetID()
+    {
+        System.out.println("getID");
+        long oldID = EvoConstants.ID;
+        Creature instance = new Creature();
+        long expResult = EvoConstants.ID;
+        long result = instance.getID();
+        assertEquals(expResult, result + 1);
+        assertEquals(oldID, result);
+    }
+
+    /**
+     * Test of makeRandomMovement method, of class Creature.
+     */
+    public void testMakeRandomMovement()
+    {
+        System.out.println("makeRandomMovement");
+        Creature instance = new Creature();
+        EvoConstants.MAP = new Map();
+        assertFalse(EvoConstants.MAP.removeOrganismFromTable(instance));
+        instance = new Creature();
+        assertTrue(EvoConstants.MAP.addOrganismToTable(instance, 1, 1));
+        instance.makeRandomMovement();
+        assertTrue(Math.abs(instance.getX() - 1) < instance.getSpeed());
+        assertTrue(Math.abs(instance.getY() - 1) < instance.getSpeed());
+
+        assertTrue(EvoConstants.MAP.removeOrganismFromTable(instance));
+    }
+
+    /**
+     * Test of makeNextMove method, of class Creature.
+     */
+    public void testMakeNextMove()
+    {
+        System.out.println("makeNextMove");
+        Creature instance = new Creature();
+        instance.makeNextMove();
+        //Very little happens in this method
+    }
+
+    /**
+     * Test of towards method, of class Creature.
+     */
+    public void testTowards()
+    {
+        System.out.println("towards");
+        int targetX = 4;
+        int targetY = 5;
+
+        int startX = 1;
+        int startY = 1;
+        Point p = new Point(targetX, targetY);
+        Creature instance = new Creature();
+        EvoConstants.MAP = new Map();
+        EvoConstants.MAP.addOrganismToTable(instance, startX, startY);
+        assertEquals(startX, instance.getX());
+        assertEquals(startY, instance.getY());
+
+        instance.towards(p);
+        assertTrue(Math.abs(instance.getX() - targetX) <= instance.getSpeed());
+        assertTrue(Math.abs(instance.getY() - targetY) <= instance.getSpeed());
+
+        instance.towards(p);
+        assertTrue(Math.abs(instance.getX() - targetX) <= instance.getSpeed());
+        assertTrue(Math.abs(instance.getY() - targetY) <= instance.getSpeed());
+
+        instance.towards(p);
+        assertTrue(Math.abs(instance.getX() - targetX) <= instance.getSpeed());
+        assertTrue(Math.abs(instance.getY() - targetY) <= instance.getSpeed());
+
+        instance.towards(p);
+        assertTrue(Math.abs(instance.getX() - targetX) <= instance.getSpeed());
+        assertTrue(Math.abs(instance.getY() - targetY) <= instance.getSpeed());
+
+    }
+
+    /**
+     * Test of awayFrom method, of class Creature.
+     */
+    public void testAwayFrom()
+    {
+        System.out.println("awayFrom");
+        int targetX = 0;
+        int targetY = 0;
+
+        int startX = 1;
+        int startY = 1;
+        Point p = new Point(targetX, targetY);
+        Creature instance = new Creature();
+        EvoConstants.MAP = new Map();
+        EvoConstants.MAP.addOrganismToTable(instance, startX, startY);
+        assertEquals(startX, instance.getX());
+        assertEquals(startY, instance.getY());
+
+        instance.awayFrom(p);
+        assertTrue(Math.abs(instance.getX() - targetX) > 0);
+        assertTrue(Math.abs(instance.getY() - targetY) > 0);
+
+        instance.awayFrom(p);
+        assertTrue(Math.abs(instance.getX() - targetX) > 0);
+        assertTrue(Math.abs(instance.getY() - targetY) > 0);
+
+        instance.awayFrom(p);
+        assertTrue(Math.abs(instance.getX() - targetX) > 0);
+        assertTrue(Math.abs(instance.getY() - targetY) > 0);
+
+        instance.awayFrom(p);
+        assertTrue(Math.abs(instance.getX() - targetX) > 0);
+        assertTrue(Math.abs(instance.getY() - targetY) > 0);
+
+    }
+
+    /**
+     * Test of isAdjacent method, of class Creature.
+     */
+    public void testIsAdjacent()
+    {
+        System.out.println("isAdjacent");
+        Point p1 = new Point(1, 1);
+        Point p2 = new Point(2, 1);
+        Creature instance = new Creature();
+        EvoConstants.MAP = new Map();
+        EvoConstants.MAP.addOrganismToTable(instance, 2, 2);
+        boolean result = instance.isAdjacent(p1);
+        assertFalse(result);
+        result = instance.isAdjacent(p2);
+        assertTrue(result);
+    }
+
+    /**
+     * Test of move method, of class Creature.
+     */
+    public void testMove()
+    {
+        System.out.println("move");
+        int x = EvoConstants.INIT_SPEED;
+        int y = EvoConstants.INIT_SPEED;
+        Creature instance = new Creature();
+        EvoConstants.MAP = new Map();
+        EvoConstants.MAP.addOrganismToTable(instance, 0, 0);
+        //Fill the entire board with creatures, so no movement spots are available
+        for (int i = 1; i < EvoConstants.MAP_SIZE; i++)
+        {
+            for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
+            {
+                EvoConstants.MAP.addOrganismToTable(new Creature(), i, j);
+            }
+        }
+        boolean result = instance.move(x, y);
+        assertFalse(result);
+        EvoConstants.MAP.removeOrganismFromTable((Organism)(EvoConstants.MAP.grid[x][y]));
+        assertEquals(null,EvoConstants.MAP.grid[x][y]);
+        result = instance.move(1, 1);
+        assertFalse(result);
+        result = instance.move(x, y);
+        assertTrue(result);
+    }
+
+    /**
+     * Test of jump method, of class Creature.
+     */
+    public void testJump()
+    {
+        System.out.println("jump");
+        int x = 4;
+        int y = EvoConstants.INIT_SPEED + 1;
+        Creature instance = new Creature();
+        EvoConstants.MAP = new Map();
+        EvoConstants.MAP.addOrganismToTable(instance, 0, 0);
+        //Fill the entire board with creatures, so no movement spots are available
+        for (int i = 1; i < EvoConstants.MAP_SIZE; i++)
+        {
+            for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
+            {
+                EvoConstants.MAP.addOrganismToTable(new Creature(), i, j);
+            }
+        }
+        boolean result = instance.jump(x, y);
+        assertFalse(result);
+        EvoConstants.MAP.removeOrganismFromTable((Organism)(EvoConstants.MAP.grid[x][y]));
+        assertEquals(null,EvoConstants.MAP.grid[x][y]);
+        result = instance.jump(1, 1);
+        assertFalse(result);
+        result = instance.jump(x, y);
+        assertTrue(result);
     }
 
 }
