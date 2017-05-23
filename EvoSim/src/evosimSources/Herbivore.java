@@ -25,7 +25,8 @@ import java.util.Vector;
 public class Herbivore extends Creature implements Herbivorous
 {
 
-    /** Generates a new herbivore from scratch.
+    /**
+     * Generates a new herbivore from scratch.
      *
      */
     public Herbivore()
@@ -33,13 +34,14 @@ public class Herbivore extends Creature implements Herbivorous
         super();
     }
 
-    /**Generates a new herbivore from existing parameters.
+    /**
+     * Generates a new herbivore from existing parameters.
      *
      * @param health
      * @param attack
      * @param defense
      * @param speed
-     * @param size
+     * @param gRate
      * @param belly the amount of food the herbivore can store.
      * @param lifespan the amount of turns the creature can exist.
      */
@@ -48,29 +50,26 @@ public class Herbivore extends Creature implements Herbivorous
         super(health, attack, defense, speed, gRate, belly, lifespan);
     }
 
-    /**Creates a new Herbivore offspring from two parents, this and the other.
+    /**
+     * Creates a new Herbivore offspring from two parents, this and the other.
      *
      * @param other the herbivore to be "mated" with this one
      * @return a new herbivore with a mix of its parents' traits
      */
     public Herbivore reproduce(Herbivore other)
     {
-        if (other instanceof Herbivore)
-        {
-            Herbivore ho = (Herbivore) other;
-            int newHP = (this.hp + ho.getHP()) / 2;
-            int newAtt = (this.at + ho.getAttack()) / 2;
-            int newDef = (this.de + ho.getDefense()) / 2;
-            int newSpd = (this.sp + ho.getSpeed()) / 2;
-            double newGr = (this.growthRate + ho.getGrowthRate()) / 2;
-            int newBl = (this.belly + ho.getBelly()) / 2;
-            int newLife = (this.lifetime + ho.getLifetime()) / 2;
-            return new Herbivore(newHP, newAtt, newDef, newSpd, newGr, newBl, newLife);
-        }
-        return null;
+        int newHP = (this.hp + other.getHP()) / 2;
+        int newAtt = (this.at + other.getAttack()) / 2;
+        int newDef = (this.de + other.getDefense()) / 2;
+        int newSpd = (this.sp + other.getSpeed()) / 2;
+        double newGr = (this.growthRate + other.getGrowthRate()) / 2;
+        int newBl = (this.belly + other.getBelly()) / 2;
+        int newLife = (this.lifetime + other.getLifetime()) / 2;
+        return new Herbivore(newHP, newAtt, newDef, newSpd, newGr, newBl, newLife);
     }
 
-    /** While the creature is still hungry and the plant can still be eaten, take
+    /**
+     * While the creature is still hungry and the plant can still be eaten, take
      * another bite.
      *
      * @param plant
@@ -87,11 +86,12 @@ public class Herbivore extends Creature implements Herbivorous
         }
     }
 
-    /** Finds the locations of all carnivores within 3x the herbivore's speed
+    /**
+     * Finds the locations of all carnivores within 3x the herbivore's speed
      * range.
-     * 
+     *
      * TODO rewrite this to match Carnivore.findPrey()
-     
+     *
      * @return a list of the locations of all nearby predators
      */
     @Override
@@ -115,10 +115,11 @@ public class Herbivore extends Creature implements Herbivorous
         return threats;
     }
 
-    /**Finds the locations of all plants within 3x the herbivore's speed range.
+    /**
+     * Finds the locations of all plants within 3x the herbivore's speed range.
      *
      * TODO rewrite this to match Carnivore.findPrey()
-     * 
+     *
      * @return a list of all nearby plants
      */
     @Override
@@ -141,60 +142,63 @@ public class Herbivore extends Creature implements Herbivorous
         }
         return food;
     }
-    
-    /**Find the average location of all nearby predators, and move away from
+
+    /**
+     * Find the average location of all nearby predators, and move away from
      * that spot.
-     * 
+     *
      * TODO change for(;;) loop into for-each loop
-     * 
+     *
      * @param threats a list of the locations of nearby predators
      */
     private void avoidPredators(List<Point> threats)
     {
-        Collections.sort(threats,new SortByClosest(this.point));
-        Point avgPredatorPosition = new Point(0,0);
+        Collections.sort(threats, new SortByClosest(this.point));
+        Point avgPredatorPosition = new Point(0, 0);
         int numPredators = threats.size();
-        for(int i = 0;i<numPredators;i++)
+        for (int i = 0; i < numPredators; i++)
         {
             avgPredatorPosition.x += threats.get(i).x;
             avgPredatorPosition.y += threats.get(i).y;
         }
         avgPredatorPosition.x = avgPredatorPosition.x / numPredators;
         avgPredatorPosition.y = avgPredatorPosition.y / numPredators;
-        
+
         awayFrom(avgPredatorPosition);
     }
-    
-    /**Gets the location of the closest food item and navigates toward it.
-     * 
+
+    /**
+     * Gets the location of the closest food item and navigates toward it.
+     *
      * TODO rewrite this to have adjacency support. Use Carnivore.hunt() as
      * template
-     * 
+     *
      * @param food a list of locations of nearby plants
      */
     private void forage(List<Point> food)
     {
-        Collections.sort(food,new SortByClosest(this.point));
-        Point foodPosition = food.get(0);     
+        Collections.sort(food, new SortByClosest(this.point));
+        Point foodPosition = food.get(0);
         towards(foodPosition);
     }
-    
-    /**Evaluate next move to make based on relative positions of nearby
+
+    /**
+     * Evaluate next move to make based on relative positions of nearby
      * predators and food sources. If there are predators, run away from them.
      * Otherwise, if there is food nearby, move towards it. Otherwise, make a
      * random movement.
-     * 
+     *
      */
-    @Override 
+    @Override
     public void makeNextMove()
     {
         List<Point> threats = findThreats();
         List<Point> food = findFood();
-        if(threats.size() > 0 && !isHungry())
+        if (threats.size() > 0 && !isHungry())
         {
             avoidPredators(threats);
         }
-        else if(food.size() > 0)
+        else if (food.size() > 0)
         {
             forage(food);
         }
