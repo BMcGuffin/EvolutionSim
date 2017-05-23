@@ -30,7 +30,7 @@ public class Main
      */
     public static void main(String[] args)
     {
-        EvoConstants.MAP= new Map();
+        EvoConstants.MAP= new Map(EvoConstants.MAP_SIZE);
         final MapDisplay mpd = new MapDisplay(EvoConstants.MAP);
         List<String> flags = Arrays.asList(args);
         boolean forever = args.length > 0 && flags.contains("-forever");
