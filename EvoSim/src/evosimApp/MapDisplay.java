@@ -42,6 +42,11 @@ public class MapDisplay extends javax.swing.JFrame implements Observer
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         update(m, 0);
     }
+    
+    public String getRawMap()
+    {
+        return mapField.getText();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
