@@ -41,7 +41,7 @@ public class Carnivore extends Creature implements Carnivorous
      * @param attack
      * @param defense
      * @param speed
-     * @param size
+     * @param gRate
      * @param belly the amount of food the carnivore can consume.
      * @param lifespan the amount of turns the creature can exist.
      */
@@ -56,21 +56,17 @@ public class Carnivore extends Creature implements Carnivorous
      * @param other the carnivore to be "mated" with this one
      * @return a new carnivore with a mix of its parents' traits
      */
-    public Carnivore reproduce(Creature other)
+    public Carnivore reproduce(Carnivore other)
     {
-        if (other instanceof Carnivore)
-        {
-            Carnivore co = (Carnivore) other;
-            int newHP = (this.hp + co.getHP()) / 2;
-            int newAtt = (this.at + co.getAttack()) / 2;
-            int newDef = (this.de + co.getDefense()) / 2;
-            int newSpd = (this.sp + co.getSpeed()) / 2;
-            double newGr = (this.growthRate + co.getGrowthRate()) / 2;
-            int newBl = (this.belly + co.getBelly()) / 2;
-            int newLife = (this.lifetime + co.getLifetime()) / 2;
-            return new Carnivore(newHP, newAtt, newDef, newSpd, newGr, newBl, newLife);
-        }
-        return null;
+        int newHP = (this.hp + other.getHP()) / 2;
+        int newAtt = (this.at + other.getAttack()) / 2;
+        int newDef = (this.de + other.getDefense()) / 2;
+        int newSpd = (this.sp + other.getSpeed()) / 2;
+        double newGr = (this.growthRate + other.getGrowthRate()) / 2;
+        int newBl = (this.belly + other.getBelly()) / 2;
+        int newLife = (this.lifetime + other.getLifetime()) / 2;
+        return new Carnivore(newHP, newAtt, newDef, newSpd, newGr, newBl, newLife);
+
     }
 
     /**
@@ -88,7 +84,8 @@ public class Carnivore extends Creature implements Carnivorous
         }
     }
 
-    /**Finds the locations of all herbivores within 3x the carnivore's speed
+    /**
+     * Finds the locations of all herbivores within 3x the carnivore's speed
      * range.
      *
      * @return a list of point locations of all possible food locations
@@ -119,10 +116,11 @@ public class Carnivore extends Creature implements Carnivorous
         return prey;
     }
 
-    /**Gets the closest point that has prey, and chases it or attacks it depending
-     * on how close the creature is to it.
-     * 
-     * @param prey a list of points representing all nearby grid squares that 
+    /**
+     * Gets the closest point that has prey, and chases it or attacks it
+     * depending on how close the creature is to it.
+     *
+     * @param prey a list of points representing all nearby grid squares that
      * have herbivores
      */
     private void hunt(List<Point> prey)
@@ -163,9 +161,10 @@ public class Carnivore extends Creature implements Carnivorous
 
     }
 
-    /**Calculates the carnivore's next move. If there is any nearby prey,
-     * chase it and kill it. If not, make a random movement.
-     * 
+    /**
+     * Calculates the carnivore's next move. If there is any nearby prey, chase
+     * it and kill it. If not, make a random movement.
+     *
      */
     @Override
     public void makeNextMove()
