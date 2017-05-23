@@ -32,13 +32,13 @@ public class SortByPosition implements Comparator
         if (o1 instanceof Organism && o2 instanceof Organism)
         {
             //o1 has an earlier column: o1 wins
-            if (((Organism) o1).getX() > ((Organism) o2).getX())
+            if (((Organism) o1).getX() < ((Organism) o2).getX())
             {
                 return -1;
             }
 
             //o2 has an earlier column: o2 wins
-            else if (((Organism) o1).getX() < ((Organism) o2).getX())
+            else if (((Organism) o1).getX() > ((Organism) o2).getX())
             {
                 return 1;
             }
@@ -47,13 +47,13 @@ public class SortByPosition implements Comparator
             else
             {
                 //o1 has an earlier row: o1 wins
-                if (((Organism) o1).getY() > ((Organism) o2).getY())
+                if (((Organism) o1).getY() < ((Organism) o2).getY())
                 {
                     return -1;
                 }
 
                 //o2 has an earlier row: o2 wins
-                else if (((Organism) o1).getY() < ((Organism) o2).getY())
+                else if (((Organism) o1).getY() > ((Organism) o2).getY())
                 {
                     return 1;
                 }
