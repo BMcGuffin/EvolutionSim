@@ -20,8 +20,9 @@ import java.awt.Point;
 public class Plant implements Organism
 {
 
-    /** Creates a new plant from scratch. Initializers found in EvoConstants.
-     * 
+    /**
+     * Creates a new plant from scratch. Initializers found in EvoConstants.
+     *
      */
     public Plant()
     {
@@ -36,7 +37,8 @@ public class Plant implements Organism
         point = new Point(0, 0);
     }
 
-    /**Creates a new plant from the given parameters.
+    /**
+     * Creates a new plant from the given parameters.
      *
      * @param lifespan the amount of turns the plant can live.
      * @param gRate the percentage that the plant can increase in size per turn.
@@ -52,9 +54,10 @@ public class Plant implements Organism
         alreadySet = false;
         this.ID = EvoConstants.ID++;
         point = new Point(0, 0);
-}
+    }
 
-    /**Checks if the plant is mature enough to reproduce.
+    /**
+     * Checks if the plant is mature enough to reproduce.
      *
      * @return true if the plant is grown.
      */
@@ -64,7 +67,8 @@ public class Plant implements Organism
         return grown;
     }
 
-    /**Increments the age and size of the plant. If age and size are high
+    /**
+     * Increments the age and size of the plant. If age and size are high
      * enough, plant should be capable of reproduction.
      *
      */
@@ -74,10 +78,13 @@ public class Plant implements Organism
         age++;
         size += size * growthRate;
         if (age > 3 && size >= 2)
+        {
             grown = true;
+        }
     }
-    
-    /**Decreases the size of the plant by a given amount.
+
+    /**
+     * Decreases the size of the plant by a given amount.
      *
      * @param amount the amount to shrink the plant.
      */
@@ -91,7 +98,8 @@ public class Plant implements Organism
         }
     }
 
-    /**Checks to see if the plant meets the requirements to stay alive.
+    /**
+     * Checks to see if the plant meets the requirements to stay alive.
      *
      * @return true if the plant has nit exceeded its lifetime and it has a size
      * greater than 0.
@@ -102,23 +110,19 @@ public class Plant implements Organism
         return age <= lifetime && size > 0;
     }
 
-    /**Creates a new plant from the combined traits of this and another plant.
+    /**
+     * Creates a new plant from the combined traits of this and another plant.
      * Right now, traits are averaged.
-     * 
+     *
      * @param other the other plant to act as a "parent"
      * @return a new plant that is the "offspring" of these two
      */
-    @Override
-    public Plant reproduce(Organism other)
+    public Plant reproduce(Plant p2)
     {
-        if (other instanceof Plant)
-        {
-            Plant po = (Plant) other;
-            double newGr = (this.growthRate + po.getGrowthRate()) / 2;
-            int newLife = (this.lifetime + po.getLifetime()) / 2;
-            return new Plant(newLife, newGr);
-        }
-        return null;
+        double newGr = (this.growthRate + p2.getGrowthRate()) / 2;
+        int newLife = (this.lifetime + p2.getLifetime()) / 2;
+        return new Plant(newLife, newGr);
+
     }
 
     /**
@@ -138,9 +142,9 @@ public class Plant implements Organism
     {
         return lifetime;
     }
-    
+
     /**
-     * 
+     *
      * @return the plant's size
      */
     public double getSize()
@@ -155,13 +159,14 @@ public class Plant implements Organism
     protected int lifetime;
     protected double growthRate;
     private final long ID;
-    
+
     private boolean alreadySet;
     protected Point point;
 
-    /**Sets the coordinate position of the plant once. Subsequent attempts to
+    /**
+     * Sets the coordinate position of the plant once. Subsequent attempts to
      * change the position will fail.
-     * 
+     *
      * @param x the new x-coordinate
      * @param y the new y-coordinate
      * @return true if the position was set. False if this is not the first time
@@ -172,7 +177,7 @@ public class Plant implements Organism
     @Override
     public boolean setPosition(int x, int y)
     {
-        if(!alreadySet)
+        if (!alreadySet)
         {
             point.move(x, y);
             return true;
@@ -181,7 +186,7 @@ public class Plant implements Organism
     }
 
     /**
-     * 
+     *
      * @return the current x-coordinate
      */
     @Override
@@ -191,7 +196,7 @@ public class Plant implements Organism
     }
 
     /**
-     * 
+     *
      * @return the current y-coordinate
      */
     @Override
@@ -201,7 +206,7 @@ public class Plant implements Organism
     }
 
     /**
-     * 
+     *
      * @return the plant's age
      */
     @Override
@@ -211,7 +216,7 @@ public class Plant implements Organism
     }
 
     /**
-     * 
+     *
      * @return the plant's global unique ID
      */
     @Override
