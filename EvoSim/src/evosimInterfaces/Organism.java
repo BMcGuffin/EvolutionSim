@@ -63,14 +63,6 @@ public interface Organism
      */
     long getID();
     
-    /**Creates a new organism by combining traits of this organism with another.
-     * Traits are averaged and passed to the new creature in its constructor.
-     * 
-     * @param other the other organism to use as a "parent"
-     * @return a new organism that is the "offspring"
-     */
-    Organism reproduce(Organism other);
-    
     /**Increase the age of this organism, and any other traits associated with
      * it aging. This may include an increase in size, an increase in hunger, etc.
      * 
