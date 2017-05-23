@@ -30,6 +30,7 @@ public class Map extends Observable
 {
 
     public Object[][] grid;
+    private int mapSize;
     
     private Vector<Organism> life;
 
@@ -37,13 +38,14 @@ public class Map extends Observable
      * defined in EvoConstants. All values of the grid are initialized to null.
      * 
      */
-    public Map()
+    public Map(int size)
     {
+        mapSize = size;
         life = new Vector<Organism>();
-        grid = new Object[EvoConstants.MAP_SIZE][EvoConstants.MAP_SIZE];
-        for (int i = 0; i < EvoConstants.MAP_SIZE; i++)
+        grid = new Object[mapSize][mapSize];
+        for (int i = 0; i < mapSize; i++)
         {
-            for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
+            for (int j = 0; j < mapSize; j++)
             {
                 grid[i][j] = null;
             }
@@ -91,7 +93,7 @@ public class Map extends Observable
      */
     public boolean addOrganismToTable(Organism o, int x, int y)
     {
-        if (life.size() < (EvoConstants.MAP_SIZE * EvoConstants.MAP_SIZE) && 
+        if (life.size() < (mapSize * mapSize) && 
                 x >= 0 && y >= 0 && null != o && null == grid[x][y])
         {
             life.add(o);
