@@ -76,7 +76,6 @@ public class CarnivorousPlant extends Plant implements Carnivorous
 
     /**This organism can't seek out prey so this is useless
      * 
-     * @param map
      * @return 
      */
     @Override
