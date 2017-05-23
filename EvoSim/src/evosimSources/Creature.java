@@ -21,7 +21,7 @@ import java.util.Random;
  * @see Organism
  * @see Mobile
  */
-public class Creature implements Organism, Mobile
+public abstract class Creature implements Organism, Mobile
 {
 
     /**
@@ -51,7 +51,7 @@ public class Creature implements Organism, Mobile
      * @param attack
      * @param defense
      * @param speed
-     * @param size
+     * @param gRate
      * @param belly the amount of food the creature can eat before it's full
      * @param lifespan the amount of turns the creature can live
      */
@@ -113,32 +113,7 @@ public class Creature implements Organism, Mobile
             }
         }
     }
-
-    /**
-     * Generates a new creature from two parents.
-     *
-     * @param other the other creature to mate with this one.
-     * @return a new creature with traits that are the average of its parents,
-     * OR null if both parents are not creatures.
-     */
-    @Override
-    public Creature reproduce(Organism other)
-    {
-        if (other instanceof Creature)
-        {
-            Creature co = (Creature) other;
-            int newHP = (this.hp + co.getHP()) / 2;
-            int newAtt = (this.at + co.getAttack()) / 2;
-            int newDef = (this.de + co.getDefense()) / 2;
-            int newSpd = (this.sp + co.getSpeed()) / 2;
-            double newGr = (this.growthRate + co.getGrowthRate()) / 2;
-            int newBl = (this.belly + co.getBelly()) / 2;
-            int newLife = (this.lifetime + co.getLifetime()) / 2;
-            return new Creature(newHP, newAtt, newDef, newSpd, newGr, newBl, newLife);
-        }
-        return null;
-    }
-
+    
     /**
      * Move the creature some distance away from its present location. Checks to
      * make sure that the intended destination exists, and is within the
@@ -279,6 +254,7 @@ public class Creature implements Organism, Mobile
         return fullness < belly;
     }
 
+    //The creature's health
     protected int hp;
     protected int at;
     protected int de;
