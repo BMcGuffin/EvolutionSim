@@ -32,7 +32,7 @@ public class CreatureTest extends TestCase
     public void testIsMature()
     {
         System.out.println("isMature");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         boolean expResult = false;
         boolean result = instance.isMature();
         assertEquals(expResult, result);
@@ -53,7 +53,7 @@ public class CreatureTest extends TestCase
     public void testIsAlive()
     {
         System.out.println("isAlive");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         boolean result = instance.isAlive();
         assertTrue(result);
         assertEquals(5, instance.fullness);
@@ -76,7 +76,7 @@ public class CreatureTest extends TestCase
     public void testGrow()
     {
         System.out.println("grow");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         double expected = EvoConstants.INIT_SIZE;
         assertEquals(expected, instance.getSize());
         instance.grow();
@@ -94,36 +94,17 @@ public class CreatureTest extends TestCase
     }
 
     /**
-     * Test of reproduce method, of class Creature.
-     */
-    public void testReproduce()
-    {
-        System.out.println("reproduce");
-        Creature other = new Creature(10, 2, 4, 7, 6, 11, 20);
-        Creature instance = new Creature(10, 20, 4, 9, 8, 11, 10);
-        Creature expResult = new Creature(10, 11, 4, 8, 7, 11, 15);
-        Creature result = instance.reproduce(other);
-        assertEquals(expResult.getHP(), result.getHP());
-        assertEquals(expResult.getAttack(), result.getAttack());
-        assertEquals(expResult.getDefense(), result.getDefense());
-        assertEquals(expResult.getSpeed(), result.getSpeed());
-        assertEquals(expResult.getGrowthRate(), result.getGrowthRate());
-        assertEquals(expResult.getBelly(), result.getBelly());
-        assertEquals(expResult.getLifetime(), result.getLifetime());
-    }
-
-    /**
      * Test of getAttack method, of class Creature.
      */
     public void testGetAttack()
     {
         System.out.println("getAttack");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         int expResult = EvoConstants.INIT_ATTACK;
         int result = instance.getAttack();
         assertEquals(expResult, result);
 
-        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        instance = new CreatureImpl(10, 11, 12, 13, 14, 15, 16);
         expResult = 11;
         result = instance.getAttack();
         assertEquals(expResult, result);
@@ -135,12 +116,12 @@ public class CreatureTest extends TestCase
     public void testGetDefense()
     {
         System.out.println("getDefense");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         int expResult = EvoConstants.INIT_DEFENSE;
         int result = instance.getDefense();
         assertEquals(expResult, result);
 
-        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        instance = new CreatureImpl(10, 11, 12, 13, 14, 15, 16);
         expResult = 12;
         result = instance.getDefense();
         assertEquals(expResult, result);
@@ -152,12 +133,12 @@ public class CreatureTest extends TestCase
     public void testGetSpeed()
     {
         System.out.println("getSpeed");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         int expResult = EvoConstants.INIT_SPEED;
         int result = instance.getSpeed();
         assertEquals(expResult, result);
 
-        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        instance = new CreatureImpl(10, 11, 12, 13, 14, 15, 16);
         expResult = 13;
         result = instance.getSpeed();
         assertEquals(expResult, result);
@@ -169,12 +150,12 @@ public class CreatureTest extends TestCase
     public void testGetBelly()
     {
         System.out.println("getBelly");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         int expResult = EvoConstants.INIT_BELLY;
         int result = instance.getBelly();
         assertEquals(expResult, result);
 
-        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        instance = new CreatureImpl(10, 11, 12, 13, 14, 15, 16);
         expResult = 15;
         result = instance.getBelly();
         assertEquals(expResult, result);
@@ -186,12 +167,12 @@ public class CreatureTest extends TestCase
     public void testGetLifetime()
     {
         System.out.println("getLifetime");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         int expResult = EvoConstants.INIT_LIFESPAN;
         int result = instance.getLifetime();
         assertEquals(expResult, result);
 
-        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        instance = new CreatureImpl(10, 11, 12, 13, 14, 15, 16);
         expResult = 16;
         result = instance.getLifetime();
         assertEquals(expResult, result);
@@ -203,12 +184,12 @@ public class CreatureTest extends TestCase
     public void testGetHP()
     {
         System.out.println("getHP");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         int expResult = EvoConstants.INIT_HEALTH;
         int result = instance.getHP();
         assertEquals(expResult, result);
 
-        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        instance = new CreatureImpl(10, 11, 12, 13, 14, 15, 16);
         expResult = 10;
         result = instance.getHP();
         assertEquals(expResult, result);
@@ -220,12 +201,12 @@ public class CreatureTest extends TestCase
     public void testGetGrowthRate()
     {
         System.out.println("getGrowthRate");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         double expResult = EvoConstants.INIT_GROWTH_RATE;
         double result = instance.getGrowthRate();
         assertEquals(expResult, result);
 
-        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        instance = new CreatureImpl(10, 11, 12, 13, 14, 15, 16);
         expResult = 14;
         result = instance.getGrowthRate();
         assertEquals(expResult, result);
@@ -237,12 +218,12 @@ public class CreatureTest extends TestCase
     public void testGetSize()
     {
         System.out.println("getSize");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         double expResult = EvoConstants.INIT_SIZE;
         double result = instance.getSize();
         assertEquals(expResult, result);
 
-        instance = new Creature(10, 11, 12, 13, 14, 15, 16);
+        instance = new CreatureImpl(10, 11, 12, 13, 14, 15, 16);
         expResult = EvoConstants.INIT_SIZE;
         result = instance.getSize();
         assertEquals(expResult, result);
@@ -254,7 +235,7 @@ public class CreatureTest extends TestCase
     public void testIsHungry()
     {
         System.out.println("isHungry");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         boolean result = instance.isHungry();
         assertFalse(result);
         instance.grow();
@@ -269,7 +250,7 @@ public class CreatureTest extends TestCase
     {
         System.out.println("damage");
         int amount = 0;
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         int start = instance.getHP();
         instance.damage(amount);
         int end = instance.getHP();
@@ -296,7 +277,7 @@ public class CreatureTest extends TestCase
         System.out.println("setPosition");
         int x = 5;
         int y = 7;
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         assertEquals(0, instance.getX());
         assertEquals(0, instance.getY());
         boolean result = instance.setPosition(x, y);
@@ -311,7 +292,7 @@ public class CreatureTest extends TestCase
     public void testGetX()
     {
         System.out.println("getX");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         int expResult = 0;
         int result = instance.getX();
         assertEquals(expResult, result);
@@ -327,7 +308,7 @@ public class CreatureTest extends TestCase
     public void testGetY()
     {
         System.out.println("getY");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         int expResult = 0;
         int result = instance.getY();
         assertEquals(expResult, result);
@@ -343,7 +324,7 @@ public class CreatureTest extends TestCase
     public void testGetAge()
     {
         System.out.println("getAge");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         int expResult = 0;
         int result = instance.getAge();
         assertEquals(expResult, result);
@@ -356,7 +337,7 @@ public class CreatureTest extends TestCase
     {
         System.out.println("getID");
         long oldID = EvoConstants.ID;
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         long expResult = EvoConstants.ID;
         long result = instance.getID();
         assertEquals(expResult, result + 1);
@@ -369,10 +350,10 @@ public class CreatureTest extends TestCase
     public void testMakeRandomMovement()
     {
         System.out.println("makeRandomMovement");
-        Creature instance = new Creature();
-        EvoConstants.MAP = new Map();
+        Creature instance = new CreatureImpl();
+        EvoConstants.MAP = new Map(EvoConstants.MAP_SIZE);
         assertFalse(EvoConstants.MAP.removeOrganismFromTable(instance));
-        instance = new Creature();
+        instance = new CreatureImpl();
         assertTrue(EvoConstants.MAP.addOrganismToTable(instance, 1, 1));
         instance.makeRandomMovement();
         assertTrue(Math.abs(instance.getX() - 1) < instance.getSpeed());
@@ -387,7 +368,7 @@ public class CreatureTest extends TestCase
     public void testMakeNextMove()
     {
         System.out.println("makeNextMove");
-        Creature instance = new Creature();
+        Creature instance = new CreatureImpl();
         instance.makeNextMove();
         //Very little happens in this method
     }
@@ -404,8 +385,8 @@ public class CreatureTest extends TestCase
         int startX = 1;
         int startY = 1;
         Point p = new Point(targetX, targetY);
-        Creature instance = new Creature();
-        EvoConstants.MAP = new Map();
+        Creature instance = new CreatureImpl();
+        EvoConstants.MAP = new Map(EvoConstants.MAP_SIZE);
         EvoConstants.MAP.addOrganismToTable(instance, startX, startY);
         assertEquals(startX, instance.getX());
         assertEquals(startY, instance.getY());
@@ -440,8 +421,8 @@ public class CreatureTest extends TestCase
         int startX = 1;
         int startY = 1;
         Point p = new Point(targetX, targetY);
-        Creature instance = new Creature();
-        EvoConstants.MAP = new Map();
+        Creature instance = new CreatureImpl();
+        EvoConstants.MAP = new Map(EvoConstants.MAP_SIZE);
         EvoConstants.MAP.addOrganismToTable(instance, startX, startY);
         assertEquals(startX, instance.getX());
         assertEquals(startY, instance.getY());
@@ -472,8 +453,8 @@ public class CreatureTest extends TestCase
         System.out.println("isAdjacent");
         Point p1 = new Point(1, 1);
         Point p2 = new Point(2, 1);
-        Creature instance = new Creature();
-        EvoConstants.MAP = new Map();
+        Creature instance = new CreatureImpl();
+        EvoConstants.MAP = new Map(EvoConstants.MAP_SIZE);
         EvoConstants.MAP.addOrganismToTable(instance, 2, 2);
         boolean result = instance.isAdjacent(p1);
         assertFalse(result);
@@ -489,21 +470,21 @@ public class CreatureTest extends TestCase
         System.out.println("move");
         int x = EvoConstants.INIT_SPEED;
         int y = EvoConstants.INIT_SPEED;
-        Creature instance = new Creature();
-        EvoConstants.MAP = new Map();
+        Creature instance = new CreatureImpl();
+        EvoConstants.MAP = new Map(EvoConstants.MAP_SIZE);
         EvoConstants.MAP.addOrganismToTable(instance, 0, 0);
         //Fill the entire board with creatures, so no movement spots are available
         for (int i = 1; i < EvoConstants.MAP_SIZE; i++)
         {
             for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
             {
-                EvoConstants.MAP.addOrganismToTable(new Creature(), i, j);
+                EvoConstants.MAP.addOrganismToTable(new CreatureImpl(), i, j);
             }
         }
         boolean result = instance.move(x, y);
         assertFalse(result);
-        EvoConstants.MAP.removeOrganismFromTable((Organism)(EvoConstants.MAP.grid[x][y]));
-        assertEquals(null,EvoConstants.MAP.grid[x][y]);
+        EvoConstants.MAP.removeOrganismFromTable((Organism) (EvoConstants.MAP.grid[x][y]));
+        assertEquals(null, EvoConstants.MAP.grid[x][y]);
         result = instance.move(1, 1);
         assertFalse(result);
         result = instance.move(x, y);
@@ -518,25 +499,45 @@ public class CreatureTest extends TestCase
         System.out.println("jump");
         int x = 4;
         int y = EvoConstants.INIT_SPEED + 1;
-        Creature instance = new Creature();
-        EvoConstants.MAP = new Map();
+        Creature instance = new CreatureImpl();
+        EvoConstants.MAP = new Map(EvoConstants.MAP_SIZE);
         EvoConstants.MAP.addOrganismToTable(instance, 0, 0);
         //Fill the entire board with creatures, so no movement spots are available
         for (int i = 1; i < EvoConstants.MAP_SIZE; i++)
         {
             for (int j = 0; j < EvoConstants.MAP_SIZE; j++)
             {
-                EvoConstants.MAP.addOrganismToTable(new Creature(), i, j);
+                EvoConstants.MAP.addOrganismToTable(new CreatureImpl(), i, j);
             }
         }
         boolean result = instance.jump(x, y);
         assertFalse(result);
-        EvoConstants.MAP.removeOrganismFromTable((Organism)(EvoConstants.MAP.grid[x][y]));
-        assertEquals(null,EvoConstants.MAP.grid[x][y]);
+        EvoConstants.MAP.removeOrganismFromTable((Organism) (EvoConstants.MAP.grid[x][y]));
+        assertEquals(null, EvoConstants.MAP.grid[x][y]);
         result = instance.jump(1, 1);
         assertFalse(result);
         result = instance.jump(x, y);
         assertTrue(result);
     }
+
+    /**
+     * This is just a wrapper for the creature abstract class, to make sure
+     * its methods function properly
+     * 
+     */
+    public class CreatureImpl extends Creature
+    {
+        public CreatureImpl(int hp, int at, int de, int sp, double size, int belly, int lifetime)
+        {
+            super(hp, at, de, sp, size, belly, lifetime);
+            
+        }
+        
+        public CreatureImpl()
+        {
+            super();
+            
+        }
+    };
 
 }

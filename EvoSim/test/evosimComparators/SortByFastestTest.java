@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package evosimComparators;
 
+import evosimSources.*;
 import junit.framework.TestCase;
 
 /**
@@ -14,7 +14,7 @@ import junit.framework.TestCase;
  */
 public class SortByFastestTest extends TestCase
 {
-    
+
     public SortByFastestTest(String testName)
     {
         super(testName);
@@ -26,14 +26,41 @@ public class SortByFastestTest extends TestCase
     public void testCompare()
     {
         System.out.println("compare");
-        Object o1 = null;
-        Object o2 = null;
+        Object o1 = new Object();
+        Object o2 = new Object();
         SortByFastest instance = new SortByFastest();
-        int expResult = 0;
         int result = instance.compare(o1, o2);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(0, result);
+
+        Plant p1 = new Plant();
+        Plant p2 = new Plant();
+
+        Carnivore c0 = new Carnivore();
+
+        result = instance.compare(p1, p2);
+        assertEquals(0, result);
+
+        result = instance.compare(c0, p1);
+        assertEquals(-1, result);
+
+        result = instance.compare(p1, c0);
+        assertEquals(1, result);
+
+        result = instance.compare(c0, c0);
+        assertEquals(0, result);
+
+        Carnivore slowCarn = new Carnivore(1, 1, 1, 1, 1, 1, 1);
+        Carnivore fastCarn = new Carnivore(5, 5, 5, 5, 5, 5, 5);
+
+        result = instance.compare(slowCarn, fastCarn);
+        assertEquals(1, result);
+
+        result = instance.compare(fastCarn, fastCarn);
+        assertEquals(0, result);
+
+        result = instance.compare(fastCarn, slowCarn);
+        assertEquals(-1, result);
+
     }
-    
+
 }

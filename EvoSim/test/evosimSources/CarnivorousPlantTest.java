@@ -61,7 +61,7 @@ public class CarnivorousPlantTest extends TestCase
     public void testEat()
     {
         System.out.println("eat");
-        Creature creature = new Creature();
+        Herbivore creature = new Herbivore();
         CarnivorousPlant instance = new CarnivorousPlant();
         assertFalse(instance.isHungry());
         instance.grow();

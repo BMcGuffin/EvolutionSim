@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package evosimComparators;
 
+import evosimSources.Carnivore;
+import java.awt.Point;
 import junit.framework.TestCase;
 
 /**
@@ -14,7 +15,7 @@ import junit.framework.TestCase;
  */
 public class SortByClosestTest extends TestCase
 {
-    
+
     public SortByClosestTest(String testName)
     {
         super(testName);
@@ -26,14 +27,44 @@ public class SortByClosestTest extends TestCase
     public void testCompare()
     {
         System.out.println("compare");
-        Object o1 = null;
-        Object o2 = null;
-        SortByClosest instance = null;
-        int expResult = 0;
+        Object o1 = new Object();
+        Object o2 = new Object();
+
+        Point referencePoint = new Point(5, 5);
+        SortByClosest instance = new SortByClosest(referencePoint);
+
         int result = instance.compare(o1, o2);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(0, result);
+
+        Carnivore c1 = new Carnivore();
+        Carnivore c2 = new Carnivore();
+
+        result = instance.compare(c1, c2);
+        assertEquals(0, result);
+
+        c1.setPosition(1, 1);
+        c2.setPosition(9, 9);
+
+        result = instance.compare(c1, c2);
+        assertEquals(0, result);
+
+        c2.setPosition(9, 8);
+
+        result = instance.compare(c1, c2);
+        assertEquals(1, result);
+        
+        c1.setPosition(3, 4);
+        
+        result = instance.compare(c1, c2);
+        assertEquals(-1, result);
+        
+        result = instance.compare(c2, c1);
+        assertEquals(1, result);
+        
+        
+        c2.setPosition(3, 4);
+        
+        result = instance.compare(c1, c2);
+        assertEquals(0, result);
     }
-    
 }

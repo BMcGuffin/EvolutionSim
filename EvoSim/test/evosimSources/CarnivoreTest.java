@@ -56,7 +56,7 @@ public class CarnivoreTest extends TestCase
     public void testEat()
     {
         System.out.println("eat");
-        Creature creature = new Creature();
+        Herbivore creature = new Herbivore();
         Carnivore instance = new Carnivore();
         assertEquals(EvoConstants.INIT_BELLY,instance.fullness);
         instance.grow();
