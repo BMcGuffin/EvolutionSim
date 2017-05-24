@@ -24,7 +24,9 @@ import java.util.Vector;
  */
 public class Carnivore extends Creature implements Carnivorous
 {
-
+    
+     List<Point> prey;
+     
     /**
      * Generates a new Carnivore from scratch.
      *
@@ -32,6 +34,7 @@ public class Carnivore extends Creature implements Carnivorous
     public Carnivore()
     {
         super();
+        prey = new Vector<Point>();
     }
 
     /**
@@ -48,6 +51,7 @@ public class Carnivore extends Creature implements Carnivorous
     public Carnivore(int health, int attack, int defense, int speed, double gRate, int belly, int lifespan)
     {
         super(health, attack, defense, speed, gRate, belly, lifespan);
+        prey = new Vector<Point>();
     }
 
     /**
@@ -123,7 +127,7 @@ public class Carnivore extends Creature implements Carnivorous
      * @param prey a list of points representing all nearby grid squares that
      * have herbivores
      */
-    private void hunt(List<Point> prey)
+    private void hunt()
     {
         //Debug info
         EvoConstants.debug("\nCarnivore " + getID() + " (" + point.x + ", " + point.y + ") is on the hunt!");
@@ -153,12 +157,6 @@ public class Carnivore extends Creature implements Carnivorous
         {
             towards(foodPosition);
         }
-        //Otherwise KILL TIME BABY
-        else
-        {
-            //TODO: Write fighting/killing/eating methods
-        }
-
     }
 
     /**
@@ -170,11 +168,11 @@ public class Carnivore extends Creature implements Carnivorous
     public void makeNextMove()
     {
 
-        List<Point> prey = findPrey();
+        prey = new Vector<Point>(findPrey());
 
         if (prey.size() > 0)
         {
-            hunt(prey);
+            hunt();
         }
         else
         {
@@ -182,4 +180,19 @@ public class Carnivore extends Creature implements Carnivorous
         }
     }
 
+    @Override
+    public Creature targetCaught()
+    {
+        //Rearrange by distance to target, closest first
+        Collections.sort(prey, new SortByClosest(this.point));
+        
+        //If closest is adjacent to us, return that one. Else null
+        if(prey.size() > 0 && isAdjacent(prey.get(0)))
+        {
+            Point preyPos = prey.get(0);
+            prey.remove(0);
+            return (Creature)(EvoConstants.MAP.grid[preyPos.x][preyPos.y]);
+        }
+        return null;
+    }
 }

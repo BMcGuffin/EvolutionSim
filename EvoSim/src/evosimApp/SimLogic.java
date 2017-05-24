@@ -11,6 +11,9 @@ import evosimSources.Plant;
 import evosimInterfaces.Organism;
 import evosimInterfaces.Mobile;
 import evosimComparators.SortByFastest;
+import evosimInterfaces.Carnivorous;
+import evosimInterfaces.Herbivorous;
+import evosimSources.Creature;
 import static java.lang.Thread.sleep;
 import java.util.Random;
 import java.util.logging.Level;
@@ -26,7 +29,8 @@ import java.util.logging.Logger;
 public class SimLogic
 {
 
-    /**Generates a random number of random organisms and places them on the map.
+    /**
+     * Generates a random number of random organisms and places them on the map.
      * Number of organisms generated is between 1 and the maximum number of
      * allowed entities, inclusive.
      *
@@ -64,7 +68,8 @@ public class SimLogic
         EvoConstants.MAP.sparkUpdate();
     }
 
-    /**For each organism, update its position and status. If the organism is
+    /**
+     * For each organism, update its position and status. If the organism is
      * mobile, let it make its next move.
      *
      * @param forever if false, organisms age and die like normal; otherwise,
@@ -79,6 +84,9 @@ public class SimLogic
             ((Organism) (EvoConstants.MAP.getOrganism(i))).grow();
             if (!forever && !((Organism) (EvoConstants.MAP.getOrganism(i))).isAlive())
             {
+                
+                EvoConstants.debug("Organism "+ ((Organism) (EvoConstants.MAP
+                        .getOrganism(i))).getID() + " died");
                 EvoConstants.MAP.removeOrganismFromTable(EvoConstants.MAP.getOrganism(i));
                 i--;
             }
@@ -88,12 +96,43 @@ public class SimLogic
                 {
                     ((Mobile) (EvoConstants.MAP.getOrganism(i))).makeNextMove();
                 }
+
+                if (EvoConstants.MAP.getOrganism(i) instanceof Carnivorous)
+                {
+                    Creature c = ((Carnivorous) (EvoConstants.MAP.getOrganism(i))).targetCaught();
+                    if (c != null)
+                    {
+                        c.damage(100);
+                        ((Carnivorous) (EvoConstants.MAP.getOrganism(i))).eat(c);
+                        EvoConstants.debug("Creature "+ c.getID() + " was eaten by organism "
+                            + ((Organism) (EvoConstants.MAP.getOrganism(i))).getID());
+                        EvoConstants.MAP.removeOrganismFromTable(c);
+                    }
+
+                }
+
+                if (EvoConstants.MAP.getOrganism(i) instanceof Herbivorous)
+                {
+                    Plant p = ((Herbivorous) (EvoConstants.MAP.getOrganism(i))).foodReached();
+                    if (p != null)
+                    {
+                        ((Herbivorous) (EvoConstants.MAP.getOrganism(i))).eat(p);
+                        if (!p.isAlive())
+                        {
+                            EvoConstants.debug("Plant "+ p.getID() + " was eaten by organism "
+                            + ((Organism) (EvoConstants.MAP.getOrganism(i))).getID());
+                            EvoConstants.MAP.removeOrganismFromTable(p);
+                        }
+                    }
+                }
+
             }
         }
         EvoConstants.MAP.sparkUpdate();
     }
 
-    /**Runs the game. Sets up the board and performs turns.
+    /**
+     * Runs the game. Sets up the board and performs turns.
      *
      * @param forever whether or not to run the game forever, with no regard to
      * creature death events.

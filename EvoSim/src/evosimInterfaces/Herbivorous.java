@@ -6,6 +6,7 @@
 
 package evosimInterfaces;
 
+import evosimSources.Creature;
 import evosimSources.Plant;
 import java.awt.Point;
 import java.util.List;
@@ -36,4 +37,11 @@ public interface Herbivorous
      * @return a list of the locations of all plants within a certain range
      */
     List<Point> findFood();
+    
+    /**Gets the plant to be eaten if it's within eating range of this.
+     * 
+     * @return null if the organism is not close to a target; otherwise,
+     * return a target plant close to this one.
+     */
+    Plant foodReached();
 }

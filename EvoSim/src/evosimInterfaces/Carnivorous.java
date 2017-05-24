@@ -28,4 +28,11 @@ public interface Carnivorous
      * @return A list of point locations of nearby prey
      */
     List<Point> findPrey();
+    
+    /**Gets the creature to be eaten if it's within eating range of this.
+     * 
+     * @return null if the organism is not close to a target; otherwise,
+     * return a target creature close to this one.
+     */
+    Creature targetCaught();
 }

@@ -25,6 +25,8 @@ import java.util.Vector;
 public class Herbivore extends Creature implements Herbivorous
 {
 
+    private Vector<Point> food;
+
     /**
      * Generates a new herbivore from scratch.
      *
@@ -32,6 +34,7 @@ public class Herbivore extends Creature implements Herbivorous
     public Herbivore()
     {
         super();
+        food = new Vector<Point>();
     }
 
     /**
@@ -48,6 +51,7 @@ public class Herbivore extends Creature implements Herbivorous
     public Herbivore(int health, int attack, int defense, int speed, double gRate, int belly, int lifespan)
     {
         super(health, attack, defense, speed, gRate, belly, lifespan);
+        food = new Vector<Point>();
     }
 
     /**
@@ -175,7 +179,7 @@ public class Herbivore extends Creature implements Herbivorous
      *
      * @param food a list of locations of nearby plants
      */
-    private void forage(List<Point> food)
+    private void forage()
     {
         Collections.sort(food, new SortByClosest(this.point));
         Point foodPosition = food.get(0);
@@ -193,18 +197,34 @@ public class Herbivore extends Creature implements Herbivorous
     public void makeNextMove()
     {
         List<Point> threats = findThreats();
-        List<Point> food = findFood();
+        food = new Vector<Point>(findFood());
         if (threats.size() > 0 && !isHungry())
         {
             avoidPredators(threats);
         }
         else if (food.size() > 0)
         {
-            forage(food);
+            forage();
         }
         else
         {
             super.makeNextMove();
         }
+    }
+
+    @Override
+    public Plant foodReached()
+    {
+        //Rearrange by distance to target, closest first
+        Collections.sort(food, new SortByClosest(this.point));
+
+        //If closest is adjacent to us, return that one. Else null
+        if (food.size() > 0 && isAdjacent(food.get(0)))
+        {
+            Point plantPos = food.get(0);
+            food.remove(0);
+            return (Plant)(EvoConstants.MAP.grid[plantPos.x][plantPos.y]);
+        }
+        return null;
     }
 }

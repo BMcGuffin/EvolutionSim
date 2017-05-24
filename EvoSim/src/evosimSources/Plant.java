@@ -30,7 +30,7 @@ public class Plant implements Organism
         grown = false;
         age = 0;
         size = EvoConstants.INIT_SIZE;
-        this.lifetime = EvoConstants.INIT_LIFESPAN;
+        this.lifetime = 5 * EvoConstants.INIT_LIFESPAN;
         this.growthRate = EvoConstants.INIT_GROWTH_RATE;
         alreadySet = false;
         this.ID = EvoConstants.ID++;
