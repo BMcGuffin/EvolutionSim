@@ -11,10 +11,10 @@ import junit.framework.TestCase;
  *
  * @author bryanmcguffin
  */
-public class SimLogicTest extends TestCase
+public class StandardSimLogicTest extends TestCase
 {
 
-    public SimLogicTest(String testName)
+    public StandardSimLogicTest(String testName)
     {
         super(testName);
     }

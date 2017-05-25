@@ -14,12 +14,12 @@ import java.util.Observable;
 import java.util.Vector;
 
 /**
- * Represents the 2D map of the world, upon which organisms reside and move around.
- * Compatible with any organism or object. Keeps a list of all current organisms
- * on the board. Observable; when the position of organisms is updated, this can
- * notify observers which draw the board or reveal statistics. The notify call is
- * abstracted to its own public method so that it can be called at regular intervals
- * by other functions.
+ * Represents the 2D map of the world, upon which organisms reside and move
+ * around. Compatible with any organism or object. Keeps a list of all current
+ * organisms on the board. Observable; when the position of organisms is
+ * updated, this can notify observers which draw the board or reveal statistics.
+ * The notify call is abstracted to its own public method so that it can be
+ * called at regular intervals by other functions.
  *
  * @author bryanmcguffin
  * @version 5-16-17
@@ -30,12 +30,14 @@ public class Map extends Observable
 
     public Object[][] grid;
     private int mapSize;
-    
+
     private Vector<Organism> life;
 
-    /**Creates a new blank N x N map. The size of the map depends on the constant
-     * defined in EvoConstants. All values of the grid are initialized to null.
-     * 
+    /**
+     * Creates a new blank N x N map. The size of the map depends on the
+     * constant defined in EvoConstants. All values of the grid are initialized
+     * to null.
+     *
      */
     public Map(int size)
     {
@@ -51,8 +53,9 @@ public class Map extends Observable
         }
     }
 
-    /**Returns the index of a particular organism in the list of organisms.
-     * 
+    /**
+     * Returns the index of a particular organism in the list of organisms.
+     *
      * @param o the organism to search for
      * @return the index of the organism
      * @deprecated after 5-15-17. This was never properly implemented, I think.
@@ -61,9 +64,10 @@ public class Map extends Observable
     {
         return life.indexOf(o);
     }
-    
-    /**Finds the organism at the given index in the list of organisms.
-     * 
+
+    /**
+     * Finds the organism at the given index in the list of organisms.
+     *
      * @param index the index of the organism to get
      * @return the organism at position (index)
      */
@@ -71,9 +75,10 @@ public class Map extends Observable
     {
         return life.elementAt(index);
     }
-    
-    /**Gets the number of organisms that currently exist on the board.
-     * 
+
+    /**
+     * Gets the number of organisms that currently exist on the board.
+     *
      * @return the size of the list of organisms
      */
     public int numberOfOrganisms()
@@ -81,9 +86,10 @@ public class Map extends Observable
         return life.size();
     }
 
-    /**Add an organism to the table at the given position. Fails if the given
+    /**
+     * Add an organism to the table at the given position. Fails if the given
      * position was not null.
-     * 
+     *
      * @param o the organism to add to the board
      * @param x the x-coordinate at which to add the organism
      * @param y the y-coordinate at which to add the organism
@@ -92,8 +98,8 @@ public class Map extends Observable
      */
     public boolean addOrganismToTable(Organism o, int x, int y)
     {
-        if (life.size() < (mapSize * mapSize) && 
-                x >= 0 && y >= 0 && null != o && null == grid[x][y])
+        if (life.size() < (mapSize * mapSize)
+                && x >= 0 && y >= 0 && null != o && null == grid[x][y])
         {
             life.add(o);
             grid[x][y] = o;
@@ -102,8 +108,9 @@ public class Map extends Observable
         return false;
     }
 
-    /**Removes an organism from the board and from the list of organisms.
-     * 
+    /**
+     * Removes an organism from the board and from the list of organisms.
+     *
      * @param o the organism to remove
      * @return true if the orgnism was in the table, and now it is removed,
      * false if the organism was not in the table
@@ -111,34 +118,43 @@ public class Map extends Observable
     public boolean removeOrganismFromTable(Organism o)
     {
         int index = life.indexOf(o);
-        if(index != -1)
+        if (index != -1)
         {
-        int x = o.getX();
-        int y = o.getY();
-        life.removeElementAt(index);
-        
-        grid[x][y] = null;
-        return true;
+            int x = o.getX();
+            int y = o.getY();
+            life.removeElementAt(index);
+
+            grid[x][y] = null;
+            return true;
         }
         return false;
     }
-    
-    /**Cause the board to notify its observers and cause an update.
-     * 
+
+    /**
+     * Cause the board to notify its observers and cause an update.
+     *
      */
     public void sparkUpdate()
     {
         setChanged();
         notifyObservers();
     }
-    
-    /**Rearrange the list of organisms based on some comparator's compare()
-     * method. 
-     * 
+
+    /**
+     * Rearrange the list of organisms based on some comparator's compare()
+     * method.
+     *
      * @param c the custom comparator to use for the sort
      */
     public void rearrange(Comparator c)
     {
-        Collections.sort(life, c);
+        if (c == null)
+        {
+            Collections.shuffle(life);
+        }
+        else
+        {
+            Collections.sort(life, c);
+        }
     }
 }

@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  * @author bryanmcguffin
  * @version 5-15-17
  */
-public class SimLogic
+public class StandardSimLogic extends AppLogic
 {
 
     /**
@@ -35,7 +35,8 @@ public class SimLogic
      * allowed entities, inclusive.
      *
      */
-    private static void addRandomOrganisms()
+    @Override
+    public void setup()
     {
         final int typesOfOrganisms = 3;
         Random rand = new Random();
@@ -68,6 +69,7 @@ public class SimLogic
         EvoConstants.MAP.sparkUpdate();
     }
 
+    
     /**
      * For each organism, update its position and status. If the organism is
      * mobile, let it make its next move.
@@ -75,7 +77,8 @@ public class SimLogic
      * @param forever if false, organisms age and die like normal; otherwise,
      * organisms do not age
      */
-    private static void takeTurn(boolean forever)
+    @Override
+    public void takeTurn(boolean forever)
     {
         EvoConstants.MAP.rearrange(new SortByFastest());
         for (int i = 0; i < EvoConstants.MAP.numberOfOrganisms(); i++)
@@ -129,42 +132,5 @@ public class SimLogic
             }
         }
         EvoConstants.MAP.sparkUpdate();
-    }
-
-    /**
-     * Runs the game. Sets up the board and performs turns.
-     *
-     * @param forever whether or not to run the game forever, with no regard to
-     * creature death events.
-     */
-    public static void run(boolean forever)
-    {
-        //Reset global ID
-        EvoConstants.ID = 1;
-        //Set up board, add organisms
-        addRandomOrganisms();
-
-        try
-        {
-            sleep(2000);
-        }
-        catch (InterruptedException ex)
-        {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        //Main loop
-        while (true)
-        {
-            takeTurn(forever);
-            try
-            {
-                sleep(1000);
-            }
-            catch (InterruptedException ex)
-            {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 }
