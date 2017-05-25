@@ -7,7 +7,6 @@ package evosimSources;
 
 import evosimApp.EvoConstants;
 import evosimComparators.SortByClosest;
-import evosimInterfaces.Carnivorous;
 import java.awt.Point;
 import java.util.Collections;
 import java.util.List;

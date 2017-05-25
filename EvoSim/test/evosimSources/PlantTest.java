@@ -102,7 +102,7 @@ public class PlantTest extends TestCase
         boolean result = instance.isAlive();
         assertTrue(result);
         
-        for(int i = 0;i<EvoConstants.INIT_LIFESPAN;i++)
+        for(int i = 0;i<EvoConstants.INIT_LIFESPAN * 5;i++)
         {
             instance.grow();
             assertTrue(instance.isAlive());
@@ -152,7 +152,7 @@ public class PlantTest extends TestCase
     {
         System.out.println("getLifetime");
         Plant instance = new Plant();
-        int expResult = EvoConstants.INIT_LIFESPAN;
+        int expResult = EvoConstants.INIT_LIFESPAN * 5;
         int result = instance.getLifetime();
         assertEquals(expResult, result);
         

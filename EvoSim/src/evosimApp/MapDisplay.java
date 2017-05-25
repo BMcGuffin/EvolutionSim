@@ -10,7 +10,7 @@ import evosimSources.Herbivore;
 import evosimSources.Creature;
 import evosimSources.Map;
 import evosimSources.Plant;
-import evosimInterfaces.Organism;
+import evosimSources.Organism;
 import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;

@@ -6,8 +6,8 @@
 
 package evosimComparators;
 
-import evosimInterfaces.Mobile;
-import evosimInterfaces.Organism;
+import evosimSources.Mobile;
+import evosimSources.Organism;
 import java.util.Comparator;
 
 /**

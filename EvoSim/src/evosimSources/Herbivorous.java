@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package evosimInterfaces;
+package evosimSources;
 
 import evosimSources.Creature;
 import evosimSources.Plant;

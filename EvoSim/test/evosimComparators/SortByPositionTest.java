@@ -6,8 +6,7 @@
 package evosimComparators;
 
 import evosimSources.*;
-import evosimInterfaces.*;
-import evosimInterfaces.Organism;
+import evosimSources.Organism;
 import junit.framework.TestCase;
 
 /**

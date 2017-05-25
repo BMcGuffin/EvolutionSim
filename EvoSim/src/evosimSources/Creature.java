@@ -6,8 +6,6 @@
 package evosimSources;
 
 import evosimApp.EvoConstants;
-import evosimInterfaces.Organism;
-import evosimInterfaces.Mobile;
 import java.awt.Point;
 import java.util.Random;
 

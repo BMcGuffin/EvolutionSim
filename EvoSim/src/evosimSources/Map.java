@@ -6,7 +6,6 @@
 package evosimSources;
 
 import evosimApp.EvoConstants;
-import evosimInterfaces.Organism;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

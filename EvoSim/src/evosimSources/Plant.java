@@ -6,7 +6,6 @@
 package evosimSources;
 
 import evosimApp.EvoConstants;
-import evosimInterfaces.Organism;
 import java.awt.Point;
 
 /**

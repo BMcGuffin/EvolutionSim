@@ -7,7 +7,6 @@ package evosimSources;
 
 import evosimSources.Creature;
 import evosimApp.EvoConstants;
-import evosimInterfaces.Organism;
 import evosimSources.Map;
 import java.awt.Point;
 import junit.framework.Test;
