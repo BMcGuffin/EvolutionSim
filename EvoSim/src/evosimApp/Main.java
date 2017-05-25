@@ -24,7 +24,7 @@ public class Main
 {
 
     /**Run the simulation. Get command line arguments and set global values
-     * based on them. Then call SimLogic to execute the main program loop.
+ based on them. Then call StandardSimLogic to execute the main program loop.
      * 
      * @param args the command line arguments
      */
@@ -33,6 +33,7 @@ public class Main
         EvoConstants.MAP= new Map(EvoConstants.MAP_SIZE);
         final MapDisplay mpd = new MapDisplay(EvoConstants.MAP);
         List<String> flags = Arrays.asList(args);
+        AppLogic logic = new StandardSimLogic();
         boolean forever = args.length > 0 && flags.contains("-forever");
         EvoConstants.debug = args.length > 0 && flags.contains("-debug");
         
@@ -45,6 +46,6 @@ public class Main
                 mpd.setVisible(true);
             }
         });
-        SimLogic.run(forever);
+        logic.run(forever);
     }
 }
