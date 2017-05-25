@@ -33,7 +33,15 @@ public class Main
         EvoConstants.MAP= new Map(EvoConstants.MAP_SIZE);
         final MapDisplay mpd = new MapDisplay(EvoConstants.MAP);
         List<String> flags = Arrays.asList(args);
-        AppLogic logic = new StandardSimLogic();
+        AppLogic logic;
+        if(args.length > 0 && flags.contains("-plants"))
+        {
+            logic = new PlantGrowthTestLogic();
+        }
+        else
+        {
+            logic = new StandardSimLogic();
+        }
         boolean forever = args.length > 0 && flags.contains("-forever");
         EvoConstants.debug = args.length > 0 && flags.contains("-debug");
         
