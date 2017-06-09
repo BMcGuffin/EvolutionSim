@@ -98,7 +98,7 @@ public class Map extends Observable
      */
     public boolean addOrganismToTable(Organism o, int x, int y)
     {
-        if (life.size() < (mapSize * mapSize)
+        if (life.size() < EvoConstants.MAP_MAXIMUM_FINAL_ENTITIES
                 && x >= 0 && y >= 0 && null != o && null == grid[x][y])
         {
             life.add(o);
