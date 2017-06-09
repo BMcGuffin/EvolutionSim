@@ -45,7 +45,8 @@ public final class EvoConstants
     public static Map MAP;
     
     public static final int MAP_SIZE = 20;
-    public static final int MAP_MAXIMUM_ENTITIES = (int)(MAP_SIZE * MAP_SIZE * 0.1);
+    public static final int MAP_MAXIMUM_START_ENTITIES = (int)(MAP_SIZE * MAP_SIZE * 0.1);
+    public static final int MAP_MAXIMUM_FINAL_ENTITIES = (int)(MAP_SIZE * MAP_SIZE * 0.9);
 
     //The global unique ID number. Each organism has one; upon assignment, this
     //is incremented.
@@ -68,5 +69,7 @@ public final class EvoConstants
             System.out.println(str);
         }
     }
+    
+    public static final int turnDelay = 1000;
     
 }
