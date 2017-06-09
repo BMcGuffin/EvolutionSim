@@ -42,7 +42,7 @@ public class MapDisplay extends javax.swing.JFrame implements Observer
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         update(m, 0);
     }
-    
+
     public String getRawMap()
     {
         return mapField.getText();
@@ -144,21 +144,45 @@ public class MapDisplay extends javax.swing.JFrame implements Observer
         }
         else if (o instanceof Organism)
         {
-
-            if (o instanceof Creature)
+            if(!((Organism)o).isAlive())
+            {
+                str = "@";
+            }
+            else if (o instanceof Creature)
             {
                 if (o instanceof Carnivore)
                 {
-                    str = "C";
+                    if (((Carnivore) o).isMature())
+                    {
+                        str = "C";
+                    }
+                    else
+                    {
+                        str = "c";
+                    }
                 }
                 else if (o instanceof Herbivore)
                 {
-                    str = "H";
+                    if (((Herbivore) o).isMature())
+                    {
+                        str = "H";
+                    }
+                    else
+                    {
+                        str = "h";
+                    }
                 }
             }
             else if (o instanceof Plant)
             {
-                str = "P";
+                if (((Plant) o).isMature())
+                {
+                    str = "P";
+                }
+                else
+                {
+                    str = ".";
+                }
             }
 
         }
