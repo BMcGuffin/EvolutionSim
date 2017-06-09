@@ -25,11 +25,12 @@ import java.util.logging.Logger;
  */
 public class PlantGrowthTestLogic extends AppLogic
 {
+
     @Override
     public void setup()
     {
         Random rand = new Random();
-        final int numberToAdd = rand.nextInt((int) ((EvoConstants.MAP_MAXIMUM_ENTITIES - 1) * 0.8)) + 1;
+        final int numberToAdd = rand.nextInt((int) ((EvoConstants.MAP_MAXIMUM_START_ENTITIES - 1) * 0.8)) + 1;
         boolean placed = false;
         for (int i = 0; i < numberToAdd; i++)
         {
@@ -54,10 +55,13 @@ public class PlantGrowthTestLogic extends AppLogic
             ((Organism) (EvoConstants.MAP.getOrganism(i))).grow();
             if (!runForever && !((Organism) (EvoConstants.MAP.getOrganism(i))).isAlive())
             {
-                EvoConstants.debug("Organism " + ((Organism) (EvoConstants.MAP
-                        .getOrganism(i))).getID() + " died");
-                EvoConstants.MAP.removeOrganismFromTable(EvoConstants.MAP.getOrganism(i));
-                i--;
+                if ((EvoConstants.MAP.getOrganism(i)).isDecayed())
+                {
+                    EvoConstants.debug("Organism " + ((Organism) (EvoConstants.MAP
+                            .getOrganism(i))).getID() + " decayed away.");
+                    EvoConstants.MAP.removeOrganismFromTable(EvoConstants.MAP.getOrganism(i));
+                    i--;
+                }
             }
         }
         EvoConstants.MAP.sparkUpdate();
