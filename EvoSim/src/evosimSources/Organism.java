@@ -25,6 +25,13 @@ public interface Organism
      */
     boolean isAlive();
     
+    /**Checks if the organism's body has decayed away. If so, it can be
+     * removed from the map.
+     * 
+     * @return whether the creature is dead and its size is 0
+     */
+    boolean isDecayed();
+    
     /**Set the organism's point location to the given coordinates.
      * 
      * @param x the x-coordinate to set the organism at
