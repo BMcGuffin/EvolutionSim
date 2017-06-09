@@ -44,7 +44,7 @@ public abstract class AppLogic
             takeTurn(runForever);
             try
             {
-                sleep(1000);
+                sleep(EvoConstants.turnDelay);
             }
             catch (InterruptedException ex)
             {
