@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  */
 public abstract class AppLogic
 {   

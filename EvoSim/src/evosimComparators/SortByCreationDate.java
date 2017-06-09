@@ -12,7 +12,7 @@ import java.util.Comparator;
  * Sorting mechanism that sorts organisms based on their creation order. This
  * order is implied by their ID number, assigned at creation time.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-14-17
  */
 public class SortByCreationDate implements Comparator

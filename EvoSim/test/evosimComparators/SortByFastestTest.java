@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 
 /**
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  */
 public class SortByFastestTest extends TestCase
 {

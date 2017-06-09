@@ -12,7 +12,7 @@ import java.awt.Point;
  * Represents a plant. Plants do not eat other organisms, and do not move. They
  * can bloom and spread.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-15-17
  * @see Organism
  */
@@ -179,6 +179,7 @@ public class Plant implements Organism
         if (!alreadySet)
         {
             point.move(x, y);
+            alreadySet = true;
             return true;
         }
         return false;

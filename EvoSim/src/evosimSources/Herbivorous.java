@@ -14,7 +14,7 @@ import java.util.List;
 /**Represents the traits common to herbivores, which eat plants but do not eat
  * other creatures.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-15-17
  */
 public interface Herbivorous

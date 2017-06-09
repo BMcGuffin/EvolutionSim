@@ -12,7 +12,7 @@ import java.util.List;
 
 /**Represents traits common to carnivores. Carnivores eat other creatures.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-15-17
  */
 public interface Carnivorous

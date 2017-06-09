@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * Holds the logic that runs the main simulation and each of its turns. Sets up
  * the board and causes events to happen per turn.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-15-17
  */
 public class StandardSimLogic extends AppLogic

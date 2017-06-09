@@ -14,7 +14,7 @@ import junit.framework.TestSuite;
 
 /**
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  */
 public class CarnivorousPlantTest extends TestCase
 {

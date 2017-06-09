@@ -16,7 +16,7 @@ import junit.framework.TestSuite;
 
 /**
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  */
 public class SimpleBattleDeciderTest extends TestCase
 {

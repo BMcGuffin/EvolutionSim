@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 
 /**
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  */
 public class SortByLargestTest extends TestCase
 {

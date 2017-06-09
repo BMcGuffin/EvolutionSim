@@ -11,7 +11,7 @@ import java.awt.Point;
 /**Represents the traits common to organisms that can move around the world
  * and are not rooted in place.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-15-17
  */
 public interface Mobile

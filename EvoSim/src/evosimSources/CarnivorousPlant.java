@@ -16,7 +16,7 @@ import java.util.Vector;
  * Represents a subtype of plant that is carnivorous. Carnivorous plants still
  * cannot move, but they can eat other organisms.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-14-17
  * @see Plant
  * @see Carnivorous

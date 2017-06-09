@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  */
 public class PlantGrowthTestLogic extends AppLogic
 {

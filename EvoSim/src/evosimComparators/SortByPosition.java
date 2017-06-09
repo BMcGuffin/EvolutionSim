@@ -11,7 +11,7 @@ import java.util.Comparator;
 /**
  * Sorting mechanism that sorts organisms by their position on the map.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-14-17
  */
 public class SortByPosition implements Comparator

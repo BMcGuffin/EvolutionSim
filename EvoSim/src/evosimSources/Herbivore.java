@@ -15,7 +15,7 @@ import java.util.Vector;
 /**
  * Represents a creature that eats plants, but not other creatures.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-15-17
  * @see Creature
  * @see Herbivorous

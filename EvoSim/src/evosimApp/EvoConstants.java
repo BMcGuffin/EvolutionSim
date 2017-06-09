@@ -13,7 +13,7 @@ import evosimSources.Map;
  * during runtime. Altering these variables is likely to significantly alter
  * performance and should be considered carefully.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-15-17
  */
 public final class EvoConstants

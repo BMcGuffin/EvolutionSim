@@ -8,7 +8,7 @@ package evosimSources;
 
 /**Represents a living organism. Organisms can grow and reproduce.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-15-17
  */
 public interface Organism

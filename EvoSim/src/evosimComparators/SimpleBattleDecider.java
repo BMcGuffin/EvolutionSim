@@ -13,7 +13,7 @@ import java.util.Random;
  * Represents a simple comparator that decides the outcome of a battle between
  * two creatures.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-14-17
  * @see Comparator
  */

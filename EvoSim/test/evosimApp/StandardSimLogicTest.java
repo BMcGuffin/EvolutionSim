@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 /**
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  */
 public class StandardSimLogicTest extends TestCase
 {

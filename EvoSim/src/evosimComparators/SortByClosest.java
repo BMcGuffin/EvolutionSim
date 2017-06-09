@@ -13,7 +13,7 @@ import java.util.Comparator;
  * Represents a comparator that sorts two objects by their relative distances
  * from some point.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-15-17
  */
 public class SortByClosest implements Comparator

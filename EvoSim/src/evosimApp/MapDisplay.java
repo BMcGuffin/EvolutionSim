@@ -20,7 +20,7 @@ import javax.swing.JFrame;
  * Represents a simple text GUI that displays the map visually. Organisms are
  * represented with characters. The board is represented as an ASCII grid.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-15-17
  */
 public class MapDisplay extends javax.swing.JFrame implements Observer

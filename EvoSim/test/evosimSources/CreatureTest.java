@@ -15,7 +15,7 @@ import junit.framework.TestSuite;
 
 /**
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  */
 public class CreatureTest extends TestCase
 {

@@ -14,7 +14,7 @@ import java.util.Random;
  * things. This is a superclass for different types of creatures, which are
  * separated based on what they eat.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-16-17
  * @see Organism
  * @see Mobile

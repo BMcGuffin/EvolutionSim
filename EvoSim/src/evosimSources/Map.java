@@ -21,7 +21,7 @@ import java.util.Vector;
  * The notify call is abstracted to its own public method so that it can be
  * called at regular intervals by other functions.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-16-17
  * @see EvoConstants
  */

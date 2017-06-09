@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * The main application class for the simulation.
  *
- * @author bryanmcguffin
+ * @author Bryan McGuffin
  * @version 5-15-17
  */
 public class Main
