@@ -7,6 +7,7 @@ package evosimSources;
 
 import evosimApp.EvoConstants;
 import java.awt.Point;
+import java.util.Random;
 
 /**
  * Represents a plant. Plants do not eat other organisms, and do not move. They
@@ -74,11 +75,64 @@ public class Plant implements Organism
     @Override
     public void grow()
     {
-        age++;
-        size += size * growthRate;
-        if (age > 3 && size >= 2)
+        if (!isAlive())
         {
-            grown = true;
+            size--;
+        }
+        else
+        {
+            if (isMature())
+            {
+                EvoConstants.debug("Plant " + getID() + " at position (" + getX() + ","
+                        + getY() + ") is mature and will attempt to spread.");
+                attemptSpread();
+            }
+
+            age++;
+            size += size * growthRate;
+            if (age > (float) lifetime / 8.)
+            {
+                grown = true;
+            }
+        }
+    }
+
+    @Override
+    public boolean isDecayed()
+    {
+        return !isAlive() && size < 1;
+    }
+
+    private void attemptSpread()
+    {
+        Random r = new Random();
+        int newX = point.x + (int) Math.pow(-1, r.nextInt(2)) * r.nextInt(2);
+        int newY = point.y + (int) Math.pow(-1, r.nextInt(2)) * r.nextInt(2);
+
+        int p2X = point.x + (r.nextInt(5) * (int) Math.pow(-1, r.nextInt(2))) * r.nextInt(2);
+        int p2Y = point.y + (r.nextInt(5) * (int) Math.pow(-1, r.nextInt(2))) * r.nextInt(2);
+
+        EvoConstants.debug("Checking positon (" + newX + "," + newY + ")...");
+        if (newX < EvoConstants.MAP_SIZE && newY < EvoConstants.MAP_SIZE
+                && newX >= 0 && newY >= 0
+                && EvoConstants.MAP.grid[newX][newY] == null)
+        {
+            EvoConstants.debug("Spot is available!");
+            if (p2X < EvoConstants.MAP_SIZE && p2Y < EvoConstants.MAP_SIZE
+                    && p2X >= 0 && p2Y >= 0
+                    && EvoConstants.MAP.grid[p2X][p2Y] instanceof Plant)
+            {
+                EvoConstants.debug("Other parent exists at (" + p2X + "," + p2Y + ")!");
+                Plant spawn = reproduce((Plant) EvoConstants.MAP.grid[p2X][p2Y]);
+                if (EvoConstants.MAP.addOrganismToTable(spawn, newX, newY))
+                {
+                    EvoConstants.debug("Added child at (" + newX + "," + newY + ")");
+                }
+            }
+        }
+        else
+        {
+            EvoConstants.debug("That spot is already taken or is off the map.");
         }
     }
 
