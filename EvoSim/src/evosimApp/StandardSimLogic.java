@@ -40,7 +40,7 @@ public class StandardSimLogic extends AppLogic
     {
         final int typesOfOrganisms = 3;
         Random rand = new Random();
-        final int numberToAdd = rand.nextInt(EvoConstants.MAP_MAXIMUM_ENTITIES - 1) + 1;
+        final int numberToAdd = rand.nextInt(EvoConstants.MAP_MAXIMUM_START_ENTITIES - 1) + 1;
         boolean placed = false;
         for (int i = 0; i < numberToAdd; i++)
         {
