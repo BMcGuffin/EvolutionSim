@@ -110,6 +110,16 @@ public abstract class Creature implements Organism, Mobile
                 fullness = 0;
             }
         }
+        else
+        {
+            size--;
+        }
+    }
+    
+    @Override
+    public boolean isDecayed()
+    {
+        return !isAlive() && size < 1;
     }
     
     /**
