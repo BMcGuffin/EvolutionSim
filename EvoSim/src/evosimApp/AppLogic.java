@@ -22,7 +22,7 @@ public abstract class AppLogic
      * @param runForever whether or not to run the game forever, with no regard to
      * creature death events.
      */
-    void run(boolean runForever)
+    void run()
     {
         //Reset global ID
         EvoConstants.ID = 1;
@@ -41,10 +41,10 @@ public abstract class AppLogic
         //Main loop
         while (true)
         {
-            takeTurn(runForever);
+            takeTurn(EvoConstants.FOREVER);
             try
             {
-                sleep(EvoConstants.turnDelay);
+                sleep(EvoConstants.TURN_DELAY);
             }
             catch (InterruptedException ex)
             {
