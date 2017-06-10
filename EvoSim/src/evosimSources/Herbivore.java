@@ -10,6 +10,7 @@ import evosimComparators.SortByClosest;
 import java.awt.Point;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -68,6 +69,40 @@ public class Herbivore extends Creature implements Herbivorous
         int newBl = (this.belly + other.getBelly()) / 2;
         int newLife = (this.lifetime + other.getLifetime()) / 2;
         return new Herbivore(newHP, newAtt, newDef, newSpd, newGr, newBl, newLife);
+    }
+
+    @Override
+    public void attemptReproduce()
+    {
+        Random r = new Random();
+        int newX = point.x + (int) Math.pow(-1, r.nextInt(2)) * r.nextInt(2);
+        int newY = point.y + (int) Math.pow(-1, r.nextInt(2)) * r.nextInt(2);
+
+        int p2X = point.x + (r.nextInt(5) * (int) Math.pow(-1, r.nextInt(2))) * r.nextInt(2);
+        int p2Y = point.y + (r.nextInt(5) * (int) Math.pow(-1, r.nextInt(2))) * r.nextInt(2);
+
+        EvoConstants.debug("Checking positon (" + newX + "," + newY + ")...");
+        if (newX < EvoConstants.MAP_SIZE && newY < EvoConstants.MAP_SIZE
+                && newX >= 0 && newY >= 0
+                && EvoConstants.MAP.grid[newX][newY] == null)
+        {
+            EvoConstants.debug("Spot is available!");
+            if (p2X < EvoConstants.MAP_SIZE && p2Y < EvoConstants.MAP_SIZE
+                    && p2X >= 0 && p2Y >= 0
+                    && EvoConstants.MAP.grid[p2X][p2Y] instanceof Herbivore)
+            {
+                EvoConstants.debug("Other parent exists at (" + p2X + "," + p2Y + ")!");
+                Herbivore spawn = reproduce((Herbivore) EvoConstants.MAP.grid[p2X][p2Y]);
+                if (EvoConstants.MAP.addOrganismToTable(spawn, newX, newY))
+                {
+                    EvoConstants.debug("Added child at (" + newX + "," + newY + ")");
+                }
+            }
+        }
+        else
+        {
+            EvoConstants.debug("That spot is already taken or is off the map.");
+        }
     }
 
     /**
@@ -221,7 +256,7 @@ public class Herbivore extends Creature implements Herbivorous
         {
             Point plantPos = food.get(0);
             food.remove(0);
-            return (Plant)(EvoConstants.MAP.grid[plantPos.x][plantPos.y]);
+            return (Plant) (EvoConstants.MAP.grid[plantPos.x][plantPos.y]);
         }
         return null;
     }
