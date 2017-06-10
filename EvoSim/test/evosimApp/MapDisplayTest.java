@@ -121,7 +121,7 @@ public class MapDisplayTest extends TestCase
         map.grid[1][1] = new Carnivore();
         map.grid[5][3] = new Map(1);
         instance.update(map, arg);
-        assertEquals(expStrg, instance.getRawMap());
+        assertTrue(expStrg.equalsIgnoreCase(instance.getRawMap()));
     }
 
     /**
@@ -211,6 +211,6 @@ public class MapDisplayTest extends TestCase
                 + " ---------------------------------------------------------------------------------";
 
         MapDisplay instance = new MapDisplay(map);
-        assertEquals(expStrg, instance.getRawMap());   
+        assertTrue(expStrg.equalsIgnoreCase(instance.getRawMap()));   
     }
 }
