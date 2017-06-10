@@ -69,7 +69,6 @@ public class StandardSimLogic extends AppLogic
         EvoConstants.MAP.sparkUpdate();
     }
 
-    
     /**
      * For each organism, update its position and status. If the organism is
      * mobile, let it make its next move.
@@ -87,44 +86,49 @@ public class StandardSimLogic extends AppLogic
             ((Organism) (EvoConstants.MAP.getOrganism(i))).grow();
             if (!forever && !((Organism) (EvoConstants.MAP.getOrganism(i))).isAlive())
             {
-                
-                EvoConstants.debug("Organism "+ ((Organism) (EvoConstants.MAP
-                        .getOrganism(i))).getID() + " died");
-                EvoConstants.MAP.removeOrganismFromTable(EvoConstants.MAP.getOrganism(i));
-                i--;
+                if ((EvoConstants.MAP.getOrganism(i)).isDecayed())
+                {
+                    EvoConstants.debug("Organism " + ((Organism) (EvoConstants.MAP
+                            .getOrganism(i))).getID() + " decayed away.");
+                    EvoConstants.MAP.removeOrganismFromTable(EvoConstants.MAP.getOrganism(i));
+                    i--;
+                }
             }
             else
             {
-                if (EvoConstants.MAP.getOrganism(i) instanceof Mobile)
+                Object o = EvoConstants.MAP.getOrganism(i);
+                if (o instanceof Mobile)
                 {
-                    ((Mobile) (EvoConstants.MAP.getOrganism(i))).makeNextMove();
+                    ((Mobile) o).makeNextMove();
                 }
 
-                if (EvoConstants.MAP.getOrganism(i) instanceof Carnivorous)
+                if (o instanceof Carnivorous)
                 {
-                    Creature c = ((Carnivorous) (EvoConstants.MAP.getOrganism(i))).targetCaught();
+                    Creature c = ((Carnivorous) o).targetCaught();
                     if (c != null)
                     {
                         c.damage(100);
-                        ((Carnivorous) (EvoConstants.MAP.getOrganism(i))).eat(c);
-                        EvoConstants.debug("Creature "+ c.getID() + " was eaten by organism "
-                            + ((Organism) (EvoConstants.MAP.getOrganism(i))).getID());
+                        ((Carnivorous) o).eat(c);
+                        EvoConstants.debug("Creature " + c.getID() + " was eaten by organism "
+                                + ((Organism) o).getID());
                         EvoConstants.MAP.removeOrganismFromTable(c);
+                        i--;
                     }
 
                 }
 
-                if (EvoConstants.MAP.getOrganism(i) instanceof Herbivorous)
+                else if (o instanceof Herbivorous)
                 {
-                    Plant p = ((Herbivorous) (EvoConstants.MAP.getOrganism(i))).foodReached();
+                    Plant p = ((Herbivorous) o).foodReached();
                     if (p != null)
                     {
-                        ((Herbivorous) (EvoConstants.MAP.getOrganism(i))).eat(p);
+                        ((Herbivorous) o).eat(p);
                         if (!p.isAlive())
                         {
-                            EvoConstants.debug("Plant "+ p.getID() + " was eaten by organism "
-                            + ((Organism) (EvoConstants.MAP.getOrganism(i))).getID());
+                            EvoConstants.debug("Plant " + p.getID() + " was eaten by organism "
+                                    + ((Organism) o).getID());
                             EvoConstants.MAP.removeOrganismFromTable(p);
+                            i--;
                         }
                     }
                 }
