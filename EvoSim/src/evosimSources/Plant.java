@@ -85,7 +85,7 @@ public class Plant implements Organism
             {
                 EvoConstants.debug("Plant " + getID() + " at position (" + getX() + ","
                         + getY() + ") is mature and will attempt to spread.");
-                attemptSpread();
+                attemptReproduce();
             }
 
             age++;
@@ -103,7 +103,8 @@ public class Plant implements Organism
         return !isAlive() && size < 1;
     }
 
-    private void attemptSpread()
+    @Override
+    public void attemptReproduce()
     {
         Random r = new Random();
         int newX = point.x + (int) Math.pow(-1, r.nextInt(2)) * r.nextInt(2);
