@@ -10,6 +10,7 @@ import evosimComparators.*;
 import java.awt.Point;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -22,9 +23,9 @@ import java.util.Vector;
  */
 public class Carnivore extends Creature implements Carnivorous
 {
-    
-     List<Point> prey;
-     
+
+    List<Point> prey;
+
     /**
      * Generates a new Carnivore from scratch.
      *
@@ -69,6 +70,40 @@ public class Carnivore extends Creature implements Carnivorous
         int newLife = (this.lifetime + other.getLifetime()) / 2;
         return new Carnivore(newHP, newAtt, newDef, newSpd, newGr, newBl, newLife);
 
+    }
+
+    @Override
+    public void attemptReproduce()
+    {
+        Random r = new Random();
+        int newX = point.x + (int) Math.pow(-1, r.nextInt(2)) * r.nextInt(2);
+        int newY = point.y + (int) Math.pow(-1, r.nextInt(2)) * r.nextInt(2);
+
+        int p2X = point.x + (r.nextInt(5) * (int) Math.pow(-1, r.nextInt(2))) * r.nextInt(2);
+        int p2Y = point.y + (r.nextInt(5) * (int) Math.pow(-1, r.nextInt(2))) * r.nextInt(2);
+
+        EvoConstants.debug("Checking positon (" + newX + "," + newY + ")...");
+        if (newX < EvoConstants.MAP_SIZE && newY < EvoConstants.MAP_SIZE
+                && newX >= 0 && newY >= 0
+                && EvoConstants.MAP.grid[newX][newY] == null)
+        {
+            EvoConstants.debug("Spot is available!");
+            if (p2X < EvoConstants.MAP_SIZE && p2Y < EvoConstants.MAP_SIZE
+                    && p2X >= 0 && p2Y >= 0
+                    && EvoConstants.MAP.grid[p2X][p2Y] instanceof Carnivore)
+            {
+                EvoConstants.debug("Other parent exists at (" + p2X + "," + p2Y + ")!");
+                Carnivore spawn = reproduce((Carnivore) EvoConstants.MAP.grid[p2X][p2Y]);
+                if (EvoConstants.MAP.addOrganismToTable(spawn, newX, newY))
+                {
+                    EvoConstants.debug("Added child at (" + newX + "," + newY + ")");
+                }
+            }
+        }
+        else
+        {
+            EvoConstants.debug("That spot is already taken or is off the map.");
+        }
     }
 
     /**
@@ -183,13 +218,13 @@ public class Carnivore extends Creature implements Carnivorous
     {
         //Rearrange by distance to target, closest first
         Collections.sort(prey, new SortByClosest(this.point));
-        
+
         //If closest is adjacent to us, return that one. Else null
-        if(prey.size() > 0 && isAdjacent(prey.get(0)))
+        if (prey.size() > 0 && isAdjacent(prey.get(0)))
         {
             Point preyPos = prey.get(0);
             prey.remove(0);
-            return (Creature)(EvoConstants.MAP.grid[preyPos.x][preyPos.y]);
+            return (Creature) (EvoConstants.MAP.grid[preyPos.x][preyPos.y]);
         }
         return null;
     }
