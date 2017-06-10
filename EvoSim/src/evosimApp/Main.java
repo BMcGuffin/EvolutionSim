@@ -6,10 +6,12 @@
 package evosimApp;
 
 import evosimSources.Map;
+import java.io.FileInputStream;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,18 +25,33 @@ import java.util.logging.Logger;
 public class Main
 {
 
-    /**Run the simulation. Get command line arguments and set global values
- based on them. Then call StandardSimLogic to execute the main program loop.
-     * 
+    /**
+     * Run the simulation. Get command line arguments and set global values
+     * based on them. Then call StandardSimLogic to execute the main program
+     * loop.
+     *
      * @param args the command line arguments
      */
     public static void main(String[] args)
     {
-        EvoConstants.MAP= new Map(EvoConstants.MAP_SIZE);
+        Properties p = new Properties();
+        try
+        {
+            p.load(new FileInputStream("evo.properties"));
+            EvoConstants.loadConstants(p);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Failure to load property file.\n");
+            e.printStackTrace();
+            System.exit(1);
+            
+        }
+        EvoConstants.MAP = new Map(EvoConstants.MAP_SIZE);
         final MapDisplay mpd = new MapDisplay(EvoConstants.MAP);
         List<String> flags = Arrays.asList(args);
         AppLogic logic;
-        if(args.length > 0 && flags.contains("-plants"))
+        if (args.length > 0 && flags.contains("-plants"))
         {
             logic = new PlantGrowthTestLogic();
         }
@@ -42,9 +59,8 @@ public class Main
         {
             logic = new StandardSimLogic();
         }
-        boolean forever = args.length > 0 && flags.contains("-forever");
         EvoConstants.debug = args.length > 0 && flags.contains("-debug");
-        
+
         /* Make the JFrame visible */
         java.awt.EventQueue.invokeLater(new Runnable()
         {
@@ -54,6 +70,6 @@ public class Main
                 mpd.setVisible(true);
             }
         });
-        logic.run(forever);
+        logic.run();
     }
 }
