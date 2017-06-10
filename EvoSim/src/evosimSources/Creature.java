@@ -102,6 +102,10 @@ public abstract class Creature implements Organism, Mobile
     {
         if (isAlive())
         {
+            if(isMature())
+            {
+                attemptReproduce();
+            }
             age++;
             size += size * growthRate;
             fullness--;
