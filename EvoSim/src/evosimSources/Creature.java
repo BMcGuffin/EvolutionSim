@@ -116,7 +116,7 @@ public abstract class Creature implements Organism, Mobile
         }
         else
         {
-            size--;
+            size -= size * growthRate;
         }
     }
     

@@ -77,7 +77,7 @@ public class Plant implements Organism
     {
         if (!isAlive())
         {
-            size--;
+            size -= size * growthRate;
         }
         else
         {
