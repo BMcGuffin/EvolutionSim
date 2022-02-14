@@ -37,7 +37,7 @@ public class Main
         Properties p = new Properties();
         try
         {
-            p.load(new FileInputStream("evo.properties"));
+            p.load(new FileInputStream("EvoSim/evo.properties"));
             EvoConstants.loadConstants(p);
         }
         catch (Exception e)
